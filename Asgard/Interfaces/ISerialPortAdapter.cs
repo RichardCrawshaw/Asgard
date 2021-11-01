@@ -4,47 +4,32 @@ using System.IO.Ports;
 
 namespace Asgard
 {
-    internal interface ISerialPortAdapter :
-        IDisposable
+    public interface ISerialPortAdapter :
+        ICommsAdapter
     {
         #region Properties
 
-        bool IsDisposed { get; }
-
-        int BaudRate { get; }
+        int BaudRate { get; set; }
 
         uint BufferSize { get; set; }
 
-        int DataBits { get; }
+        int DataBits { get; set; }
 
-        bool IsOpen { get; }
+        Parity Parity { get; set; }
 
-        Parity Parity { get; }
+        string PortName { get; set; }
 
-        string PortName { get; }
-
-        StopBits StopBits { get; }
+        StopBits StopBits { get; set; }
 
         Stream Stream { get; }
 
         #endregion
 
-        #region Methods
-
-        void Close();
-
-        void Open(string portName, int baudRate, int dataBits, StopBits stopBits, Parity parity);
-
-        void Send(byte[] buffer);
-
-        void Write(string text);
-
-        #endregion
-
         #region Events
 
-        event EventHandler<ReceivedSerialDataEventArgs> ReceivedSerialData;
-
+        /// <summary>
+        /// Occurs when there is a serial port error.
+        /// </summary>
         event EventHandler<SerialPortErrorEventArgs> SerialPortError;
 
         #endregion

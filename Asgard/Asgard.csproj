@@ -5,9 +5,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Public\Resolver.cs" />
+    <Compile Remove="Public\SocketClientProcessor.cs" />
+    <Compile Remove="Public\SocketServerProcessor.cs" />
+    <Compile Remove="Examples\SocketDataReceivedEventArgs.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="NLog" Version="4.7.11" />
+    <PackageReference Include="NLog.Config" Version="4.7.11" />
+    <PackageReference Include="NLog.Schema" Version="4.7.11" />
     <PackageReference Include="System.IO.Ports" Version="5.0.1" />
     <PackageReference Include="Unity" Version="5.11.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Examples\" />
   </ItemGroup>
 
 </Project>

@@ -7,15 +7,15 @@ using NLog;
 namespace Asgard
 {
     /// <summary>
-    /// Adapter class for <see cref="System.IO.Ports.SerialPort"/> that fixes
-    /// a number of its issues. See this blog post by Ben Voigt:
+    /// Adapter class for <see cref="SerialPort"/> that fixes a number of its issues. See this blog
+    /// post by Ben Voigt:
     /// https://www.sparxeng.com/blog/software/must-use-net-system-io-ports-serialport
     /// </summary>
     /// <remarks>
     /// Additional error handling added to cope with the COM port being unplugged while in use, 
     /// including automatic re-connection.
     /// </remarks>
-    internal class SerialPortAdapter :
+    public class SerialPortAdapter :
         ISerialPortAdapter
     {
         #region Members
@@ -50,9 +50,17 @@ namespace Asgard
         public bool IsDisposed { get; private set; }
 
         /// <summary>
-        /// Gets the baud rate.
+        /// Gets and sets the baud rate.
         /// </summary>
-        public int BaudRate => this.serialPort.BaudRate;
+        public int BaudRate
+        {
+            get => this.serialPort.BaudRate;
+            set
+            {
+                if (!this.IsConnected)
+                    this.serialPort.BaudRate = value;
+            }
+        }
 
         /// <summary>
         /// Gets and sets the read buffer size.
@@ -60,9 +68,17 @@ namespace Asgard
         public uint BufferSize { get; set; } = READ_BUFFER_SIZE;
 
         /// <summary>
-        /// Gets the number of data bits.
+        /// Gets and sets the data bits.
         /// </summary>
-        public int DataBits => this.serialPort.DataBits;
+        public int DataBits
+        {
+            get => this.serialPort.DataBits;
+            set
+            {
+                if (!this.IsConnected)
+                    this.serialPort.DataBits = value;
+            }
+        }
 
         /// <summary>
         /// Gets whether the underlying serial port is open.
@@ -71,22 +87,51 @@ namespace Asgard
         /// Also needs to consider the internal is-open flag, as this represents whether the port
         /// is EXPECTED to be open.
         /// </remarks>
-        public bool IsOpen => this.serialPort.IsOpen && this.isOpen;
+        public bool IsConnected => this.serialPort.IsOpen && this.isOpen;
 
         /// <summary>
-        /// Gets the parity.
+        /// Gets the name of the COM port that the underlying serial port is connected to.
         /// </summary>
-        public Parity Parity => this.serialPort.Parity;
+        public string Name => this.serialPort?.PortName ?? "Unknown";
+
+        /// <summary>
+        /// Gets and sets the parity.
+        /// </summary>
+        public Parity Parity
+        {
+            get => this.serialPort.Parity;
+            set
+            {
+                if (!this.IsConnected)
+                    this.serialPort.Parity = value;
+            }
+        }
 
         /// <summary>
         /// Gets the name of the port.
         /// </summary>
-        public string PortName => this.serialPort.PortName;
+        public string PortName
+        {
+            get => this.serialPort.PortName;
+            set
+            {
+                if (!this.IsConnected)
+                    this.serialPort.PortName = value;
+            }
+        }
 
         /// <summary>
-        /// Gets the stop bits.
+        /// Gets and sets the stop bits.
         /// </summary>
-        public StopBits StopBits => this.serialPort.StopBits;
+        public StopBits StopBits
+        {
+            get => this.serialPort.StopBits;
+            set
+            {
+                if (!this.IsConnected)
+                    this.serialPort.StopBits = value;
+            }
+        }
 
         /// <summary>
         /// Gets the <see cref="Stream"/> of the underlying serial port; or null if not available.
@@ -113,7 +158,7 @@ namespace Asgard
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!IsDisposed)
+            if (!this.IsDisposed)
             {
                 if (disposing)
                 {
@@ -128,7 +173,7 @@ namespace Asgard
 
                 // free unmanaged resources (unmanaged objects) and override finalizer
                 // set large fields to null
-                IsDisposed = true;
+                this.IsDisposed = true;
             }
         }
 
@@ -153,9 +198,9 @@ namespace Asgard
         /// <summary>
         /// Close the underlying serial port.
         /// </summary>
-        public void Close()
+        public void Disconnect()
         {
-            logger.Trace(() => nameof(Close));
+            logger.Trace(() => nameof(Disconnect));
 
             this.isOpen = false;
             this.serialPort.Close();
@@ -164,27 +209,14 @@ namespace Asgard
         }
 
         /// <summary>
-        /// Open the underlying serial port one the specified <paramref name="portName"/> with the 
-        /// specified <paramref name="baudRate"/>, <paramref name="dataBits"/>, <paramref name="stopBits"/>
-        /// and <paramref name="parity"/>.
+        /// Open the underlying serial port.
         /// </summary>
-        /// <param name="portName">The name of the port to open.</param>
-        /// <param name="baudRate">The baud rate to use.</param>
-        /// <param name="dataBits">The data bits to use.</param>
-        /// <param name="stopBits">The stop bits to use.</param>
-        /// <param name="parity">The parity to use.</param>
-        public void Open(string portName, int baudRate, int dataBits, StopBits stopBits, Parity parity)
+        public void Connect()
         {
-            logger.Trace(() => nameof(Open));
-            logger.Debug(() => $"{portName} {baudRate} baud with {dataBits} data bits {stopBits} stop bits and {parity} parity.");
+            logger.Trace(() => nameof(Connect));
+            logger.Debug(() => $"{this.PortName} {this.BaudRate} baud with {this.DataBits} data bits {this.StopBits} stop bits and {this.Parity} parity.");
 
             if (this.serialPort.IsOpen) return;
-
-            this.serialPort.PortName = portName;
-            this.serialPort.BaudRate = baudRate;
-            this.serialPort.DataBits = dataBits;
-            this.serialPort.StopBits = stopBits;
-            this.serialPort.Parity = parity;
 
             this.serialPort.Open();
 
@@ -207,7 +239,7 @@ namespace Asgard
         /// Writes the specified <paramref name="text"/> to the underlying serial port.
         /// </summary>
         /// <param name="text">A string containing the text to send.</param>
-        public void Write(string text) => this.serialPort.Write(text);
+        public void Send(string text) => this.serialPort.Write(text);
 
         #endregion
 
@@ -216,7 +248,7 @@ namespace Asgard
         /// <summary>
         /// Occurs when serial data is received.
         /// </summary>
-        public event EventHandler<ReceivedSerialDataEventArgs> ReceivedSerialData;
+        public event EventHandler<DataReceivedEventArgs> DataReceived;
 
         /// <summary>
         /// Occurs when an error occurs on the underlying serial port.
@@ -228,18 +260,15 @@ namespace Asgard
         #region Support routines
 
         /// <summary>
-        /// Handles the logging and onward transmission of the specified <paramref name="received"/> data.
+        /// Handles the logging and onward transmission of the specified <paramref name="data"/> data.
         /// </summary>
-        /// <param name="received">The data that has been received.</param>
-        protected virtual void OnReceivedSerialData(byte[] received)
+        /// <param name="data">The data that has been received.</param>
+        protected virtual void OnReceivedSerialData(byte[] data)
         {
             logger.Trace(() => nameof(OnReceivedSerialData));
 
-            this.ReceivedSerialData?.Invoke(serialPort,
-                new ReceivedSerialDataEventArgs
-                {
-                    ReceivedSerialData = received,
-                });
+            this.DataReceived?.Invoke(this.serialPort,
+                new DataReceivedEventArgs(data));
         }
 
         /// <summary>
@@ -250,7 +279,8 @@ namespace Asgard
         /// <param name="ex">The <see cref="Exception"/> that has occurred.</param>
         private void OnSerialPortError(SerialPort serialPort, Exception ex)
         {
-            if (serialPort.IsOpen) OnSerialPortError(ex);
+            if (serialPort.IsOpen)
+                OnSerialPortError(ex);
         }
 
         /// <summary>
@@ -277,9 +307,8 @@ namespace Asgard
             // Discard anything that had been received before the serial port was opened.
             serialPort.DiscardInBuffer();
 
-            byte[] buffer = new byte[this.BufferSize];
-            void kickoffRead(Stream stream)
-            {
+            var buffer = new byte[this.BufferSize];
+            void kickoffRead(Stream stream) => 
                 stream.BeginRead(buffer, 0, buffer.Length,
                     delegate (IAsyncResult result)
                     {
@@ -297,13 +326,13 @@ namespace Asgard
                         {
                             OnSerialPortError(serialPort, ex);
                         }
-                        catch(OperationCanceledException ex)
+                        catch (OperationCanceledException ex)
                         {
                             // This exception isn't documented, but Stream.EndRead can throw it if 
                             // the COM port is unplugged after Stream.BeginRead has been called.
                             OnSerialPortError(serialPort, ex);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             OnSerialPortError(ex);
                         }
@@ -322,7 +351,6 @@ namespace Asgard
                         }
                     },
                     null);
-            }
 
             kickoffRead(serialPort.BaseStream);
 

@@ -2,7 +2,7 @@
 
 namespace Asgard
 {
-    internal interface IGridConnectProcessor :
+    public interface IGridConnectProcessor :
         IDisposable
     {
         #region Properties
@@ -15,7 +15,7 @@ namespace Asgard
 
         #region Methods
 
-        bool Connect(int portNumber);
+        bool Connect();
 
         bool Disconnect();
 

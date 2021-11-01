@@ -2,7 +2,7 @@
 
 namespace Asgard
 {
-    internal interface ICbusProcessor :
+    public interface ICbusProcessor :
         IDisposable
     {
         #region Properties

@@ -4,7 +4,10 @@ using NLog;
 
 namespace Asgard
 {
-    internal class CbusProcessor :
+    /// <summary>
+    /// Abstract class to handle the processing of CBUS messages.
+    /// </summary>
+    public abstract class CbusProcessor :
         ICbusProcessor
     {
         #region Fields
@@ -13,6 +16,11 @@ namespace Asgard
         /// Logger for standard program logging.
         /// </summary>
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
+        /// <summary>
+        /// The settings object.
+        /// </summary>
+        private readonly ISettings settings;
 
         /// <summary>
         /// The grid connect processor.
@@ -44,12 +52,13 @@ namespace Asgard
         /// <paramref name="gridConnectProcessor"/>.
         /// </summary>
         /// <param name="gridConnectProcessor">An <see cref="IGridConnectProcessor"/> object.</param>
-        public CbusProcessor(IGridConnectProcessor gridConnectProcessor)
+        public CbusProcessor(ISettings settings, IGridConnectProcessor gridConnectProcessor)
         {
             logger.Trace(() => nameof(CbusProcessor));
             if (gridConnectProcessor is null)
                 throw new ArgumentNullException(nameof(gridConnectProcessor));
 
+            this.settings = settings;
             this.gridConnectProcessor = gridConnectProcessor;
         }
 
@@ -59,7 +68,7 @@ namespace Asgard
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!IsDisposed)
+            if (!this.IsDisposed)
             {
                 if (disposing)
                 {
@@ -71,7 +80,7 @@ namespace Asgard
 
                 // free unmanaged resources (unmanaged objects) and override finalizer
                 // set large fields to null
-                IsDisposed = true;
+                this.IsDisposed = true;
             }
         }
 
@@ -100,7 +109,7 @@ namespace Asgard
         {
             logger.Trace(() => nameof(Connect));
 
-            this.gridConnectProcessor.Connect(this.PortNumber);
+            this.gridConnectProcessor.Connect();
             this.gridConnectProcessor.MessageReceived += GridConnectProcessor_MessageReceived;
 
             logger.Debug("Connected.");
@@ -175,9 +184,13 @@ namespace Asgard
         /// </summary>
         /// <param name="sender">The object that raised the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> for the event.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0022:Use expression body for methods",
+            Justification = "Virtual method; want to have comment block within the braces.")]
         protected virtual void GridConnectProcessor_MessageReceived(object sender, GridConnectMessageEventArgs e)
         {
             logger.Trace(() => nameof(GridConnectProcessor_MessageReceived));
+
+            // Add an override to provide the required behaviour.
         }
 
         #endregion

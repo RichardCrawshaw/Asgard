@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Settings>
+  <Client>
+    <Enabled>true</Enabled>
+    <Address>.</Address>
+    <Port>5550</Port>
+  </Client>
+  <Server>
+    <Enabled>true</Enabled>
+    <Address>.</Address>
+    <Port>5550</Port>
+  </Server>
+  <Serial>
+    <Enabled>true</Enabled>
+    <BaudRate>115200</BaudRate>
+    <DataBits>8</DataBits>
+    <StopBits>One</StopBits>
+    <Parity>None</Parity>
+  </Serial>
+  <GridConnect>
+    <Enabled>true</Enabled>
+  </GridConnect>
+  <CBUS>
+    <Enabled>true</Enabled>
+  </CBUS>
+</Settings>

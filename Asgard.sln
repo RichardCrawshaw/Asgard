@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asgard", "Asgard\Asgard.csproj", "{2A1EB43A-5BB7-4637-A709-19ACFE9F1075}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSocketListenerConsole", "TestSocketListenerConsole\TestSocketListenerConsole.csproj", "{EA6C1B1A-14A7-4D78-92C9-ADAE7066D406}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSocketClientConsole", "TestSocketClientConsole\TestSocketClientConsole.csproj", "{E45B7A3F-67EE-45BA-8A78-60DB96E958AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{2A1EB43A-5BB7-4637-A709-19ACFE9F1075}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A1EB43A-5BB7-4637-A709-19ACFE9F1075}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A1EB43A-5BB7-4637-A709-19ACFE9F1075}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA6C1B1A-14A7-4D78-92C9-ADAE7066D406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA6C1B1A-14A7-4D78-92C9-ADAE7066D406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA6C1B1A-14A7-4D78-92C9-ADAE7066D406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA6C1B1A-14A7-4D78-92C9-ADAE7066D406}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E45B7A3F-67EE-45BA-8A78-60DB96E958AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E45B7A3F-67EE-45BA-8A78-60DB96E958AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E45B7A3F-67EE-45BA-8A78-60DB96E958AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E45B7A3F-67EE-45BA-8A78-60DB96E958AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

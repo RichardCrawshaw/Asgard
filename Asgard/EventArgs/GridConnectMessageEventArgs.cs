@@ -2,7 +2,7 @@
 
 namespace Asgard
 {
-    internal class GridConnectMessageEventArgs : EventArgs
+    public class GridConnectMessageEventArgs : EventArgs
     {
         public string Message { get; set; }
 

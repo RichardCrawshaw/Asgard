@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Globalization;
-using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using NLog;
@@ -9,12 +8,12 @@ using NLog;
 namespace Asgard
 {
     /// <summary>
-    /// Class to process GridConnect messages.
+    /// Abstract class to handle the processing of GridConnect messages.
     /// </summary>
-    class GridConnectProcessor :
+    public abstract class GridConnectProcessor :
         IGridConnectProcessor
     {
-        #region Members
+        #region Fields
 
         /// <summary>
         /// The start character of a GridConnect message.
@@ -32,9 +31,14 @@ namespace Asgard
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        /// The serial port that the messages are to be received via.
+        /// The <see cref="ISettings"/> object.
         /// </summary>
-        private readonly ISerialPortAdapter serialPortAdapter;
+        private readonly ISettings settings;
+
+        /// <summary>
+        /// The comms adaptor that the messages are to be received via.
+        /// </summary>
+        private readonly ICommsAdapter commsAdapter;
 
         /// <summary>
         /// The queue that incoming messages are placed in so they can be handled in context of each
@@ -48,14 +52,14 @@ namespace Asgard
         private readonly ManualResetEventSlim manualResetEvent = new();
 
         /// <summary>
-        /// Used to manage disconnecting the port.
+        /// Used to manage disconnecting the comms adapter.
         /// </summary>
         private readonly CancellationTokenSource cancellationTokenSource = new();
 
         /// <summary>
-        /// Used to manage disposing of the port.
+        /// Used to manage disposing of the comms adapter.
         /// The flag will be reset when processing is started; it will be set when processing is
-        /// complete. It is checked when disposing of the serial-port-adapter.
+        /// complete. It is checked when disposing of the comms adapter.
         /// </summary>
         private readonly AutoResetEvent autoResetEvent = new(true);
 
@@ -66,7 +70,7 @@ namespace Asgard
         /// <summary>
         /// Gets whether the current instance is connected.
         /// </summary>
-        public bool IsConnected => this.serialPortAdapter.IsOpen;
+        public bool IsConnected => this.commsAdapter.IsConnected;
 
         /// <summary>
         /// Gets whether the <see cref="GridConnectProcessor"/> has been disposed.
@@ -78,19 +82,19 @@ namespace Asgard
         #region Constructors
 
         /// <summary>
-        /// Creates a new instance of the <see cref="GridConnectProcessor"/> using the specified
-        /// <paramref name="serialPortAdapter"/>.
+        /// Creates a new instance of the <see cref="GridConnectProcessor"/> using the specified 
+        /// <paramref name="commsAdapter"/>.
         /// </summary>
-        /// <param name="settings">An <see cref="ISettings"/> object.</param>
-        /// <param name="serialPortAdapter">An <see cref="ISerialPortAdapter"/> object.</param>
-        public GridConnectProcessor(ISerialPortAdapter serialPortAdapter)
+        /// <param name="commsAdapter">A <see cref="ICommsAdapter"/> object.</param>
+        public GridConnectProcessor(ISettings settings, ICommsAdapter commsAdapter)
         {
             logger.Trace(() => nameof(GridConnectProcessor));
 
-            if (serialPortAdapter is null)
-                throw new ArgumentNullException(nameof(serialPortAdapter));
+            if (commsAdapter is null)
+                throw new ArgumentNullException(nameof(commsAdapter));
 
-            this.serialPortAdapter = serialPortAdapter;
+            this.settings = settings;
+            this.commsAdapter = commsAdapter;
         }
 
         #endregion
@@ -99,7 +103,7 @@ namespace Asgard
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!IsDisposed)
+            if (!this.IsDisposed)
             {
                 if (this.IsConnected)
                     Disconnect();
@@ -108,20 +112,19 @@ namespace Asgard
                 {
                     // dispose managed state (managed objects)
 
-                    // Wait for the serial port processing to complete, up to one second.
+                    // Wait for the comms processing to complete, up to one second.
                     this.autoResetEvent.WaitOne(1000);
-                    if (this.serialPortAdapter != null)
-                    {
-                        this.serialPortAdapter.ReceivedSerialData -= SerialPortAdapter_ReceivedSerialData;
-                        this.serialPortAdapter.SerialPortError -= SerialPortAdapter_SerialPortError;
-                    }
+                    if (this.commsAdapter is not null)
+                        this.commsAdapter.DataReceived -= CommsAdapter_DataReceived;
+                    if (this.commsAdapter is ISerialPortAdapter serialPortAdapter)
+                        serialPortAdapter.SerialPortError -= SerialPortAdapter_SerialPortError;
 
-                    this.serialPortAdapter?.Dispose();
+                    this.commsAdapter?.Dispose();
                 }
 
                 // free unmanaged resources (unmanaged objects) and override finalizer
                 // set large fields to null
-                IsDisposed = true;
+                this.IsDisposed = true;
             }
 
             logger.Trace(() => $"{nameof(GridConnectProcessor)} has been disposed of.");
@@ -150,23 +153,28 @@ namespace Asgard
         /// </summary>
         /// <param name="portNumber">The number of the serial port to use.</param>
         /// <returns>True on success; false otherwise.</returns>
-        public bool Connect(int portNumber)
+        public bool Connect()
         {
             logger.Trace(() => nameof(Connect));
 
-            var comPort = $"COM{portNumber}";
-            var baudRate = 115200;
-            var dataBits = 8;
-            var stopBits = StopBits.One;
-            var parity = Parity.None;
+            // Move this to a derived class.
+            //if (this.commsAdapter is ISerialPortAdapter serialPortAdapter)
+            //{
+            //    serialPortAdapter.PortName = $"COM{portNumber}";
+            //    serialPortAdapter.BaudRate = 115200;
+            //    serialPortAdapter.DataBits = 8;
+            //    serialPortAdapter.StopBits = StopBits.One;
+            //    serialPortAdapter.Parity = Parity.None;
+            //}
 
-            this.serialPortAdapter.Open(comPort, baudRate, dataBits, stopBits, parity);
-            if (!this.serialPortAdapter.IsOpen) return false;
+            this.commsAdapter.Connect();
+            if (!this.commsAdapter.IsConnected) return false;
 
-            this.serialPortAdapter.ReceivedSerialData += SerialPortAdapter_ReceivedSerialData;
-            this.serialPortAdapter.SerialPortError += SerialPortAdapter_SerialPortError;
+            this.commsAdapter.DataReceived += CommsAdapter_DataReceived;
+            if (this.commsAdapter is ISerialPortAdapter serialPortAdapter)
+                serialPortAdapter.SerialPortError += SerialPortAdapter_SerialPortError;
 
-            logger.Debug(() => $"Connected to {comPort}.");
+            logger.Debug(() => $"Connected to {this.commsAdapter.Name}");
 
             // Start the receive processing routine on a separate thread. This will run
             // independently until the Disconnect method is called.
@@ -185,7 +193,7 @@ namespace Asgard
 
             try
             {
-                if (!this.serialPortAdapter.IsOpen)
+                if (!this.commsAdapter.IsConnected)
                 {
                     // Make sure the flag is set to allow disposal of the serial-port-adapter to
                     // occur.
@@ -201,13 +209,14 @@ namespace Asgard
             finally
             {
                 // Disconnect the event handlers first.
-                this.serialPortAdapter.ReceivedSerialData -= SerialPortAdapter_ReceivedSerialData;
-                this.serialPortAdapter.SerialPortError -= SerialPortAdapter_SerialPortError;
+                this.commsAdapter.DataReceived -= CommsAdapter_DataReceived;
+                if (this.commsAdapter is ISerialPortAdapter serialPortAdapter)
+                    serialPortAdapter.SerialPortError -= SerialPortAdapter_SerialPortError;
 
                 // Wait for up to one second for the receive processing to finish;
                 this.autoResetEvent.WaitOne(1000);
                 // then close the serial port.
-                this.serialPortAdapter.Close();
+                this.commsAdapter.Disconnect();
 
                 logger.Debug(() => "Disconnected");
             }
@@ -387,7 +396,7 @@ namespace Asgard
         /// Event handler routine for the <see cref="SerialPortAdapter"/> <see cref="SerialPortAdapter.SerialPortError"/> event.
         /// </summary>
         /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> for the event.</param>
+        /// <param name="e">The <see cref="SerialPortErrorEventArgs"/> for the event.</param>
         private void SerialPortAdapter_SerialPortError(object sender, SerialPortErrorEventArgs e)
         {
             // Log the details of a serial port error.
@@ -397,18 +406,18 @@ namespace Asgard
         }
 
         /// <summary>
-        /// Event handler routine for the <see cref="SerialPortAdapter"/> <see cref="SerialPortAdapter.ReceivedSerialData"/> event.
+        /// Event handler routine for the <see cref="ICommsAdapter"/> <see cref="ICommsAdapter.DataReceived"/> event.
         /// </summary>
         /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> for the event.</param>
-        private void SerialPortAdapter_ReceivedSerialData(object sender, ReceivedSerialDataEventArgs e)
+        /// <param name="e">The <see cref="DataReceivedEventArgs"/> for the event.</param>
+        private void CommsAdapter_DataReceived(object sender, DataReceivedEventArgs e)
         {
-            logger.Trace(() => nameof(SerialPortAdapter_ReceivedSerialData));
+            logger.Trace(() => nameof(CommsAdapter_DataReceived));
 
             // Convert the received bytes into chars, concatenate them into a string and put it in
             // the received message queue. Then flag to the ProcessQueue routine that is has work
             // to do.
-            this.receiveQueue.Enqueue(new(e.ReceivedSerialData.Select(b => (char)b).ToArray()));
+            this.receiveQueue.Enqueue(new(e.Data.Select(b => (char)b).ToArray()));
             this.manualResetEvent.Set();
         }
 
