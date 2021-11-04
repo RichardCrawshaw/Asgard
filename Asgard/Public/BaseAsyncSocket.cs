@@ -168,12 +168,15 @@ namespace Asgard
 
         #region Events
 
+        /// <summary>
+        /// Occurs when data is received.
+        /// </summary>
         public event EventHandler<DataReceivedEventArgs> DataReceived;
 
-        public event EventHandler<SocketClosedEventArgs> SocketClosed;
-
-
-        //public event EventHandler<SocketMessageReceivedEventArgs> MessageReceived;
+        /// <summary>
+        /// Occurs when a connection is closed.
+        /// </summary>
+        public event EventHandler<ConnectionClosedEventArgs> ConnectionClosed;
 
         #endregion
 
@@ -185,6 +188,9 @@ namespace Asgard
         /// </summary>
         /// <param name="socket">The <see cref="Socket"/> to echo the <paramref name="data"/> to.</param>
         /// <param name="data">A <see cref="byte[]"/> containint the data to echo.</param>
+        /// <remarks>
+        /// This routine should be overloaded if received data is to be echoed back to the sender.
+        /// </remarks>
         protected virtual void Echo(Socket socket, byte[] data) { }
 
         #endregion
@@ -196,6 +202,13 @@ namespace Asgard
         /// </summary>
         protected void Cancel() => this.cancellationTokenSource.Cancel();
 
+        /// <summary>
+        /// Close the specified <paramref name="socket"/>.
+        /// </summary>
+        /// <param name="socket">The <see cref="Socket"/> that is to be closed.</param>
+        /// <remarks>
+        /// Closing a <see cref="Socket"/> causes it to be disposed.
+        /// </remarks>
         protected static void CloseSocket(Socket socket)
         {
             if (socket is null) return;
@@ -272,6 +285,11 @@ namespace Asgard
             socket.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback(SendCallback), socket);
         }
 
+        /// <summary>
+        /// Shutdown the specified <paramref name="socket"/> for both <see cref="SocketShutdown.Send"/>
+        /// and <see cref="SocketShutdown.Receive"/>.
+        /// </summary>
+        /// <param name="socket">The <see cref="Socket"/> that is to be shutdown.</param>
         protected static void ShutdownSocket(Socket socket)
         {
             if (socket is null) return;
@@ -293,8 +311,8 @@ namespace Asgard
         private void OnClosed(Socket socket)
         {
             if (socket is not null)
-                this.SocketClosed?.Invoke(this,
-                    new SocketClosedEventArgs(socket));
+                this.ConnectionClosed?.Invoke(this,
+                    new ConnectionClosedEventArgs(socket));
             logger.Trace(() => $"Connection closed: {socket?.Handle}.");
         }
 
@@ -330,51 +348,70 @@ namespace Asgard
                 return;
             }
 
-            var close = true;
             if (!client.Socket.Connected)
                 logger.Trace(() => $"Socket is disconnected: {client.Socket.Handle}.");
-            else if (ReadCallback(asyncResult, client, client.Socket))
-                close = false;
+            else if (ReadCallback(asyncResult, client))
+                return;
 
-            if (close)
-                OnClosed(client.Socket);
+            // Either the socket is no longer connected or the read-call back failed in some way;
+            // this means that the socket should be closed and no more reads attempted.
+            OnClosed(client.Socket);
         }
 
-        private bool ReadCallback(IAsyncResult asyncResult, StateObject client, Socket socket)
+        /// <summary>
+        /// Error handling for a read-callback routine.
+        /// </summary>
+        /// <param name="asyncResult">An <see cref="IAsyncResult"/> object.</param>
+        /// <param name="client">A <see cref="StateObject"/> object.</param>
+        /// <returns>True on success; false otherwise, in which case the socket should be closed.</returns>
+        private bool ReadCallback(IAsyncResult asyncResult, StateObject client)
         {
             try
             {
-                // Read data from the remote device.  
-                var count = socket.EndReceive(asyncResult);
-                if (count == 0)
-                {
-                    logger.Trace(() => $"No data received from socket: {socket.Handle}. Closing connection.");
-                    return false;
-                }
-                logger.Debug(() => $"Read {count} bytes from socket: {socket.Handle}.");
-
-                // Handle the received data.
-                OnDataReceived(client.Buffer[0..count]);
-
-                // Echo the received data back to the originating client.
-                Echo(socket, client.Buffer[0..count]);
-
-                // Initiate reading the next data.
-                Read(socket);
-
-                return true;
+                return ReadCallback(asyncResult, client, client.Socket);
             }
             catch (SocketException ex)
             {
-                logger.Info($"Socket error from {socket?.Handle}: {ex.SocketErrorCode}.");
+                logger.Info($"Socket error from {client.Socket?.Handle}: {ex.SocketErrorCode}.");
                 return false;
             }
             catch (Exception ex)
             {
                 logger.Error(ex);
-                logger.Warn(() => $"Reading from {socket?.Handle} ended unexpectedly.");
+                logger.Warn(() => $"Reading from {client.Socket?.Handle} ended unexpectedly.");
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Inner part of read-callback routine that manages the receipt of data, and handles any
+        /// onward transmission.
+        /// </summary>
+        /// <param name="asyncResult">An <see cref="IAsyncResult"/> object.</param>
+        /// <param name="client">A <see cref="StateObject"/> object.</param>
+        /// <param name="socket">The <see cref="Socket"/> that has received the data.</param>
+        /// <returns>True on success; false otherwise, in which case the socket should be closed.</returns>
+        private bool ReadCallback(IAsyncResult asyncResult, StateObject client, Socket socket)
+        {
+            // Read data from the remote device.  
+            var count = socket.EndReceive(asyncResult);
+            if (count == 0)
+            {
+                logger.Trace(() => $"No data received from socket: {socket.Handle}. Closing connection.");
+                return false;
+            }
+            logger.Debug(() => $"Read {count} bytes from socket: {socket.Handle}.");
+
+            // Handle the received data.
+            OnDataReceived(client.Buffer[0..count]);
+
+            // Echo the received data back to the originating client.
+            Echo(socket, client.Buffer[0..count]);
+
+            // Initiate reading the next data.
+            Read(socket);
+
+            return true;
         }
 
         /// <summary>
@@ -385,22 +422,23 @@ namespace Asgard
         {
             logger.Trace(() => nameof(SendCallback));
 
+            // Retrieve the socket from the state object.  
+            if (asyncResult.AsyncState is not Socket socket)
+            {
+                logger.Error(() => "Sending failed.");
+                logger.Warn(() => $"Failed to get {nameof(socket)} from {nameof(asyncResult)} when sending.");
+                return;
+            }
+
             try
             {
-                // Retrieve the socket from the state object.  
-                if (asyncResult.AsyncState is not Socket socket)
-                {
-                    logger.Error(() => "Sending failed.");
-                    logger.Warn(() => $"Failed to get {nameof(socket)} from {nameof(asyncResult)} when sending.");
-                    return;
-                }
-
                 // Complete sending the data to the remote device.  
                 var count = socket.EndSend(asyncResult);
                 logger.Debug(() => $"Sent {count} bytes to socket {socket.Handle}.");
             }
             catch (Exception ex)
             {
+                logger.Warn(() => $"Sending data to {socket.Handle} failed.");
                 logger.Error(ex);
             }
         }

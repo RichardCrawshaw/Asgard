@@ -86,7 +86,7 @@ namespace Asgard
                 base.Address = settingsNode.Address;
             base.Port = settingsNode.Port;
 
-            this.SocketClosed += AsyncSocketListener_SocketClosed;
+            this.ConnectionClosed += AsyncSocketListener_ConnectionClosed;
         }
 
         #endregion
@@ -381,8 +381,8 @@ namespace Asgard
         /// The event handler routine for when a connected <see cref="Socket"/> is closed.
         /// </summary>
         /// <param name="sender">The object that raised the event.</param>
-        /// <param name="e">The <see cref="SocketClosedEventArgs"/> data.</param>
-        private void AsyncSocketListener_SocketClosed(object sender, SocketClosedEventArgs e)
+        /// <param name="e">The <see cref="ConnectionClosedEventArgs"/> data.</param>
+        private void AsyncSocketListener_ConnectionClosed(object sender, ConnectionClosedEventArgs e)
         {
             if (e?.Socket is not null)
                 SocketRemove(e.Socket);
