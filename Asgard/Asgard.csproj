@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +23,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Generated\AbstractBase.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AbstractBase.cs</LastGenOutput>
+    </None>
+    <None Update="Generated\Common.t4">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Common.t4</DependentUpon>
+    </None>
+    <None Update="Generated\OpCodes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OpCodes.cs</LastGenOutput>
+    </None>
+    <None Update="Generated\Enumerations.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Enumerations.cs</LastGenOutput>
+    </None>
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -27,6 +47,36 @@
 
   <ItemGroup>
     <Folder Include="Examples\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Generated\Enumerations.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Enumerations.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Generated\AbstractBase.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AbstractBase.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Generated\Enumerations.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Enumerations.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Generated\OpCodes.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OpCodes.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>
