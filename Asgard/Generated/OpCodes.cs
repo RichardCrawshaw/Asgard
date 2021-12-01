@@ -91,6 +91,12 @@ namespace Asgard
 
 		#endregion
 
+		#region Constructors
+
+		public ACK(ICbusMessage cbusMessage) : base(cbusMessage) { }
+
+		#endregion
+
 		#region Overrides
 
 		public override string ToString() => $"{this.Number}";
@@ -134,6 +140,12 @@ namespace Asgard
 		public override string Name => _NAME;
 		public override byte Number => _NUMBER;
 		public override int Priority => _PRIORITY;
+
+		#endregion
+
+		#region Constructors
+
+		public NAK(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -183,6 +195,12 @@ namespace Asgard
 
 		#endregion
 
+		#region Constructors
+
+		public HLT(ICbusMessage cbusMessage) : base(cbusMessage) { }
+
+		#endregion
+
 		#region Overrides
 
 		public override string ToString() => $"{this.Number}";
@@ -226,6 +244,12 @@ namespace Asgard
 		public override string Name => _NAME;
 		public override byte Number => _NUMBER;
 		public override int Priority => _PRIORITY;
+
+		#endregion
+
+		#region Constructors
+
+		public BON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -275,6 +299,12 @@ namespace Asgard
 
 		#endregion
 
+		#region Constructors
+
+		public TOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
+
+		#endregion
+
 		#region Overrides
 
 		public override string ToString() => $"{this.Number}";
@@ -318,6 +348,12 @@ namespace Asgard
 		public override string Name => _NAME;
 		public override byte Number => _NUMBER;
 		public override int Priority => _PRIORITY;
+
+		#endregion
+
+		#region Constructors
+
+		public TON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -367,6 +403,12 @@ namespace Asgard
 
 		#endregion
 
+		#region Constructors
+
+		public ESTOP(ICbusMessage cbusMessage) : base(cbusMessage) { }
+
+		#endregion
+
 		#region Overrides
 
 		public override string ToString() => $"{this.Number}";
@@ -410,6 +452,12 @@ namespace Asgard
 		public override string Name => _NAME;
 		public override byte Number => _NUMBER;
 		public override int Priority => _PRIORITY;
+
+		#endregion
+
+		#region Constructors
+
+		public ARST(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -459,6 +507,12 @@ namespace Asgard
 
 		#endregion
 
+		#region Constructors
+
+		public RTOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
+
+		#endregion
+
 		#region Overrides
 
 		public override string ToString() => $"{this.Number}";
@@ -502,6 +556,12 @@ namespace Asgard
 		public override string Name => _NAME;
 		public override byte Number => _NUMBER;
 		public override int Priority => _PRIORITY;
+
+		#endregion
+
+		#region Constructors
+
+		public RTON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -551,6 +611,12 @@ namespace Asgard
 
 		#endregion
 
+		#region Constructors
+
+		public RESTP(ICbusMessage cbusMessage) : base(cbusMessage) { }
+
+		#endregion
+
 		#region Overrides
 
 		public override string ToString() => $"{this.Number}";
@@ -594,6 +660,12 @@ namespace Asgard
 		public override string Name => _NAME;
 		public override byte Number => _NUMBER;
 		public override int Priority => _PRIORITY;
+
+		#endregion
+
+		#region Constructors
+
+		public RSTAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -643,6 +715,12 @@ namespace Asgard
 
 		#endregion
 
+		#region Constructors
+
+		public QNN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+
+		#endregion
+
 		#region Overrides
 
 		public override string ToString() => $"{this.Number}";
@@ -689,6 +767,12 @@ namespace Asgard
 
 		#endregion
 
+		#region Constructors
+
+		public RQNP(ICbusMessage cbusMessage) : base(cbusMessage) { }
+
+		#endregion
+
 		#region Overrides
 
 		public override string ToString() => $"{this.Number}";
@@ -732,6 +816,12 @@ namespace Asgard
 		public override string Name => _NAME;
 		public override byte Number => _NUMBER;
 		public override int Priority => _PRIORITY;
+
+		#endregion
+
+		#region Constructors
+
+		public RQMN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -783,7 +873,17 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public KLOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -835,7 +935,17 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public QLOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -887,7 +997,17 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public DKEEP(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -939,7 +1059,17 @@ namespace Asgard
 
 		#region Properties
 
-		public byte DebugStatus { get; set; }
+		public byte DebugStatus
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public DBG1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -991,7 +1121,17 @@ namespace Asgard
 
 		#region Properties
 
-		public byte ExtendedOpCode { get; set; }
+		public byte ExtendedOpCode
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EXTC(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1043,7 +1183,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short Address { get; set; }
+		public short Address
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public RLOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1095,8 +1245,22 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Consist { get; set; }
-		public byte Index { get; set; }
+		public byte Consist
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Index
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public QCON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1148,7 +1312,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public SNN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1200,8 +1374,22 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public byte AllocationCode { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte AllocationCode
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ALOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1253,10 +1441,32 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public SpeedModeEnum SpeedMode { get; set; }
-		public ServiceModeEnum ServiceMode { get; set; }
-		public bool SoundMode { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public SpeedModeEnum SpeedMode
+		{
+			get => ConvertToEnum<SpeedModeEnum>(new int[] { 2 }, new int[] { 0,1 });
+			set => ConvertFromEnum<SpeedModeEnum>(new int[] { 2 }, new int[] { 0,1 }, value);
+		}
+		public ServiceModeEnum ServiceMode
+		{
+			get => ConvertToEnum<ServiceModeEnum>(new int[] { 2 }, new int[] { 2 });
+			set => ConvertFromEnum<ServiceModeEnum>(new int[] { 2 }, new int[] { 2 }, value);
+		}
+		public bool SoundMode
+		{
+			get => ConvertToBool(new int[] { 2 }, new int[] { 3 });
+			set => ConvertFromBool(new int[] { 2 }, new int[] { 3 }, value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public STMOD(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1308,8 +1518,22 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Consist { get; set; }
-		public byte Session { get; set; }
+		public byte Consist
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public PCON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1361,8 +1585,22 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Consist { get; set; }
-		public byte Session { get; set; }
+		public byte Consist
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public KCON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1414,8 +1652,22 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public byte SpeedDir { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte SpeedDir
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public DSPD(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1467,11 +1719,37 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public SpeedModeEnum SpeedMode { get; set; }
-		public bool Lights { get; set; }
-		public bool Direction { get; set; }
-		public EngineStateEnum EngineState { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public SpeedModeEnum SpeedMode
+		{
+			get => ConvertToEnum<SpeedModeEnum>(new int[] { 2 }, new int[] { 0,1 });
+			set => ConvertFromEnum<SpeedModeEnum>(new int[] { 2 }, new int[] { 0,1 }, value);
+		}
+		public bool Lights
+		{
+			get => ConvertToBool(new int[] { 2 }, new int[] { 2 });
+			set => ConvertFromBool(new int[] { 2 }, new int[] { 2 }, value);
+		}
+		public bool Direction
+		{
+			get => ConvertToBool(new int[] { 2 }, new int[] { 3 });
+			set => ConvertFromBool(new int[] { 2 }, new int[] { 3 }, value);
+		}
+		public EngineStateEnum EngineState
+		{
+			get => ConvertToEnum<EngineStateEnum>(new int[] { 2 }, new int[] { 4,5 });
+			set => ConvertFromEnum<EngineStateEnum>(new int[] { 2 }, new int[] { 4,5 }, value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public DFLG(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1523,8 +1801,22 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public byte FunctionNumber { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte FunctionNumber
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public DFNON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1576,8 +1868,22 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public byte FunctionNumber { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte FunctionNumber
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public DFNOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1629,8 +1935,22 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public SessionStatusEnum SessionStatus { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public SessionStatusEnum SessionStatus
+		{
+			get => ConvertToEnum<SessionStatusEnum>(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromEnum<SessionStatusEnum>(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public SSTAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1682,7 +2002,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public RQNN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1734,7 +2064,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NNREL(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1786,7 +2126,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NNACK(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1838,7 +2188,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NNLRN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1890,7 +2250,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NNULN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1942,7 +2312,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NNCLR(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -1994,7 +2374,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NNEVN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2046,7 +2436,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NERD(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2098,7 +2498,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public RQEVN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2150,7 +2560,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public WRACK(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2202,7 +2622,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public RQDAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2254,7 +2684,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short DeviceNumber { get; set; }
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public RQDDS(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2306,7 +2746,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public BOOTM(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2358,7 +2808,17 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ENUM(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2410,8 +2870,22 @@ namespace Asgard
 
 		#region Properties
 
-		public byte ExtendedOpCode { get; set; }
-		public byte Data1 { get; set; }
+		public byte ExtendedOpCode
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EXTC1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2463,9 +2937,27 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public FunctionRangeEnum FunctionRange { get; set; }
-		public byte Value { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public FunctionRangeEnum FunctionRange
+		{
+			get => ConvertToEnum<FunctionRangeEnum>(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromEnum<FunctionRangeEnum>(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public DFUN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2517,8 +3009,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short Address { get; set; }
-		public SessionFlagsEnum SessionFlags { get; set; }
+		public short Address
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public SessionFlagsEnum SessionFlags
+		{
+			get => ConvertToEnum<SessionFlagsEnum>(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromEnum<SessionFlagsEnum>(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public GLOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2570,9 +3076,27 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public DccErrorCodeEnum DccErrorCode { get; set; }
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public DccErrorCodeEnum DccErrorCode
+		{
+			get => ConvertToEnum<DccErrorCodeEnum>(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromEnum<DccErrorCodeEnum>(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ERR(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2624,8 +3148,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public AccErrorCodeEnum AccErrorCode { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public AccErrorCodeEnum AccErrorCode
+		{
+			get => ConvertToEnum<AccErrorCodeEnum>(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromEnum<AccErrorCodeEnum>(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public CMDERR(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2677,8 +3215,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte Value { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EVNLF(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2730,8 +3282,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte NVIndex { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte NVIndex
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NVRD(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2783,8 +3349,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte ENIndex { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte ENIndex
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NENRD(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2836,8 +3416,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte ParamIndex { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte ParamIndex
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public RQNPN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2889,8 +3483,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte Value { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NUMEV(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2942,8 +3550,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte CAN_ID { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte CAN_ID
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public CANID(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -2995,9 +3617,27 @@ namespace Asgard
 
 		#region Properties
 
-		public byte ExtendedOpCode { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
+		public byte ExtendedOpCode
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EXTC2(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3049,10 +3689,32 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Repetitions { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
+		public byte Repetitions
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public RDCC3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3104,9 +3766,27 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public short CV { get; set; }
-		public byte Value { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public short CV
+		{
+			get => ConvertToShort(new int[] { 2,3 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 2,3 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public WCVO(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3158,9 +3838,27 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public short CV { get; set; }
-		public byte Value { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public short CV
+		{
+			get => ConvertToShort(new int[] { 2,3 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 2,3 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public WCVB(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3212,9 +3910,27 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public short CV { get; set; }
-		public byte Mode { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public short CV
+		{
+			get => ConvertToShort(new int[] { 2,3 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 2,3 }, Array.Empty<int>(), value);
+		}
+		public byte Mode
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public QCVS(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3266,9 +3982,27 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public short CV { get; set; }
-		public byte Value { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public short CV
+		{
+			get => ConvertToShort(new int[] { 2,3 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 2,3 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public PCVS(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3320,8 +4054,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ACON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3373,8 +4121,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ACOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3426,8 +4188,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public AREQ(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3479,8 +4255,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3532,8 +4322,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public AROF(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3585,8 +4389,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EVULN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3638,9 +4456,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte NVIndex { get; set; }
-		public byte Value { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte NVIndex
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NVSET(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3692,9 +4528,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte NVIndex { get; set; }
-		public byte Value { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte NVIndex
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NVANS(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3746,8 +4600,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ASON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3799,8 +4667,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ASOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3852,8 +4734,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ASRQ(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3905,9 +4801,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte ParamIndex { get; set; }
-		public byte Value { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte ParamIndex
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public PARAN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -3959,9 +4873,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte ENIndex { get; set; }
-		public byte EVIndex { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte ENIndex
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte EVIndex
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public REVAL(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4013,8 +4945,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARSON(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4066,8 +5012,22 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARSOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4119,10 +5079,32 @@ namespace Asgard
 
 		#region Properties
 
-		public byte ExtendedOpCode { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
+		public byte ExtendedOpCode
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EXTC3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4174,11 +5156,37 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Repetitions { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
-		public byte Data4 { get; set; }
+		public byte Repetitions
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Data4
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public RDCC4(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4230,10 +5238,32 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public short CV { get; set; }
-		public ServiceModeEnum ServiceMode { get; set; }
-		public byte Value { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public short CV
+		{
+			get => ConvertToShort(new int[] { 2,3 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 2,3 }, Array.Empty<int>(), value);
+		}
+		public ServiceModeEnum ServiceMode
+		{
+			get => ConvertToEnum<ServiceModeEnum>(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromEnum<ServiceModeEnum>(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public WCVS(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4285,9 +5315,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ACON1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4339,9 +5387,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ACOF1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4393,9 +5459,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte EVIndex { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte EVIndex
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public REQEV(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4447,9 +5531,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARON1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4501,9 +5603,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public AROF1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4555,10 +5675,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte EVIndex { get; set; }
-		public byte ENIndex { get; set; }
-		public byte Value { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte EVIndex
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte ENIndex
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NEVAL(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4610,10 +5752,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte ManufId { get; set; }
-		public byte ModuleId { get; set; }
-		public NodeFlagsEnum NodeFlags { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte ManufId
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte ModuleId
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public NodeFlagsEnum NodeFlags
+		{
+			get => ConvertToEnum<NodeFlagsEnum>(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromEnum<NodeFlagsEnum>(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public PNN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4665,9 +5829,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ASON1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4719,9 +5901,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ASOF1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4773,9 +5973,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARSON1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4827,9 +6045,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARSOF1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4881,11 +6117,37 @@ namespace Asgard
 
 		#region Properties
 
-		public byte ExtendedOpCode { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
-		public byte Data4 { get; set; }
+		public byte ExtendedOpCode
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Data4
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EXTC4(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4937,12 +6199,42 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Repetitions { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
-		public byte Data4 { get; set; }
-		public byte Data5 { get; set; }
+		public byte Repetitions
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Data4
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data5
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public RDCC5(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -4994,10 +6286,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short Address { get; set; }
-		public short CV { get; set; }
-		public byte Mode { get; set; }
-		public byte Value { get; set; }
+		public short Address
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short CV
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Mode
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public WCVOA(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5049,13 +6363,47 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Minutes { get; set; }
-		public byte Hours { get; set; }
-		public WeekdayEnum Weekday { get; set; }
-		public MonthEnum Month { get; set; }
-		public byte Div { get; set; }
-		public byte MonthDay { get; set; }
-		public byte Temperature { get; set; }
+		public byte Minutes
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Hours
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public WeekdayEnum Weekday
+		{
+			get => ConvertToEnum<WeekdayEnum>(new int[] { 3 }, new int[] { 0,1,2,3 });
+			set => ConvertFromEnum<WeekdayEnum>(new int[] { 3 }, new int[] { 0,1,2,3 }, value);
+		}
+		public MonthEnum Month
+		{
+			get => ConvertToEnum<MonthEnum>(new int[] { 3 }, new int[] { 4,5,6,7 });
+			set => ConvertFromEnum<MonthEnum>(new int[] { 3 }, new int[] { 4,5,6,7 }, value);
+		}
+		public byte Div
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte MonthDay
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Temperature
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public FCLK(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5107,10 +6455,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ACON2(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5162,10 +6532,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ACOF2(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5217,10 +6609,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte EVIndex { get; set; }
-		public byte Value { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte EVIndex
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EVLRN(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5272,10 +6686,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte EVIndex { get; set; }
-		public byte Value { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte EVIndex
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EVANS(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5327,10 +6763,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARON2(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5382,10 +6840,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public AROF2(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5437,10 +6917,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ASON2(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5492,10 +6994,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ASOF2(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5547,10 +7071,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARSON2(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5602,10 +7148,32 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARSOF2(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5657,12 +7225,42 @@ namespace Asgard
 
 		#region Properties
 
-		public byte ExtendedOpCode { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
-		public byte Data4 { get; set; }
-		public byte Data5 { get; set; }
+		public byte ExtendedOpCode
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Data4
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data5
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EXTC5(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5714,13 +7312,47 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Repetitions { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
-		public byte Data4 { get; set; }
-		public byte Data5 { get; set; }
-		public byte Data6 { get; set; }
+		public byte Repetitions
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Data4
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data5
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data6
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public RDCC6(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5772,12 +7404,42 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Session { get; set; }
-		public short Address { get; set; }
-		public byte SpeedDir { get; set; }
-		public byte Fn1 { get; set; }
-		public byte Fn2 { get; set; }
-		public byte Fn3 { get; set; }
+		public byte Session
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public short Address
+		{
+			get => ConvertToShort(new int[] { 2,3 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 2,3 }, Array.Empty<int>(), value);
+		}
+		public byte SpeedDir
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Fn1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Fn2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Fn3
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public PLOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5829,13 +7491,47 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Char1 { get; set; }
-		public byte Char2 { get; set; }
-		public byte Char3 { get; set; }
-		public byte Char4 { get; set; }
-		public byte Char5 { get; set; }
-		public byte Char6 { get; set; }
-		public byte Char7 { get; set; }
+		public char Char1
+		{
+			get => ConvertToChar(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromChar(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public char Char2
+		{
+			get => ConvertToChar(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromChar(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public char Char3
+		{
+			get => ConvertToChar(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromChar(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public char Char4
+		{
+			get => ConvertToChar(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromChar(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public char Char5
+		{
+			get => ConvertToChar(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromChar(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public char Char6
+		{
+			get => ConvertToChar(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromChar(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public char Char7
+		{
+			get => ConvertToChar(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromChar(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public NAME(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5887,12 +7583,42 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte CSNumber { get; set; }
-		public CSFlagsEnum CSFlags { get; set; }
-		public byte Major { get; set; }
-		public byte Minor { get; set; }
-		public byte Build { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte CSNumber
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public CSFlagsEnum CSFlags
+		{
+			get => ConvertToEnum<CSFlagsEnum>(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromEnum<CSFlagsEnum>(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Major
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Minor
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Build
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public STAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -5944,13 +7670,47 @@ namespace Asgard
 
 		#region Properties
 
-		public byte Param1 { get; set; }
-		public byte Param2 { get; set; }
-		public byte Param3 { get; set; }
-		public byte Param4 { get; set; }
-		public byte Param5 { get; set; }
-		public byte Param6 { get; set; }
-		public byte Param7 { get; set; }
+		public byte Param1
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Param2
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Param3
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Param4
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Param5
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Param6
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Param7
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public PARAMS(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6002,11 +7762,37 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ACON3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6058,11 +7844,37 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ACOF3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6114,9 +7926,27 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public int EventData { get; set; }
-		public byte ENIndex { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public int EventData
+		{
+			get => ConvertToInt(new int[] { 3,4,5,6 }, Array.Empty<int>());
+			set => ConvertFromInt(new int[] { 3,4,5,6 }, Array.Empty<int>(), value);
+		}
+		public byte ENIndex
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ENRSP(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6168,11 +7998,37 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARON3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6224,11 +8080,37 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public AROF3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6280,11 +8162,37 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short EventNumber { get; set; }
-		public byte ENIndex { get; set; }
-		public byte EVIndex { get; set; }
-		public byte Value { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short EventNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte ENIndex
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte EVIndex
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Value
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EVLRNI(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6336,12 +8244,42 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
-		public byte Data4 { get; set; }
-		public byte Data5 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data4
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data5
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ACDAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6393,12 +8331,42 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
-		public byte Data4 { get; set; }
-		public byte Data5 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data4
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data5
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARDAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6450,11 +8418,37 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ASON3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6506,11 +8500,37 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ASOF3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6562,12 +8582,42 @@ namespace Asgard
 
 		#region Properties
 
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
-		public byte Data4 { get; set; }
-		public byte Data5 { get; set; }
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data4
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data5
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public DDES(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6619,12 +8669,42 @@ namespace Asgard
 
 		#region Properties
 
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
-		public byte Data4 { get; set; }
-		public byte Data5 { get; set; }
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data4
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data5
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public DDRS(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6676,11 +8756,37 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARSON3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6732,11 +8838,37 @@ namespace Asgard
 
 		#region Properties
 
-		public short NodeNumber { get; set; }
-		public short DeviceNumber { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
+		public short NodeNumber
+		{
+			get => ConvertToShort(new int[] { 1,2 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 1,2 }, Array.Empty<int>(), value);
+		}
+		public short DeviceNumber
+		{
+			get => ConvertToShort(new int[] { 3,4 }, Array.Empty<int>());
+			set => ConvertFromShort(new int[] { 3,4 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public ARSOF3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 
@@ -6788,13 +8920,47 @@ namespace Asgard
 
 		#region Properties
 
-		public byte ExtendedOpCode { get; set; }
-		public byte Data1 { get; set; }
-		public byte Data2 { get; set; }
-		public byte Data3 { get; set; }
-		public byte Data4 { get; set; }
-		public byte Data5 { get; set; }
-		public byte Data6 { get; set; }
+		public byte ExtendedOpCode
+		{
+			get => ConvertToByte(new int[] { 1 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 1 }, Array.Empty<int>(), value);
+		}
+		public byte Data1
+		{
+			get => ConvertToByte(new int[] { 2 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 2 }, Array.Empty<int>(), value);
+		}
+		public byte Data2
+		{
+			get => ConvertToByte(new int[] { 3 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 3 }, Array.Empty<int>(), value);
+		}
+		public byte Data3
+		{
+			get => ConvertToByte(new int[] { 4 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 4 }, Array.Empty<int>(), value);
+		}
+		public byte Data4
+		{
+			get => ConvertToByte(new int[] { 5 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 5 }, Array.Empty<int>(), value);
+		}
+		public byte Data5
+		{
+			get => ConvertToByte(new int[] { 6 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 6 }, Array.Empty<int>(), value);
+		}
+		public byte Data6
+		{
+			get => ConvertToByte(new int[] { 7 }, Array.Empty<int>());
+			set => ConvertFromByte(new int[] { 7 }, Array.Empty<int>(), value);
+		}
+
+		#endregion
+
+		#region Constructors
+
+		public EXTC6(ICbusMessage cbusMessage) : base(cbusMessage) { }
 
 		#endregion
 

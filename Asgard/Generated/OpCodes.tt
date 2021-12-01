@@ -22,17 +22,6 @@ using System;
 
 	var builder = new Builder(loader);
 	builder.Build();
-
-	var basePropertyNames = 
-		new []
-		{
-			"DataLength",
-			"Code",
-			"Name",
-			"Number",
-			"Data",
-		};
-
 #>
 
 namespace Asgard
@@ -110,15 +99,33 @@ namespace Asgard
 
 <#			foreach (var property in opCodeBlock.Properties)
 			{
-				var useNew = basePropertyNames.Contains(property.Name);
+				var dataType = property.DataType[0].ToString().ToUpper() + property.DataType.Substring(1);
+				if (dataType.EndsWith("Enum")) dataType = "Enum";
+				var generic = dataType == "Enum"
+					? "<" + property.DataType + ">"
+					: string.Empty;
+				var byteIndex = "new int[] { " + string.Join(",", property.ByteIndexes) + " }";
+				var bitIndex = "new int[] { " + string.Join(",", property.BitIndexes) + " }";
+				if (property.BitIndexes.Length == 0)
+					bitIndex = "Array.Empty<int>()";
 #>
-		public <#= useNew ? "new " : string.Empty #><#= property.DataType #> <#= property.Name #> { get; set; }
+		public <#= property.DataType #> <#= property.Name #>
+		{
+			get => ConvertTo<#= dataType #><#= generic #>(<#= byteIndex #>, <#= bitIndex #>);
+			set => ConvertFrom<#= dataType #><#= generic #>(<#= byteIndex #>, <#= bitIndex #>, value);
+		}
 <#			}
 #>
 
 		#endregion
 <#		}
 #>
+
+		#region Constructors
+
+		public <#= opCodeBlock.Code #>(ICbusMessage cbusMessage) : base(cbusMessage) { }
+
+		#endregion
 
 		#region Overrides
 

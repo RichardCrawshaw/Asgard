@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+#pragma warning disable IDE0066 // Convert switch statement to expression
+#pragma warning disable IDE0021 // Use expression body for constructors
+
 namespace Asgard.Generated.Test
 {
     public class Loader
@@ -24,8 +27,8 @@ namespace Asgard.Generated.Test
 
 		public Loader(string filename)
 		{
-			this.filename = filename;
-		}
+            this.filename = filename;
+        }
 
 		public void Load()
 		{
@@ -298,6 +301,8 @@ namespace Asgard.Generated.Test
 
         public byte OpCodeValue { get; }
         public string Source { get; }
+        public char[] ByteIndexes { get; }
+        public char[] BitIndexes { get; }
         public string Name { get; }
         public string DataType { get; }
         public string Format { get; }
@@ -314,6 +319,18 @@ namespace Asgard.Generated.Test
                     .FirstOrDefault();
             this.DataType = propertyLine?.DataType ?? "byte";
             this.Format = propertyLine?.Format ?? "decimal";
+
+            if (this.Source.Contains(':'))
+            {
+                var items = this.Source.Split(':');
+                this.ByteIndexes = items[0].ToCharArray();
+                this.BitIndexes = items[1].ToCharArray();
+            }
+            else
+            {
+                this.ByteIndexes = this.Source.ToCharArray();
+                this.BitIndexes = System.Array.Empty<char>();
+            }
         }
     }
 
@@ -754,3 +771,6 @@ namespace Asgard.Generated.Test
 
     #endregion
 }
+
+#pragma warning restore IDE0021 // Use expression body for constructors
+#pragma warning restore IDE0066 // Convert switch statement to expression

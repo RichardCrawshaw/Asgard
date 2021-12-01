@@ -54,57 +54,22 @@ namespace Asgard
 	/// <summary>
 	/// Abstract base class for all OpCodes.
 	/// </summary>
-	public abstract partial class OpCodeData
+	public abstract partial class OpCodeData :
+		ICbusOpCode
 	{
-		#region Abstract properties
-
-		/// <summary>
-		/// Gets the code.
-		/// </summary>
-		public abstract string Code { get; }
-		
-		/// <summary>
-		/// Gets the number of data-bytes.
-		/// </summary>
-		public abstract int DataLength { get; }
-		
-		/// <summary>
-		/// Gets the description.
-		/// </summary>
-		public abstract string Description { get; }
-
-		/// <summary>
-		/// Gets the group.
-		/// </summary>
-		public abstract OpCodeGroup Group { get; }
-
-		/// <summary>
-		/// Gets the name.
-		/// </summary>
-		public abstract string Name { get; }
-
-		/// <summary>
-		/// Gets the op-code number.
-		/// </summary>
-		public abstract byte Number { get; }
-		
-		/// <summary>
-		/// Gets the op-code priority.
-		/// </summary>
-		public abstract int Priority { get; }
-		
-		/// <summary>
-		/// Gets the op-code data.
-		/// </summary>
-		public abstract byte[] Data { get; }
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData() {}
-
-		#endregion
+		public static OpCodeData Create(ICbusMessage message)
+		{
+			return message[0] switch
+			{
+<#	foreach (var opcode in builder.OpCodeBlocks)
+	{
+#>
+                <#= $"0x{opcode.Value:X2}" #> => new <#= opcode.Code #>(message),
+<#	}
+#>
+				_ => null,
+			};
+		}
 	}
 
 	#endregion
@@ -119,37 +84,11 @@ namespace Asgard
 	/// </summary>
 	public abstract partial class OpCodeData<#= suffix #> : OpCodeData
 	{
-		#region Fields
-
 		public const int DATA_LENGTH = <#= suffix #>;
-
-		#endregion
-
-		#region Properties
 
 		public override sealed int DataLength => DATA_LENGTH;
 
-<#		if (suffix == 0)
-		{
-#>
-		public override sealed byte[] Data { get; } = Array.Empty<byte>();
-<#		}
-		else
-		{
-#>
-		public override sealed byte[] Data { get; } = new byte[DATA_LENGTH];
-<#		}
-#>
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData<#= suffix #>() : base() { }
-
-		protected OpCodeData<#= suffix #>(byte[] data) : this() => data[0..DATA_LENGTH].CopyTo(this.Data, 0);
-
-		#endregion
+		protected OpCodeData<#= suffix #>(ICbusMessage cbusMessage) : base(cbusMessage) { }
 	}
 	
 	#endregion

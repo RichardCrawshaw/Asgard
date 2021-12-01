@@ -57,57 +57,143 @@ namespace Asgard
 	/// <summary>
 	/// Abstract base class for all OpCodes.
 	/// </summary>
-	public abstract partial class OpCodeData
+	public abstract partial class OpCodeData :
+		ICbusOpCode
 	{
-		#region Abstract properties
-
-		/// <summary>
-		/// Gets the code.
-		/// </summary>
-		public abstract string Code { get; }
-		
-		/// <summary>
-		/// Gets the number of data-bytes.
-		/// </summary>
-		public abstract int DataLength { get; }
-		
-		/// <summary>
-		/// Gets the description.
-		/// </summary>
-		public abstract string Description { get; }
-
-		/// <summary>
-		/// Gets the group.
-		/// </summary>
-		public abstract OpCodeGroup Group { get; }
-
-		/// <summary>
-		/// Gets the name.
-		/// </summary>
-		public abstract string Name { get; }
-
-		/// <summary>
-		/// Gets the op-code number.
-		/// </summary>
-		public abstract byte Number { get; }
-		
-		/// <summary>
-		/// Gets the op-code priority.
-		/// </summary>
-		public abstract int Priority { get; }
-		
-		/// <summary>
-		/// Gets the op-code data.
-		/// </summary>
-		public abstract byte[] Data { get; }
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData() {}
-
-		#endregion
+		public static OpCodeData Create(ICbusMessage message)
+		{
+			return message[0] switch
+			{
+                0x00 => new ACK(message),
+                0x01 => new NAK(message),
+                0x02 => new HLT(message),
+                0x03 => new BON(message),
+                0x04 => new TOF(message),
+                0x05 => new TON(message),
+                0x06 => new ESTOP(message),
+                0x07 => new ARST(message),
+                0x08 => new RTOF(message),
+                0x09 => new RTON(message),
+                0x0A => new RESTP(message),
+                0x0C => new RSTAT(message),
+                0x0D => new QNN(message),
+                0x10 => new RQNP(message),
+                0x11 => new RQMN(message),
+                0x21 => new KLOC(message),
+                0x22 => new QLOC(message),
+                0x23 => new DKEEP(message),
+                0x30 => new DBG1(message),
+                0x3F => new EXTC(message),
+                0x40 => new RLOC(message),
+                0x41 => new QCON(message),
+                0x42 => new SNN(message),
+                0x43 => new ALOC(message),
+                0x44 => new STMOD(message),
+                0x45 => new PCON(message),
+                0x46 => new KCON(message),
+                0x47 => new DSPD(message),
+                0x48 => new DFLG(message),
+                0x49 => new DFNON(message),
+                0x4A => new DFNOF(message),
+                0x4C => new SSTAT(message),
+                0x50 => new RQNN(message),
+                0x51 => new NNREL(message),
+                0x52 => new NNACK(message),
+                0x53 => new NNLRN(message),
+                0x54 => new NNULN(message),
+                0x55 => new NNCLR(message),
+                0x56 => new NNEVN(message),
+                0x57 => new NERD(message),
+                0x58 => new RQEVN(message),
+                0x59 => new WRACK(message),
+                0x5A => new RQDAT(message),
+                0x5B => new RQDDS(message),
+                0x5C => new BOOTM(message),
+                0x5D => new ENUM(message),
+                0x5F => new EXTC1(message),
+                0x60 => new DFUN(message),
+                0x61 => new GLOC(message),
+                0x63 => new ERR(message),
+                0x6F => new CMDERR(message),
+                0x70 => new EVNLF(message),
+                0x71 => new NVRD(message),
+                0x72 => new NENRD(message),
+                0x73 => new RQNPN(message),
+                0x74 => new NUMEV(message),
+                0x75 => new CANID(message),
+                0x7F => new EXTC2(message),
+                0x80 => new RDCC3(message),
+                0x82 => new WCVO(message),
+                0x83 => new WCVB(message),
+                0x84 => new QCVS(message),
+                0x85 => new PCVS(message),
+                0x90 => new ACON(message),
+                0x91 => new ACOF(message),
+                0x92 => new AREQ(message),
+                0x93 => new ARON(message),
+                0x94 => new AROF(message),
+                0x95 => new EVULN(message),
+                0x96 => new NVSET(message),
+                0x97 => new NVANS(message),
+                0x98 => new ASON(message),
+                0x99 => new ASOF(message),
+                0x9A => new ASRQ(message),
+                0x9B => new PARAN(message),
+                0x9C => new REVAL(message),
+                0x9D => new ARSON(message),
+                0x9E => new ARSOF(message),
+                0x9F => new EXTC3(message),
+                0xA0 => new RDCC4(message),
+                0xA2 => new WCVS(message),
+                0xB0 => new ACON1(message),
+                0xB1 => new ACOF1(message),
+                0xB2 => new REQEV(message),
+                0xB3 => new ARON1(message),
+                0xB4 => new AROF1(message),
+                0xB5 => new NEVAL(message),
+                0xB6 => new PNN(message),
+                0xB8 => new ASON1(message),
+                0xB9 => new ASOF1(message),
+                0xBD => new ARSON1(message),
+                0xBE => new ARSOF1(message),
+                0xBF => new EXTC4(message),
+                0xC0 => new RDCC5(message),
+                0xC1 => new WCVOA(message),
+                0xCF => new FCLK(message),
+                0xD0 => new ACON2(message),
+                0xD1 => new ACOF2(message),
+                0xD2 => new EVLRN(message),
+                0xD3 => new EVANS(message),
+                0xD4 => new ARON2(message),
+                0xD5 => new AROF2(message),
+                0xD8 => new ASON2(message),
+                0xD9 => new ASOF2(message),
+                0xDD => new ARSON2(message),
+                0xDE => new ARSOF2(message),
+                0xDF => new EXTC5(message),
+                0xE0 => new RDCC6(message),
+                0xE1 => new PLOC(message),
+                0xE2 => new NAME(message),
+                0xE3 => new STAT(message),
+                0xEF => new PARAMS(message),
+                0xF0 => new ACON3(message),
+                0xF1 => new ACOF3(message),
+                0xF2 => new ENRSP(message),
+                0xF3 => new ARON3(message),
+                0xF4 => new AROF3(message),
+                0xF5 => new EVLRNI(message),
+                0xF6 => new ACDAT(message),
+                0xF7 => new ARDAT(message),
+                0xF8 => new ASON3(message),
+                0xF9 => new ASOF3(message),
+                0xFA => new DDES(message),
+                0xFB => new DDRS(message),
+                0xFD => new ARSON3(message),
+                0xFE => new ARSOF3(message),
+                0xFF => new EXTC6(message),
+				_ => null,
+			};
+		}
 	}
 
 	#endregion
@@ -119,27 +205,11 @@ namespace Asgard
 	/// </summary>
 	public abstract partial class OpCodeData0 : OpCodeData
 	{
-		#region Fields
-
 		public const int DATA_LENGTH = 0;
-
-		#endregion
-
-		#region Properties
 
 		public override sealed int DataLength => DATA_LENGTH;
 
-		public override sealed byte[] Data { get; } = Array.Empty<byte>();
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData0() : base() { }
-
-		protected OpCodeData0(byte[] data) : this() => data[0..DATA_LENGTH].CopyTo(this.Data, 0);
-
-		#endregion
+		protected OpCodeData0(ICbusMessage cbusMessage) : base(cbusMessage) { }
 	}
 	
 	#endregion
@@ -151,27 +221,11 @@ namespace Asgard
 	/// </summary>
 	public abstract partial class OpCodeData1 : OpCodeData
 	{
-		#region Fields
-
 		public const int DATA_LENGTH = 1;
-
-		#endregion
-
-		#region Properties
 
 		public override sealed int DataLength => DATA_LENGTH;
 
-		public override sealed byte[] Data { get; } = new byte[DATA_LENGTH];
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData1() : base() { }
-
-		protected OpCodeData1(byte[] data) : this() => data[0..DATA_LENGTH].CopyTo(this.Data, 0);
-
-		#endregion
+		protected OpCodeData1(ICbusMessage cbusMessage) : base(cbusMessage) { }
 	}
 	
 	#endregion
@@ -183,27 +237,11 @@ namespace Asgard
 	/// </summary>
 	public abstract partial class OpCodeData2 : OpCodeData
 	{
-		#region Fields
-
 		public const int DATA_LENGTH = 2;
-
-		#endregion
-
-		#region Properties
 
 		public override sealed int DataLength => DATA_LENGTH;
 
-		public override sealed byte[] Data { get; } = new byte[DATA_LENGTH];
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData2() : base() { }
-
-		protected OpCodeData2(byte[] data) : this() => data[0..DATA_LENGTH].CopyTo(this.Data, 0);
-
-		#endregion
+		protected OpCodeData2(ICbusMessage cbusMessage) : base(cbusMessage) { }
 	}
 	
 	#endregion
@@ -215,27 +253,11 @@ namespace Asgard
 	/// </summary>
 	public abstract partial class OpCodeData3 : OpCodeData
 	{
-		#region Fields
-
 		public const int DATA_LENGTH = 3;
-
-		#endregion
-
-		#region Properties
 
 		public override sealed int DataLength => DATA_LENGTH;
 
-		public override sealed byte[] Data { get; } = new byte[DATA_LENGTH];
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData3() : base() { }
-
-		protected OpCodeData3(byte[] data) : this() => data[0..DATA_LENGTH].CopyTo(this.Data, 0);
-
-		#endregion
+		protected OpCodeData3(ICbusMessage cbusMessage) : base(cbusMessage) { }
 	}
 	
 	#endregion
@@ -247,27 +269,11 @@ namespace Asgard
 	/// </summary>
 	public abstract partial class OpCodeData4 : OpCodeData
 	{
-		#region Fields
-
 		public const int DATA_LENGTH = 4;
-
-		#endregion
-
-		#region Properties
 
 		public override sealed int DataLength => DATA_LENGTH;
 
-		public override sealed byte[] Data { get; } = new byte[DATA_LENGTH];
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData4() : base() { }
-
-		protected OpCodeData4(byte[] data) : this() => data[0..DATA_LENGTH].CopyTo(this.Data, 0);
-
-		#endregion
+		protected OpCodeData4(ICbusMessage cbusMessage) : base(cbusMessage) { }
 	}
 	
 	#endregion
@@ -279,27 +285,11 @@ namespace Asgard
 	/// </summary>
 	public abstract partial class OpCodeData5 : OpCodeData
 	{
-		#region Fields
-
 		public const int DATA_LENGTH = 5;
-
-		#endregion
-
-		#region Properties
 
 		public override sealed int DataLength => DATA_LENGTH;
 
-		public override sealed byte[] Data { get; } = new byte[DATA_LENGTH];
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData5() : base() { }
-
-		protected OpCodeData5(byte[] data) : this() => data[0..DATA_LENGTH].CopyTo(this.Data, 0);
-
-		#endregion
+		protected OpCodeData5(ICbusMessage cbusMessage) : base(cbusMessage) { }
 	}
 	
 	#endregion
@@ -311,27 +301,11 @@ namespace Asgard
 	/// </summary>
 	public abstract partial class OpCodeData6 : OpCodeData
 	{
-		#region Fields
-
 		public const int DATA_LENGTH = 6;
-
-		#endregion
-
-		#region Properties
 
 		public override sealed int DataLength => DATA_LENGTH;
 
-		public override sealed byte[] Data { get; } = new byte[DATA_LENGTH];
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData6() : base() { }
-
-		protected OpCodeData6(byte[] data) : this() => data[0..DATA_LENGTH].CopyTo(this.Data, 0);
-
-		#endregion
+		protected OpCodeData6(ICbusMessage cbusMessage) : base(cbusMessage) { }
 	}
 	
 	#endregion
@@ -343,27 +317,11 @@ namespace Asgard
 	/// </summary>
 	public abstract partial class OpCodeData7 : OpCodeData
 	{
-		#region Fields
-
 		public const int DATA_LENGTH = 7;
-
-		#endregion
-
-		#region Properties
 
 		public override sealed int DataLength => DATA_LENGTH;
 
-		public override sealed byte[] Data { get; } = new byte[DATA_LENGTH];
-
-		#endregion
-
-		#region Constructors
-
-		protected OpCodeData7() : base() { }
-
-		protected OpCodeData7(byte[] data) : this() => data[0..DATA_LENGTH].CopyTo(this.Data, 0);
-
-		#endregion
+		protected OpCodeData7(ICbusMessage cbusMessage) : base(cbusMessage) { }
 	}
 	
 	#endregion

@@ -291,6 +291,8 @@
 
         public byte OpCodeValue { get; }
         public string Source { get; }
+        public char[] ByteIndexes { get; }
+        public char[] BitIndexes { get; }
         public string Name { get; }
         public string DataType { get; }
         public string Format { get; }
@@ -307,6 +309,18 @@
                     .FirstOrDefault();
             this.DataType = propertyLine?.DataType ?? "byte";
             this.Format = propertyLine?.Format ?? "decimal";
+
+            if (this.Source.Contains(':'))
+            {
+                var items = this.Source.Split(':');
+                this.ByteIndexes = items[0].ToCharArray();
+                this.BitIndexes = items[1].ToCharArray();
+            }
+            else
+            {
+                this.ByteIndexes = this.Source.ToCharArray();
+                this.BitIndexes = System.Array.Empty<char>();
+            }
         }
     }
 

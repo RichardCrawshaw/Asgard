@@ -11,7 +11,6 @@
     <Compile Remove="Public\Resolver.cs" />
     <Compile Remove="Public\SocketClientProcessor.cs" />
     <Compile Remove="Public\SocketServerProcessor.cs" />
-    <Compile Remove="Examples\SocketDataReceivedEventArgs.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,10 +42,6 @@
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Examples\" />
   </ItemGroup>
 
   <ItemGroup>

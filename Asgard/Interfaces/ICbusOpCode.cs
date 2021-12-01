@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Asgard
+{
+    public interface ICbusOpCode
+    {
+		/// <summary>
+		/// Gets the code.
+		/// </summary>
+		string Code { get; }
+
+		/// <summary>
+		/// Gets the number of data-bytes.
+		/// </summary>
+		int DataLength { get; }
+
+		/// <summary>
+		/// Gets the description.
+		/// </summary>
+		string Description { get; }
+
+		/// <summary>
+		/// Gets the group.
+		/// </summary>
+		OpCodeGroup Group { get; }
+
+		/// <summary>
+		/// Gets the name.
+		/// </summary>
+		string Name { get; }
+
+		/// <summary>
+		/// Gets the op-code number.
+		/// </summary>
+		byte Number { get; }
+
+		/// <summary>
+		/// Gets the op-code priority.
+		/// </summary>
+		int Priority { get; }
+
+		/// <summary>
+		/// Gets the underlying CBUS message.
+		/// </summary>
+		ICbusMessage Message { get; }
+	}
+}
