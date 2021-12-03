@@ -104,15 +104,15 @@ namespace Asgard
 				var generic = dataType == "Enum"
 					? "<" + property.DataType + ">"
 					: string.Empty;
-				var byteIndex = "new int[] { " + string.Join(",", property.ByteIndexes) + " }";
-				var bitIndex = "new int[] { " + string.Join(",", property.BitIndexes) + " }";
-				if (property.BitIndexes.Length == 0)
-					bitIndex = "Array.Empty<int>()";
+				var byteIndex = property.ByteIndexes.Length == 1 ? property.ByteIndexes[0].ToString() : "new int[] { " + string.Join(",", property.ByteIndexes) + " }";
+				var bitIndex = property.BitIndexes.Length == 0 ? "" :
+					(property.BitIndexes.Length == 1 ? ", " + property.BitIndexes[0].ToString() : ", new int[] { " + string.Join(",", property.BitIndexes) + " }");
+
 #>
 		public <#= property.DataType #> <#= property.Name #>
 		{
-			get => ConvertTo<#= dataType #><#= generic #>(<#= byteIndex #>, <#= bitIndex #>);
-			set => ConvertFrom<#= dataType #><#= generic #>(<#= byteIndex #>, <#= bitIndex #>, value);
+			get => ConvertTo<#= dataType #><#= generic #>(<#= byteIndex #><#= bitIndex #>);
+			set => ConvertFrom<#= dataType #><#= generic #>(<#= byteIndex #><#= bitIndex #>, value);
 		}
 <#			}
 #>
