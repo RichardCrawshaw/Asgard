@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Asgard.Communications
 {
-    public class GridConnectProcessor:IGridConnect,IDisposable
+    public class GridConnectProcessor:IGridConnectProcessor,IDisposable
     {
         private readonly ILogger<GridConnectProcessor> logger;
 

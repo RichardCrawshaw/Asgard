@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Asgard.Communications
 {
-    public interface IGridConnect
+    public interface IGridConnectProcessor
     {
         /// <summary>
         /// Fires when an error occurs at the transport layer. Incomplete messages are viewable here.
