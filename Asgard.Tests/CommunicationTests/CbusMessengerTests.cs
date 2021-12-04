@@ -30,18 +30,20 @@ namespace Asgard.Tests.CommunicationTests
                 .Which.Should().BeEquivalentTo(new { NodeNumber = 256, EventNumber = 5 });
         }
 
-        /*
-         * TODO: reinstate when support for creating messages in code is added (rather than just parsing incoming)
         [Test]
+        [Ignore("Reinstate when opcode construction is available (rather than just parsing incoming messages)")]
         public async Task CbusMessenger_ShouldSendCorrectlyFormattedMessage_WhenSendMessageCalled()
         {
             var transport = new Mock<IGridConnect>();
             var cm = new CbusMessenger(transport.Object);
 
-            await cm.SendMessage(new AcOnMessage() { NodeNumber = 1, EventNumber = 2 });
+            //TODO: need to consider how we want applications to be able to send messages to the bus
+            var opc = new ACON(null) { NodeNumber = 1, EventNumber = 2 };
+
+            await cm.SendMessage(opc.Message);
 
             transport.Verify(t => t.SendMessage(It.Is<string>(m => m == ":SAFA0N9000010002;")));
         }
-        */
+        
     }
 }
