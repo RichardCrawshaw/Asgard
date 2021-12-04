@@ -24,10 +24,10 @@ The latest version of cbusdefsenums from MERG Devs is embedded; when (if) this i
   - Accessories: all accessory OpCodes
   - Everything
   - Probably some others...
-* Split the solution into separate projects:
-  - Comms functionality: Asgard.Comms
-  - OpCode and CBUS message functionality: Asgard.Data
-  - The reading and processing template data: Asgard.Templating
+* Split the solution into separate projects / namespaces:
+  - Comms functionality: Asgard.Comms in main project
+  - OpCode and CBUS message functionality: Asgard.Data in main project
+  - The reading and processing template data: Asgard.Templating in templating project
 * Add interfaces to OpCodes based on
   - properties: one interface per property type
   - group: one interface per group
