@@ -12,5 +12,7 @@ namespace Asgard.Communications
         event EventHandler<CbusMessageEventArgs> MessageSent;
 
         Task<bool> SendMessage(ICbusMessage message);
+
+        
     }
 }
