@@ -250,8 +250,8 @@ namespace Asgard.Data
             var index2 = byteIndexes[1];
 
             var value = (short)(
-                this.Message[index2] << 8 +
-                this.Message[index1]);
+                (this.Message[index1] << 8) +
+                this.Message[index2]);
             return value;
         }
 
