@@ -2,7 +2,7 @@
 
 namespace Asgard
 {
-
+#pragma warning disable IDE0060 // Remove unused parameter
     public partial class OpCodeData
     {
         #region Abstract properties
@@ -57,8 +57,11 @@ namespace Asgard
 
         #region Convert methods
 
-        protected void ConvertFromBool(int byteIndex, int bitIndex, bool value)
+        protected void ConvertFromBool(int[] byteIndexes, int[] bitIndexes, bool value)
         {
+            var byteIndex = byteIndexes[0];
+            var bitIndex = bitIndexes[0];
+
             if (value)
             {
                 var mask = (byte)(bitIndex switch
@@ -93,17 +96,21 @@ namespace Asgard
             }
         }
 
-        protected void ConvertFromByte(int byteIndex, byte value)
+        protected void ConvertFromByte(int[] byteIndexes, int[] bitIndexes, byte value)
         {
+            var byteIndex = byteIndexes[0];
+
             this.Message[byteIndex] = value;
         }
 
-        protected void ConvertFromChar(int byteIndex, char value)
+        protected void ConvertFromChar(int[] byteIndexes, int[] bitIndexes, char value)
         {
+            var byteIndex = byteIndexes[0];
+
             this.Message[byteIndex] = (byte)value;
         }
 
-        protected void ConvertFromInt(int[] byteIndexes, int value)
+        protected void ConvertFromInt(int[] byteIndexes, int[] bitIndexes, int value)
         {
             var index1 = byteIndexes[0];
             var index2 = byteIndexes[1];
@@ -116,7 +123,7 @@ namespace Asgard
             this.Message[index4] = (byte)(value >> 24);
         }
 
-        protected void ConvertFromShort(int[] byteIndexes, short value)
+        protected void ConvertFromShort(int[] byteIndexes, int[] bitIndexes, short value)
         {
             var index1 = byteIndexes[0];
             var index2 = byteIndexes[1];
@@ -125,7 +132,7 @@ namespace Asgard
             this.Message[index2] = (byte)(value >> 08);
         }
 
-        protected void ConvertFromEnum<TEnum>(int byteIndex, TEnum value)
+        protected void ConvertFromEnum<TEnum>(int[] byteIndexes, int[] bitIndexes, TEnum value)
             where TEnum : struct, Enum
         {
             var type = Enum.GetUnderlyingType(typeof(TEnum));
@@ -133,57 +140,13 @@ namespace Asgard
                 type == typeof(short) ||
                 type == typeof(byte))
             {
-                ConvertFromEnum(byteIndex, (value as int?).Value);
+                ConvertFromEnum(byteIndexes, bitIndexes, (value as int?).Value);
             }
         }
 
-        protected void ConvertFromEnum<TEnum>(int byteIndex, int bitIndex, TEnum value)
-    where TEnum : struct, Enum
+        protected void ConvertFromEnum(int[] byteIndexes, int[] bitIndexes, int value)
         {
-            var type = Enum.GetUnderlyingType(typeof(TEnum));
-            if (type == typeof(int) ||
-                type == typeof(short) ||
-                type == typeof(byte))
-            {
-                ConvertFromEnum(byteIndex, bitIndex, (value as int?).Value);
-            }
-        }
-
-        protected void ConvertFromEnum<TEnum>(int byteIndex, int[] bitIndexes, TEnum value)
-            where TEnum : struct, Enum
-        {
-            var type = Enum.GetUnderlyingType(typeof(TEnum));
-            if (type == typeof(int) ||
-                type == typeof(short) ||
-                type == typeof(byte))
-            {
-                ConvertFromEnum(byteIndex, bitIndexes, (value as int?).Value);
-            }
-        }
-
-        protected void ConvertFromEnum(int byteIndex, int value)
-        {
-            this.Message[byteIndex] = (byte)value;
-        }
-
-        protected void ConvertFromEnum(int byteIndex, int bitIndex, int value)
-        {
-            var byteValue = this.Message[byteIndex];
-
-  
-            var enumMask = GetSetMask(0);
-
-            if ((value & enumMask) == enumMask)
-                byteValue |= GetSetMask(bitIndex);
-            else
-                byteValue &= GetClearMask(bitIndex);
-
-
-            this.Message[byteIndex] = byteValue;
-        }
-
-        protected void ConvertFromEnum(int byteIndex, int[] bitIndexes, int value)
-        {
+            var byteIndex = byteIndexes[0];
             var byteValue = this.Message[byteIndex];
 
             for (var i = 0; i < bitIndexes.Length; i++)
@@ -200,8 +163,11 @@ namespace Asgard
             this.Message[byteIndex] = byteValue;
         }
 
-        protected bool ConvertToBool(int byteIndex, int bitIndex)
+        protected bool ConvertToBool(int[] byteIndexes, int[] bitIndexes)
         {
+            var byteIndex = byteIndexes[0];
+            var bitIndex = bitIndexes[0];
+
             var byteValue = this.Message[byteIndex];
             return bitIndex switch
             {
@@ -217,19 +183,23 @@ namespace Asgard
             };
         }
 
-        protected byte ConvertToByte(int byteIndex)
+        protected byte ConvertToByte(int[] byteIndexes, int[] bitIndexes)
         {
+            var byteIndex = byteIndexes[0];
+
             var byteValue = this.Message[byteIndex];
             return byteValue;
         }
 
-        protected char ConvertToChar(int byteIndex)
+        protected char ConvertToChar(int[] byteIndexes, int[] bitIndexes)
         {
+            var byteIndex = byteIndexes[0];
+
             var charValue = (char)this.Message[byteIndex];
             return charValue;
         }
 
-        protected int ConvertToInt(int[] byteIndexes)
+        protected int ConvertToInt(int[] byteIndexes, int[] bitIndexes)
         {
             var index1 = byteIndexes[0];
             var index2 = byteIndexes[1];
@@ -244,7 +214,7 @@ namespace Asgard
             return value;
         }
 
-        protected short ConvertToShort(int[] byteIndexes)
+        protected short ConvertToShort(int[] byteIndexes, int[] bitIndexes)
         {
             var index1 = byteIndexes[0];
             var index2 = byteIndexes[1];
@@ -255,7 +225,7 @@ namespace Asgard
             return value;
         }
 
-        protected TEnum ConvertToEnum<TEnum>(int byteIndex)
+        protected TEnum ConvertToEnum<TEnum>(int[] byteIndexes, int[] bitIndexes)
             where TEnum : struct, Enum
         {
             var type = Enum.GetUnderlyingType(typeof(TEnum));
@@ -263,50 +233,17 @@ namespace Asgard
                 type == typeof(short) ||
                 type == typeof(byte))
             {
-                var result = ConvertToEnum(byteIndex) as TEnum?;
+                var result = ConvertToEnum(byteIndexes, bitIndexes) as TEnum?;
                 if (result is not null)
                     return result.Value;
             }
             return default;
         }
 
-        protected TEnum ConvertToEnum<TEnum>(int byteIndex, int bitIndex) 
-            where TEnum : struct, Enum
+        protected int ConvertToEnum(int[] byteIndexes, int[] bitIndexes)
         {
-            var type = Enum.GetUnderlyingType(typeof(TEnum));
-            if (type == typeof(int) ||
-                type == typeof(short) ||
-                type == typeof(byte))
-            {
-                var result = ConvertToEnum(byteIndex, bitIndex) as TEnum?;
-                if (result is not null)
-                    return result.Value;
-            }
-            return default;
-        }
-        protected TEnum ConvertToEnum<TEnum>(int byteIndex, int[] bitIndexes)
-            where TEnum : struct, Enum
-        {
-            var type = Enum.GetUnderlyingType(typeof(TEnum));
-            if (type == typeof(int) ||
-                type == typeof(short) ||
-                type == typeof(byte))
-            {
-                var result = ConvertToEnum(byteIndex, bitIndexes) as TEnum?;
-                if (result is not null)
-                    return result.Value;
-            }
-            return default;
-        }
-
-        protected int ConvertToEnum(int byteIndex)
-        {
-            return this.Message[byteIndex];
-        }
-
-        protected int ConvertToEnum(int byteIndex, int[] bitIndexes)
-        {
-            var value = ConvertToEnum(byteIndex);
+            var byteIndex = byteIndexes[0];
+            var value = this.Message[byteIndex];
 
             for(var i=0;i< bitIndexes.Length; i++)
             {
@@ -318,21 +255,6 @@ namespace Asgard
                 else
                     value &= GetClearMask(i);
             }
-
-            return value;
-        }
-
-        protected int ConvertToEnum(int byteIndex, int bitIndex)
-        {
-            var value = ConvertToEnum(byteIndex);
-
-            var bitMask = GetSetMask(bitIndex);
-
-            if ((value & bitMask) == bitMask)
-                value |= GetSetMask(0);
-            else
-                value &= GetClearMask(0);
-
 
             return value;
         }
@@ -375,5 +297,5 @@ namespace Asgard
 
         #endregion
     }
-
+#pragma warning restore IDE0060 // Remove unused parameter
 }
