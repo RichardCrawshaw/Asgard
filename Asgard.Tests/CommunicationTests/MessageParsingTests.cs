@@ -9,7 +9,8 @@ namespace Asgard.Tests.CommunicationTests
         [Test]
         public void CbusMessage_ParsesBasicMessage()
         {
-            var frame = CbusCanFrame.FromTransportString(":SB020N9101000005;");
+            var cfp = new CbusCanFrameProcessor();
+            var frame = cfp.ParseFrame(":SB020N9101000005;");
             var m = frame.Message.GetOpCode();
 
             m.Should().BeOfType<ACOF>();
