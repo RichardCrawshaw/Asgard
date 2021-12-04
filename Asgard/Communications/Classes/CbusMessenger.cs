@@ -9,12 +9,12 @@ namespace Asgard.Communications
 {
     public class CbusMessenger : ICbusMessenger
     {
-        private readonly IGridConnect _transport;
+        private readonly IGridConnectProcessor _transport;
         private readonly ILogger<CbusMessenger> _logger;
         public event EventHandler<CbusMessageEventArgs> MessageReceived;
         public event EventHandler<CbusMessageEventArgs> MessageSent;
 
-        public CbusMessenger(IGridConnect transport, ILogger<CbusMessenger> logger = null)
+        public CbusMessenger(IGridConnectProcessor transport, ILogger<CbusMessenger> logger = null)
         {
             _transport = transport;
             _logger = logger;

@@ -16,7 +16,7 @@ namespace Asgard.Tests.CommunicationTests
         [Test]
         public void CbusMessenger_ShouldRaiseCorrectParsedMessage_WhenTransportRaisesMessage()
         {
-            var transport = new Mock<IGridConnect>();
+            var transport = new Mock<Communications.IGridConnectProcessor>();
             var cm = new CbusMessenger(transport.Object);
             ICbusMessage m = null;
             cm.MessageReceived += (sender, args) => {
@@ -34,7 +34,7 @@ namespace Asgard.Tests.CommunicationTests
         [Ignore("Reinstate when opcode construction is available (rather than just parsing incoming messages)")]
         public async Task CbusMessenger_ShouldSendCorrectlyFormattedMessage_WhenSendMessageCalled()
         {
-            var transport = new Mock<IGridConnect>();
+            var transport = new Mock<Communications.IGridConnectProcessor>();
             var cm = new CbusMessenger(transport.Object);
 
             //TODO: need to consider how we want applications to be able to send messages to the bus
