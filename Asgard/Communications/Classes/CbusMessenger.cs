@@ -10,13 +10,15 @@ namespace Asgard.Communications
     public class CbusMessenger : ICbusMessenger
     {
         private readonly IGridConnectProcessor _transport;
+        private readonly ICbusCanFrameProcessor cbusCanFrameProcessor;
         private readonly ILogger<CbusMessenger> _logger;
         public event EventHandler<CbusMessageEventArgs> MessageReceived;
         public event EventHandler<CbusMessageEventArgs> MessageSent;
 
-        public CbusMessenger(IGridConnectProcessor transport, ILogger<CbusMessenger> logger = null)
+        public CbusMessenger(IGridConnectProcessor transport, ICbusCanFrameProcessor cbusCanFrameProcessor, ILogger<CbusMessenger> logger = null)
         {
             _transport = transport;
+            this.cbusCanFrameProcessor = cbusCanFrameProcessor;
             _logger = logger;
             _transport.GridConnectMessage += HandleTransportMessage;
         }
@@ -25,7 +27,7 @@ namespace Asgard.Communications
         {
             try
             {
-                var frame = CbusCanFrame.FromTransportString(e.Message);
+                var frame = cbusCanFrameProcessor.ParseFrame(e.Message);
                 _logger?.LogTrace("Parsed received Message: {0}", frame);
                 MessageReceived?.Invoke(this, new CbusMessageEventArgs(frame.Message));
             }
@@ -48,7 +50,7 @@ namespace Asgard.Communications
             frame.Message = message;
 
             _logger?.LogTrace("Sending message: {0}", message);
-            await _transport.SendMessage(frame.CreateTransportString());
+            await _transport.SendMessage(cbusCanFrameProcessor.ConstructTransportString(frame));
             MessageSent?.Invoke(this, new CbusMessageEventArgs(message));
             return true;
         }
