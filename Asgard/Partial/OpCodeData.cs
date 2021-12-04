@@ -110,10 +110,10 @@ namespace Asgard
             var index3 = byteIndexes[2];
             var index4 = byteIndexes[3];
 
-            this.Message[index1] = (byte)(value >> 00);
-            this.Message[index2] = (byte)(value >> 08);
-            this.Message[index3] = (byte)(value >> 16);
-            this.Message[index4] = (byte)(value >> 24);
+            this.Message[index1] = (byte)(value >> 24);
+            this.Message[index2] = (byte)(value >> 16);
+            this.Message[index3] = (byte)(value >> 08);
+            this.Message[index4] = (byte)(value >> 00);
         }
 
         protected void ConvertFromShort(int[] byteIndexes, short value)
@@ -121,8 +121,8 @@ namespace Asgard
             var index1 = byteIndexes[0];
             var index2 = byteIndexes[1];
 
-            this.Message[index1] = (byte)(value >> 00);
-            this.Message[index2] = (byte)(value >> 08);
+            this.Message[index1] = (byte)(value >> 08);
+            this.Message[index2] = (byte)(value >> 00);
         }
 
         protected void ConvertFromEnum<TEnum>(int byteIndex, TEnum value)
@@ -237,10 +237,10 @@ namespace Asgard
             var index4 = byteIndexes[3];
 
             var value =
-                this.Message[index4] << 24 +
-                this.Message[index3] << 16 +
-                this.Message[index2] << 08 +
-                this.Message[index1];
+                (this.Message[index1] << 24) +
+                (this.Message[index2] << 16) +
+                (this.Message[index3] << 08) +
+                this.Message[index4];
             return value;
         }
 
@@ -250,7 +250,7 @@ namespace Asgard
             var index2 = byteIndexes[1];
 
             var value = (short)(
-                (this.Message[index1] << 8) +
+                (this.Message[index1] << 08) +
                 this.Message[index2]);
             return value;
         }
