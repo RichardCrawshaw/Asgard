@@ -23,6 +23,7 @@ namespace Asgard.Extensions
             //TODO: read config, figure out what type to inject for transport, eg serial or tcp etc
             services.AddSingleton<ITransport, SerialPortTransport>();
 
+            services.AddSingleton<ICbusCanFrameProcessor, CbusCanFrameProcessor>();
 
             return services;
         }
