@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Asgard
+namespace Asgard.Data
 {
 
     public partial class OpCodeData

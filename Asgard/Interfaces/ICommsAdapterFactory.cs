@@ -1,4 +1,4 @@
-﻿namespace Asgard
+﻿namespace Asgard.Comms
 {
     internal interface ICommsAdapterFactory
     {

@@ -4,7 +4,7 @@ using System.IO.Ports;
 using System.Threading;
 using NLog;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     /// <summary>
     /// Adapter class for <see cref="SerialPort"/> that fixes a number of its issues. See this blog

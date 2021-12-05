@@ -1,4 +1,4 @@
-﻿namespace Asgard
+﻿namespace Asgard.Data
 {
     /// <summary>
     /// Interface to describe a CBUS message object.

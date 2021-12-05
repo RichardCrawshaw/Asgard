@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using NLog;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     public abstract class BaseAsyncSocket :
         IDisposable

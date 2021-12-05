@@ -2,7 +2,7 @@
 using System.IO;
 using System.IO.Ports;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     public interface ISerialPortAdapter :
         ICommsAdapter
