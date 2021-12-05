@@ -14,6 +14,7 @@ namespace Asgard.Communications
 
         Task<bool> SendMessage(ICbusMessage message);
 
+        void Open();
         
     }
 }

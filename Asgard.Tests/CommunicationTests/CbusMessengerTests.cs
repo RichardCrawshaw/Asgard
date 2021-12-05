@@ -18,8 +18,12 @@ namespace Asgard.Tests.CommunicationTests
         public void CbusMessenger_ShouldRaiseCorrectParsedMessage_WhenTransportRaisesMessage()
         {
             var transport = new Mock<Communications.IGridConnectProcessor>();
+            var connectionFactory = new Mock<ICbusConnectionFactory>();
+            connectionFactory.Setup(cf => cf.GetConnection()).Returns(transport.Object);
+
             var cfp = new CbusCanFrameProcessor();
-            var cm = new CbusMessenger(transport.Object, cfp);
+            var cm = new CbusMessenger(cfp, connectionFactory.Object);
+            cm.Open();
             ICbusMessage m = null;
             cm.MessageReceived += (sender, args) => {
                 m = args.Message;
@@ -37,8 +41,12 @@ namespace Asgard.Tests.CommunicationTests
         public async Task CbusMessenger_ShouldSendCorrectlyFormattedMessage_WhenSendMessageCalled()
         {
             var transport = new Mock<Communications.IGridConnectProcessor>();
+            var connectionFactory = new Mock<ICbusConnectionFactory>();
+            connectionFactory.Setup(cf => cf.GetConnection()).Returns(transport.Object);
+
             var cfp = new CbusCanFrameProcessor();
-            var cm = new CbusMessenger(transport.Object, cfp);
+            var cm = new CbusMessenger(cfp, connectionFactory.Object);
+            cm.Open();
 
             //TODO: need to consider how we want applications to be able to send messages to the bus
             var opc = new ACON(null) { NodeNumber = 1, EventNumber = 2 };

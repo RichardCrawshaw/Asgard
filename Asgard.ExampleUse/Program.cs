@@ -34,12 +34,12 @@ namespace Asgard.ExampleUse
 
         public ExampleUse(ICbusMessenger cbusMessenger, ILogger<ExampleUse> logger)
         {
-            //TODO: needs a way to ensure comms are open etc.
             this.cbusMessenger = cbusMessenger;
             this.logger = logger;
         }
         public void Start()
         {
+            cbusMessenger.Open();
             cbusMessenger.MessageReceived += (sender, e) =>
             {
                 logger.LogInformation($"Message received: {e.Message.GetOpCode()}");

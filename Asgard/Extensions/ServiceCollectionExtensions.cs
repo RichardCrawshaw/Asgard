@@ -20,8 +20,8 @@ namespace Asgard.Extensions
             //TODO: read config, pass in Can ID etc
             services.AddSingleton<ICbusMessenger, CbusMessenger>();
 
-            //TODO: read config, figure out what type to inject for transport, eg serial or tcp etc
-            services.AddSingleton<ITransport, SerialPortTransport>();
+            services.AddScoped<ICbusConnectionFactory, CbusConnectionFactory>();
+            services.AddScoped<SerialPortTransport>();
 
             services.AddSingleton<ICbusCanFrameProcessor, CbusCanFrameProcessor>();
 
