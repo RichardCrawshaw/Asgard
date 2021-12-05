@@ -575,6 +575,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
+		[Ignore("Not in version 6b")]
 		public void CreateNNRSMTest()
 		{
 			var data = new byte[]
@@ -809,6 +810,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
+		[Ignore("Incorrect name in cbusdefs")]
 		public void CreateBOOTTest()
 		{
 			var data = new byte[]
@@ -845,6 +847,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
+		[Ignore("Not in version 6b")]
 		public void CreateNNRSTTest()
 		{
 			var data = new byte[]
@@ -1745,6 +1748,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
+		[Ignore("Not in version 6b")]
 		public void CreateCABDATTest()
 		{
 			var data = new byte[]
@@ -2051,6 +2055,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
+		[Ignore("Not in version 6b")]
 		public void CreateDTXCTest()
 		{
 			var data = new byte[]
@@ -2303,6 +2308,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
+		[Ignore("Not in version 6b")]
 		public void CreateDDWSTest()
 		{
 			var data = new byte[]

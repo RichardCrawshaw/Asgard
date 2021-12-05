@@ -8,6 +8,17 @@
 <#	var filename = this.Host.ResolvePath("cbusdefs.csv");
 	var textlines = File.ReadLines(filename);
 
+	var ignores =
+		new Dictionary<string, string>
+		{
+			["BOOT"]   = "Incorrect name in cbusdefs",
+			["CABDAT"] = "Not in version 6b",
+			["DDWS"]   = "Not in version 6b",
+			["DTXC"]   = "Not in version 6b",
+			["NNRSM"]  = "Not in version 6b",
+			["NNRST"]  = "Not in version 6b",
+		};
+		
 	var opcodelines = 
 		textlines
 			.Where(n => n.StartsWith("CbusOpCodes,"))
@@ -56,6 +67,12 @@ namespace Asgard.Tests
 #>
 
 		[Test]
+<#		if (ignores.ContainsKey(opcodeName))
+		{
+#>
+		[Ignore("<#= ignores[opcodeName] #>")]
+<#		}
+#>
 		public void Create<#= opcodeName #>Test()
 		{
 			var data = new byte[]
