@@ -9,8 +9,8 @@
 
   <ItemGroup>
     <Compile Remove="Public\Resolver.cs" />
-    <Compile Remove="Public\SocketClientProcessor.cs" />
-    <Compile Remove="Public\SocketServerProcessor.cs" />
+    <Compile Remove="Comms\Public\SocketClientProcessor.cs" />
+    <Compile Remove="Comms\Public\SocketServerProcessor.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,7 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Generated\Enumerations.cs">
+    <None Include="Data\Generated\Enumerations.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Enumerations.tt</DependentUpon>
@@ -75,6 +75,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>OpCodes.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Generated\" />
   </ItemGroup>
 
 </Project>

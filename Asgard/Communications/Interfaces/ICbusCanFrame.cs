@@ -1,6 +1,6 @@
 ﻿using Asgard.Data;
 
-namespace Asgard
+namespace Asgard.Communications
 {
     public interface ICbusCanFrame
     {
