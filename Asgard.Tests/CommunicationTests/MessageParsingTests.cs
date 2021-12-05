@@ -1,6 +1,7 @@
 ﻿using Asgard.Communications;
 using FluentAssertions;
 using NUnit.Framework;
+using Asgard.Data;
 
 namespace Asgard.Tests.CommunicationTests
 {

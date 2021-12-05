@@ -1,4 +1,6 @@
-﻿namespace Asgard
+﻿using Asgard.Data;
+
+namespace Asgard
 {
     public interface ICbusCanFrame
     {
