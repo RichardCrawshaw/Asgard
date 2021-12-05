@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using NLog;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     /// <summary>
     /// Abstract class to handle the processing of GridConnect messages.

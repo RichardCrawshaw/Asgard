@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     public class ConnectionClosedEventArgs : EventArgs
     {

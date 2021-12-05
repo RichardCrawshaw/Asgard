@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     public interface ISocketServerAdapter :
         ISocketAdaptor

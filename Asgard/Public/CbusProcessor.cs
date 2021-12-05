@@ -2,7 +2,7 @@
 using System.Linq;
 using NLog;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     /// <summary>
     /// Abstract class to handle the processing of CBUS messages.

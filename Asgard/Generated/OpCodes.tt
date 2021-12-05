@@ -24,7 +24,7 @@ using System;
 	builder.Build();
 #>
 
-namespace Asgard
+namespace Asgard.Data
 {
 	#region Licence
 

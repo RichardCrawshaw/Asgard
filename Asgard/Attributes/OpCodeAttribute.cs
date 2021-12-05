@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Asgard
+namespace Asgard.Data
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 	public partial class OpCodeAttribute : Attribute

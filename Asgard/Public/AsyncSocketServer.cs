@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using NLog;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     /// <summary>
     /// Class to provide <see cref="Socket"/> server capability.

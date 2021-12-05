@@ -5,7 +5,7 @@
 	Any changes made manually will be lost when the file is regenerated.
 */
 
-namespace Asgard
+namespace Asgard.Data
 {
 	#region Licence
 

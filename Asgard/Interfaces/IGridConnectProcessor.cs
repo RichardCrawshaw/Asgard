@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     public interface IGridConnectProcessor :
         IDisposable

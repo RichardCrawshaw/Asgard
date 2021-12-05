@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     /// <summary>
     /// An event args class to carry the exception generated when a serial port reports an error.

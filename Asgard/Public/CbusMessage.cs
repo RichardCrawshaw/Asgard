@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Asgard
+namespace Asgard.Data
 {
     public class CbusMessage :
         ICbusMessage

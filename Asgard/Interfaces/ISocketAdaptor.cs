@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     public interface ISocketAdaptor :
         IDisposable
