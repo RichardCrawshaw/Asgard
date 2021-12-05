@@ -17,7 +17,7 @@ namespace Asgard.Tests
 
 
 		[Test]
-		public void CreateACKTest()
+		public void CreateACKTest() // 0x00 0
 		{
 			var data = new byte[]
 			{
@@ -35,7 +35,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNAKTest()
+		public void CreateNAKTest() // 0x01 1
 		{
 			var data = new byte[]
 			{
@@ -53,7 +53,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateHLTTest()
+		public void CreateHLTTest() // 0x02 2
 		{
 			var data = new byte[]
 			{
@@ -71,7 +71,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateBONTest()
+		public void CreateBONTest() // 0x03 3
 		{
 			var data = new byte[]
 			{
@@ -89,7 +89,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateTOFTest()
+		public void CreateTOFTest() // 0x04 4
 		{
 			var data = new byte[]
 			{
@@ -107,7 +107,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateTONTest()
+		public void CreateTONTest() // 0x05 5
 		{
 			var data = new byte[]
 			{
@@ -125,7 +125,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateESTOPTest()
+		public void CreateESTOPTest() // 0x06 6
 		{
 			var data = new byte[]
 			{
@@ -143,7 +143,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARSTTest()
+		public void CreateARSTTest() // 0x07 7
 		{
 			var data = new byte[]
 			{
@@ -161,7 +161,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRTOFTest()
+		public void CreateRTOFTest() // 0x08 8
 		{
 			var data = new byte[]
 			{
@@ -179,7 +179,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRTONTest()
+		public void CreateRTONTest() // 0x09 9
 		{
 			var data = new byte[]
 			{
@@ -197,7 +197,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRESTPTest()
+		public void CreateRESTPTest() // 0x0a 10
 		{
 			var data = new byte[]
 			{
@@ -215,7 +215,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRSTATTest()
+		public void CreateRSTATTest() // 0x0c 12
 		{
 			var data = new byte[]
 			{
@@ -233,7 +233,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateQNNTest()
+		public void CreateQNNTest() // 0x0d 13
 		{
 			var data = new byte[]
 			{
@@ -251,7 +251,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRQNPTest()
+		public void CreateRQNPTest() // 0x10 16
 		{
 			var data = new byte[]
 			{
@@ -269,7 +269,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRQMNTest()
+		public void CreateRQMNTest() // 0x11 17
 		{
 			var data = new byte[]
 			{
@@ -287,11 +287,12 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateKLOCTest()
+		public void CreateKLOCTest() // 0x21 33
 		{
 			var data = new byte[]
 			{
 				0x21,
+				0, // data-byte 0
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -305,11 +306,12 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateQLOCTest()
+		public void CreateQLOCTest() // 0x22 34
 		{
 			var data = new byte[]
 			{
 				0x22,
+				0, // data-byte 0
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -323,11 +325,12 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateDKEEPTest()
+		public void CreateDKEEPTest() // 0x23 35
 		{
 			var data = new byte[]
 			{
 				0x23,
+				0, // data-byte 0
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -341,11 +344,12 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateDBG1Test()
+		public void CreateDBG1Test() // 0x30 48
 		{
 			var data = new byte[]
 			{
 				0x30,
+				0, // data-byte 0
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -359,11 +363,12 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEXTCTest()
+		public void CreateEXTCTest() // 0x3F 63
 		{
 			var data = new byte[]
 			{
 				0x3F,
+				0, // data-byte 0
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -377,11 +382,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRLOCTest()
+		public void CreateRLOCTest() // 0x40 64
 		{
 			var data = new byte[]
 			{
 				0x40,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -395,11 +402,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateQCONTest()
+		public void CreateQCONTest() // 0x41 65
 		{
 			var data = new byte[]
 			{
 				0x41,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -413,11 +422,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateSNNTest()
+		public void CreateSNNTest() // 0x42 66
 		{
 			var data = new byte[]
 			{
 				0x42,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -431,11 +442,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateSTMODTest()
+		public void CreateSTMODTest() // 0x44 68
 		{
 			var data = new byte[]
 			{
 				0x44,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -449,11 +462,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreatePCONTest()
+		public void CreatePCONTest() // 0x45 69
 		{
 			var data = new byte[]
 			{
 				0x45,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -467,11 +482,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateKCONTest()
+		public void CreateKCONTest() // 0x46 70
 		{
 			var data = new byte[]
 			{
 				0x46,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -485,11 +502,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateDSPDTest()
+		public void CreateDSPDTest() // 0x47 71
 		{
 			var data = new byte[]
 			{
 				0x47,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -503,11 +522,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateDFLGTest()
+		public void CreateDFLGTest() // 0x48 72
 		{
 			var data = new byte[]
 			{
 				0x48,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -521,11 +542,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateDFNONTest()
+		public void CreateDFNONTest() // 0x49 73
 		{
 			var data = new byte[]
 			{
 				0x49,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -539,11 +562,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateDFNOFTest()
+		public void CreateDFNOFTest() // 0x4A 74
 		{
 			var data = new byte[]
 			{
 				0x4A,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -557,11 +582,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateSSTATTest()
+		public void CreateSSTATTest() // 0x4C 76
 		{
 			var data = new byte[]
 			{
 				0x4C,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -576,11 +603,13 @@ namespace Asgard.Tests
 
 		[Test]
 		[Ignore("Not in version 6b")]
-		public void CreateNNRSMTest()
+		public void CreateNNRSMTest() // 0x4F 79
 		{
 			var data = new byte[]
 			{
 				0x4F,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -594,11 +623,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRQNNTest()
+		public void CreateRQNNTest() // 0x50 80
 		{
 			var data = new byte[]
 			{
 				0x50,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -612,11 +643,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNNRELTest()
+		public void CreateNNRELTest() // 0x51 81
 		{
 			var data = new byte[]
 			{
 				0x51,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -630,11 +663,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNNACKTest()
+		public void CreateNNACKTest() // 0x52 82
 		{
 			var data = new byte[]
 			{
 				0x52,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -648,11 +683,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNNLRNTest()
+		public void CreateNNLRNTest() // 0x53 83
 		{
 			var data = new byte[]
 			{
 				0x53,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -666,11 +703,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNNULNTest()
+		public void CreateNNULNTest() // 0x54 84
 		{
 			var data = new byte[]
 			{
 				0x54,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -684,11 +723,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNNCLRTest()
+		public void CreateNNCLRTest() // 0x55 85
 		{
 			var data = new byte[]
 			{
 				0x55,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -702,11 +743,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNNEVNTest()
+		public void CreateNNEVNTest() // 0x56 86
 		{
 			var data = new byte[]
 			{
 				0x56,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -720,11 +763,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNERDTest()
+		public void CreateNERDTest() // 0x57 87
 		{
 			var data = new byte[]
 			{
 				0x57,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -738,11 +783,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRQEVNTest()
+		public void CreateRQEVNTest() // 0x58 88
 		{
 			var data = new byte[]
 			{
 				0x58,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -756,11 +803,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateWRACKTest()
+		public void CreateWRACKTest() // 0x59 89
 		{
 			var data = new byte[]
 			{
 				0x59,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -774,11 +823,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRQDATTest()
+		public void CreateRQDATTest() // 0x5A 90
 		{
 			var data = new byte[]
 			{
 				0x5A,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -792,11 +843,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRQDDSTest()
+		public void CreateRQDDSTest() // 0x5B 91
 		{
 			var data = new byte[]
 			{
 				0x5B,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -811,11 +864,13 @@ namespace Asgard.Tests
 
 		[Test]
 		[Ignore("Incorrect name in cbusdefs")]
-		public void CreateBOOTTest()
+		public void CreateBOOTTest() // 0x5C 92
 		{
 			var data = new byte[]
 			{
 				0x5C,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -829,11 +884,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateENUMTest()
+		public void CreateENUMTest() // 0x5D 93
 		{
 			var data = new byte[]
 			{
 				0x5D,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -848,11 +905,13 @@ namespace Asgard.Tests
 
 		[Test]
 		[Ignore("Not in version 6b")]
-		public void CreateNNRSTTest()
+		public void CreateNNRSTTest() // 0x5E 94
 		{
 			var data = new byte[]
 			{
 				0x5E,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -866,11 +925,13 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEXTC1Test()
+		public void CreateEXTC1Test() // 0x5F 95
 		{
 			var data = new byte[]
 			{
 				0x5F,
+				0, // data-byte 0
+				0, // data-byte 1
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -884,11 +945,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateDFUNTest()
+		public void CreateDFUNTest() // 0x60 96
 		{
 			var data = new byte[]
 			{
 				0x60,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -902,11 +966,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateGLOCTest()
+		public void CreateGLOCTest() // 0x61 97
 		{
 			var data = new byte[]
 			{
 				0x61,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -920,11 +987,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateERRTest()
+		public void CreateERRTest() // 0x63 99
 		{
 			var data = new byte[]
 			{
 				0x63,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -938,11 +1008,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateCMDERRTest()
+		public void CreateCMDERRTest() // 0x6F 111
 		{
 			var data = new byte[]
 			{
 				0x6F,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -956,11 +1029,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEVNLFTest()
+		public void CreateEVNLFTest() // 0x70 112
 		{
 			var data = new byte[]
 			{
 				0x70,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -974,11 +1050,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNVRDTest()
+		public void CreateNVRDTest() // 0x71 113
 		{
 			var data = new byte[]
 			{
 				0x71,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -992,11 +1071,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNENRDTest()
+		public void CreateNENRDTest() // 0x72 114
 		{
 			var data = new byte[]
 			{
 				0x72,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1010,11 +1092,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRQNPNTest()
+		public void CreateRQNPNTest() // 0x73 115
 		{
 			var data = new byte[]
 			{
 				0x73,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1028,11 +1113,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNUMEVTest()
+		public void CreateNUMEVTest() // 0x74 116
 		{
 			var data = new byte[]
 			{
 				0x74,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1046,11 +1134,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateCANIDTest()
+		public void CreateCANIDTest() // 0x75 117
 		{
 			var data = new byte[]
 			{
 				0x75,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1064,11 +1155,14 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEXTC2Test()
+		public void CreateEXTC2Test() // 0x7F 127
 		{
 			var data = new byte[]
 			{
 				0x7F,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1082,11 +1176,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRDCC3Test()
+		public void CreateRDCC3Test() // 0x80 128
 		{
 			var data = new byte[]
 			{
 				0x80,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1100,11 +1198,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateWCVOTest()
+		public void CreateWCVOTest() // 0x82 130
 		{
 			var data = new byte[]
 			{
 				0x82,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1118,11 +1220,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateWCVBTest()
+		public void CreateWCVBTest() // 0x83 131
 		{
 			var data = new byte[]
 			{
 				0x83,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1136,11 +1242,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateQCVSTest()
+		public void CreateQCVSTest() // 0x84 132
 		{
 			var data = new byte[]
 			{
 				0x84,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1154,11 +1264,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreatePCVSTest()
+		public void CreatePCVSTest() // 0x85 133
 		{
 			var data = new byte[]
 			{
 				0x85,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1172,11 +1286,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateACONTest()
+		public void CreateACONTest() // 0x90 144
 		{
 			var data = new byte[]
 			{
 				0x90,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1190,11 +1308,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateACOFTest()
+		public void CreateACOFTest() // 0x91 145
 		{
 			var data = new byte[]
 			{
 				0x91,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1208,11 +1330,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateAREQTest()
+		public void CreateAREQTest() // 0x92 146
 		{
 			var data = new byte[]
 			{
 				0x92,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1226,11 +1352,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARONTest()
+		public void CreateARONTest() // 0x93 147
 		{
 			var data = new byte[]
 			{
 				0x93,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1244,11 +1374,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateAROFTest()
+		public void CreateAROFTest() // 0x94 148
 		{
 			var data = new byte[]
 			{
 				0x94,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1262,11 +1396,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEVULNTest()
+		public void CreateEVULNTest() // 0x95 149
 		{
 			var data = new byte[]
 			{
 				0x95,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1280,11 +1418,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNVSETTest()
+		public void CreateNVSETTest() // 0x96 150
 		{
 			var data = new byte[]
 			{
 				0x96,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1298,11 +1440,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNVANSTest()
+		public void CreateNVANSTest() // 0x97 151
 		{
 			var data = new byte[]
 			{
 				0x97,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1316,11 +1462,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateASONTest()
+		public void CreateASONTest() // 0x98 152
 		{
 			var data = new byte[]
 			{
 				0x98,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1334,11 +1484,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateASOFTest()
+		public void CreateASOFTest() // 0x99 153
 		{
 			var data = new byte[]
 			{
 				0x99,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1352,11 +1506,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateASRQTest()
+		public void CreateASRQTest() // 0x9A 154
 		{
 			var data = new byte[]
 			{
 				0x9A,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1370,11 +1528,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreatePARANTest()
+		public void CreatePARANTest() // 0x9B 155
 		{
 			var data = new byte[]
 			{
 				0x9B,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1388,11 +1550,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateREVALTest()
+		public void CreateREVALTest() // 0x9C 156
 		{
 			var data = new byte[]
 			{
 				0x9C,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1406,11 +1572,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARSONTest()
+		public void CreateARSONTest() // 0x9D 157
 		{
 			var data = new byte[]
 			{
 				0x9D,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1424,11 +1594,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARSOFTest()
+		public void CreateARSOFTest() // 0x9E 158
 		{
 			var data = new byte[]
 			{
 				0x9E,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1442,11 +1616,15 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEXTC3Test()
+		public void CreateEXTC3Test() // 0x9F 159
 		{
 			var data = new byte[]
 			{
 				0x9F,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1460,11 +1638,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRDCC4Test()
+		public void CreateRDCC4Test() // 0xA0 160
 		{
 			var data = new byte[]
 			{
 				0xA0,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1478,11 +1661,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateWCVSTest()
+		public void CreateWCVSTest() // 0xA2 162
 		{
 			var data = new byte[]
 			{
 				0xA2,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1496,11 +1684,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateACON1Test()
+		public void CreateACON1Test() // 0xB0 176
 		{
 			var data = new byte[]
 			{
 				0xB0,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1514,11 +1707,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateACOF1Test()
+		public void CreateACOF1Test() // 0xB1 177
 		{
 			var data = new byte[]
 			{
 				0xB1,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1532,11 +1730,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateREQEVTest()
+		public void CreateREQEVTest() // 0xB2 178
 		{
 			var data = new byte[]
 			{
 				0xB2,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1550,11 +1753,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARON1Test()
+		public void CreateARON1Test() // 0xB3 179
 		{
 			var data = new byte[]
 			{
 				0xB3,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1568,11 +1776,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateAROF1Test()
+		public void CreateAROF1Test() // 0xB4 180
 		{
 			var data = new byte[]
 			{
 				0xB4,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1586,11 +1799,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNEVALTest()
+		public void CreateNEVALTest() // 0xB5 181
 		{
 			var data = new byte[]
 			{
 				0xB5,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1604,11 +1822,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreatePNNTest()
+		public void CreatePNNTest() // 0xB6 182
 		{
 			var data = new byte[]
 			{
 				0xB6,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1622,11 +1845,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateASON1Test()
+		public void CreateASON1Test() // 0xB8 184
 		{
 			var data = new byte[]
 			{
 				0xB8,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1640,11 +1868,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateASOF1Test()
+		public void CreateASOF1Test() // 0xB9 185
 		{
 			var data = new byte[]
 			{
 				0xB9,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1658,11 +1891,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARSON1Test()
+		public void CreateARSON1Test() // 0xBD 189
 		{
 			var data = new byte[]
 			{
 				0xBD,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1676,11 +1914,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARSOF1Test()
+		public void CreateARSOF1Test() // 0xBE 190
 		{
 			var data = new byte[]
 			{
 				0xBE,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1694,11 +1937,16 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEXTC4Test()
+		public void CreateEXTC4Test() // 0xBF 191
 		{
 			var data = new byte[]
 			{
 				0xBF,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1712,11 +1960,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRDCC5Test()
+		public void CreateRDCC5Test() // 0xC0 192
 		{
 			var data = new byte[]
 			{
 				0xC0,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1730,11 +1984,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateWCVOATest()
+		public void CreateWCVOATest() // 0xC1 193
 		{
 			var data = new byte[]
 			{
 				0xC1,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1749,11 +2009,17 @@ namespace Asgard.Tests
 
 		[Test]
 		[Ignore("Not in version 6b")]
-		public void CreateCABDATTest()
+		public void CreateCABDATTest() // 0xC2 194
 		{
 			var data = new byte[]
 			{
 				0xC2,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1767,11 +2033,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateFCLKTest()
+		public void CreateFCLKTest() // 0xCF 207
 		{
 			var data = new byte[]
 			{
 				0xCF,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1785,11 +2057,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateACON2Test()
+		public void CreateACON2Test() // 0xD0 208
 		{
 			var data = new byte[]
 			{
 				0xD0,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1803,11 +2081,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateACOF2Test()
+		public void CreateACOF2Test() // 0xD1 209
 		{
 			var data = new byte[]
 			{
 				0xD1,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1821,11 +2105,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEVLRNTest()
+		public void CreateEVLRNTest() // 0xd2 210
 		{
 			var data = new byte[]
 			{
 				0xd2,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1839,11 +2129,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEVANSTest()
+		public void CreateEVANSTest() // 0xd3 211
 		{
 			var data = new byte[]
 			{
 				0xd3,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1857,11 +2153,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARON2Test()
+		public void CreateARON2Test() // 0xD4 212
 		{
 			var data = new byte[]
 			{
 				0xD4,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1875,11 +2177,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateAROF2Test()
+		public void CreateAROF2Test() // 0xD5 213
 		{
 			var data = new byte[]
 			{
 				0xD5,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1893,11 +2201,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateASON2Test()
+		public void CreateASON2Test() // 0xD8 216
 		{
 			var data = new byte[]
 			{
 				0xD8,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1911,11 +2225,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateASOF2Test()
+		public void CreateASOF2Test() // 0xD9 217
 		{
 			var data = new byte[]
 			{
 				0xD9,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1929,11 +2249,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARSON2Test()
+		public void CreateARSON2Test() // 0xDD 221
 		{
 			var data = new byte[]
 			{
 				0xDD,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1947,11 +2273,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARSOF2Test()
+		public void CreateARSOF2Test() // 0xDE 222
 		{
 			var data = new byte[]
 			{
 				0xDE,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1965,11 +2297,17 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEXTC5Test()
+		public void CreateEXTC5Test() // 0xDF 223
 		{
 			var data = new byte[]
 			{
 				0xDF,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -1983,11 +2321,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateRDCC6Test()
+		public void CreateRDCC6Test() // 0xE0 224
 		{
 			var data = new byte[]
 			{
 				0xE0,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2001,11 +2346,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreatePLOCTest()
+		public void CreatePLOCTest() // 0xE1 225
 		{
 			var data = new byte[]
 			{
 				0xE1,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2019,11 +2371,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateNAMETest()
+		public void CreateNAMETest() // 0xE2 226
 		{
 			var data = new byte[]
 			{
 				0xE2,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2037,11 +2396,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateSTATTest()
+		public void CreateSTATTest() // 0xE3 227
 		{
 			var data = new byte[]
 			{
 				0xE3,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2056,11 +2422,18 @@ namespace Asgard.Tests
 
 		[Test]
 		[Ignore("Not in version 6b")]
-		public void CreateDTXCTest()
+		public void CreateDTXCTest() // 0xE9 233
 		{
 			var data = new byte[]
 			{
 				0xE9,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2074,11 +2447,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreatePARAMSTest()
+		public void CreatePARAMSTest() // 0xEF 239
 		{
 			var data = new byte[]
 			{
 				0xEF,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2092,11 +2472,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateACON3Test()
+		public void CreateACON3Test() // 0xF0 240
 		{
 			var data = new byte[]
 			{
 				0xF0,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2110,11 +2497,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateACOF3Test()
+		public void CreateACOF3Test() // 0xF1 241
 		{
 			var data = new byte[]
 			{
 				0xF1,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2128,11 +2522,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateENRSPTest()
+		public void CreateENRSPTest() // 0xF2 242
 		{
 			var data = new byte[]
 			{
 				0xF2,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2146,11 +2547,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARON3Test()
+		public void CreateARON3Test() // 0xF3 243
 		{
 			var data = new byte[]
 			{
 				0xF3,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2164,11 +2572,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateAROF3Test()
+		public void CreateAROF3Test() // 0xF4 244
 		{
 			var data = new byte[]
 			{
 				0xF4,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2182,11 +2597,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEVLRNITest()
+		public void CreateEVLRNITest() // 0xF5 245
 		{
 			var data = new byte[]
 			{
 				0xF5,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2200,11 +2622,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateACDATTest()
+		public void CreateACDATTest() // 0xF6 246
 		{
 			var data = new byte[]
 			{
 				0xF6,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2218,11 +2647,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARDATTest()
+		public void CreateARDATTest() // 0xF7 247
 		{
 			var data = new byte[]
 			{
 				0xF7,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2236,11 +2672,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateASON3Test()
+		public void CreateASON3Test() // 0xF8 248
 		{
 			var data = new byte[]
 			{
 				0xF8,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2254,11 +2697,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateASOF3Test()
+		public void CreateASOF3Test() // 0xF9 249
 		{
 			var data = new byte[]
 			{
 				0xF9,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2272,11 +2722,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateDDESTest()
+		public void CreateDDESTest() // 0xFA 250
 		{
 			var data = new byte[]
 			{
 				0xFA,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2290,11 +2747,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateDDRSTest()
+		public void CreateDDRSTest() // 0xFB 251
 		{
 			var data = new byte[]
 			{
 				0xFB,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2309,11 +2773,18 @@ namespace Asgard.Tests
 
 		[Test]
 		[Ignore("Not in version 6b")]
-		public void CreateDDWSTest()
+		public void CreateDDWSTest() // 0xFC 252
 		{
 			var data = new byte[]
 			{
 				0xFC,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2327,11 +2798,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARSON3Test()
+		public void CreateARSON3Test() // 0xFD 253
 		{
 			var data = new byte[]
 			{
 				0xFD,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2345,11 +2823,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateARSOF3Test()
+		public void CreateARSOF3Test() // 0xFE 254
 		{
 			var data = new byte[]
 			{
 				0xFE,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
@@ -2363,11 +2848,18 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		public void CreateEXTC6Test()
+		public void CreateEXTC6Test() // 0xFF 255
 		{
 			var data = new byte[]
 			{
 				0xFF,
+				0, // data-byte 0
+				0, // data-byte 1
+				0, // data-byte 2
+				0, // data-byte 3
+				0, // data-byte 4
+				0, // data-byte 5
+				0, // data-byte 6
 			};
 			var cbusMessage = CbusMessage.Create(data);
 

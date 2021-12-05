@@ -1,6 +1,7 @@
 ﻿<#@ template debug="true" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Globalization" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
@@ -64,6 +65,8 @@ namespace Asgard.Tests
 		var opcodeName = opcode[1];
 		if (opcodeName.StartsWith("OPC_"))
 			opcodeName = opcodeName.Substring(4);
+		var opcodeValue = byte.Parse(opcodeNumber.Substring(2), NumberStyles.HexNumber);
+		var dataLength = opcodeValue >> 5;
 #>
 
 		[Test]
@@ -73,11 +76,17 @@ namespace Asgard.Tests
 		[Ignore("<#= ignores[opcodeName] #>")]
 <#		}
 #>
-		public void Create<#= opcodeName #>Test()
+		public void Create<#= opcodeName #>Test() // <#= opcodeNumber #> <#= opcodeValue #>
 		{
 			var data = new byte[]
 			{
 				<#= opcodeNumber #>,
+<#		for(var i = 0; i < dataLength; i++)
+		{
+#>
+				0, // data-byte <#= i #>
+<#		}
+#>
 			};
 			var cbusMessage = CbusMessage.Create(data);
 
