@@ -100,6 +100,9 @@ namespace Asgard.Data
 <#			foreach (var property in opCodeBlock.Properties)
 			{
 				var dataType = property.DataType[0].ToString().ToUpper() + property.DataType.Substring(1);
+				if (dataType[0] == 'U') {
+					dataType = property.DataType[0].ToString().ToUpper() + property.DataType[1].ToString().ToUpper() + property.DataType.Substring(2);
+				}
 				if (dataType.EndsWith("Enum")) dataType = "Enum";
 				var generic = dataType == "Enum"
 					? "<" + property.DataType + ">"
