@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -25,20 +25,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Generated\AbstractBase.tt">
+    <None Update="Data\Generated\AbstractBase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AbstractBase.cs</LastGenOutput>
     </None>
-    <None Update="Generated\Common.t4">
+    <None Update="Data\Generated\Common.t4">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Common.t4</DependentUpon>
     </None>
-    <None Update="Generated\OpCodes.tt">
+    <None Update="Data\Generated\OpCodes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OpCodes.cs</LastGenOutput>
     </None>
-    <None Update="Generated\Enumerations.tt">
+    <None Update="Data\Generated\Enumerations.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Enumerations.cs</LastGenOutput>
     </None>
@@ -56,10 +56,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Compile Update="Data\Generated\AbstractBase.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AbstractBase.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Data\Generated\Enumerations.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Enumerations.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Data\Generated\OpCodes.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OpCodes.tt</DependentUpon>
+    </Compile>
     <Compile Update="Generated\AbstractBase.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -76,9 +87,9 @@
       <DependentUpon>OpCodes.tt</DependentUpon>
     </Compile>
   </ItemGroup>
-
+  
   <ItemGroup>
-    <Folder Include="Generated\" />
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>
