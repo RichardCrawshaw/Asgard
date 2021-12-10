@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Asgard;
+using Asgard.Comms;
 using NLog;
 
 namespace TestSocketClientConsole

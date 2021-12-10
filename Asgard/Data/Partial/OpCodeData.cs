@@ -103,26 +103,26 @@ namespace Asgard.Data
             this.Message[byteIndex] = (byte)value;
         }
 
-        protected void ConvertFromInt(int[] byteIndexes, int value)
+        protected void ConvertFromUInt(int[] byteIndexes, uint value)
         {
             var index1 = byteIndexes[0];
             var index2 = byteIndexes[1];
             var index3 = byteIndexes[2];
             var index4 = byteIndexes[3];
 
-            this.Message[index1] = (byte)(value >> 00);
-            this.Message[index2] = (byte)(value >> 08);
-            this.Message[index3] = (byte)(value >> 16);
-            this.Message[index4] = (byte)(value >> 24);
+            this.Message[index1] = (byte)(value >> 24);
+            this.Message[index2] = (byte)(value >> 16);
+            this.Message[index3] = (byte)(value >> 08);
+            this.Message[index4] = (byte)(value >> 00);
         }
 
-        protected void ConvertFromShort(int[] byteIndexes, short value)
+        protected void ConvertFromUShort(int[] byteIndexes, ushort value)
         {
             var index1 = byteIndexes[0];
             var index2 = byteIndexes[1];
 
-            this.Message[index1] = (byte)(value >> 00);
-            this.Message[index2] = (byte)(value >> 08);
+            this.Message[index1] = (byte)(value >> 08);
+            this.Message[index2] = (byte)(value >> 00);
         }
 
         protected void ConvertFromEnum<TEnum>(int byteIndex, TEnum value)
@@ -229,7 +229,7 @@ namespace Asgard.Data
             return charValue;
         }
 
-        protected int ConvertToInt(int[] byteIndexes)
+        protected uint ConvertToUInt(int[] byteIndexes)
         {
             var index1 = byteIndexes[0];
             var index2 = byteIndexes[1];
@@ -237,21 +237,21 @@ namespace Asgard.Data
             var index4 = byteIndexes[3];
 
             var value =
-                this.Message[index4] << 24 +
-                this.Message[index3] << 16 +
-                this.Message[index2] << 08 +
-                this.Message[index1];
+                (uint)(this.Message[index1] << 24) +
+                (uint)(this.Message[index2] << 16) +
+                (uint)(this.Message[index3] << 08) +
+                (uint)this.Message[index4];
             return value;
         }
 
-        protected short ConvertToShort(int[] byteIndexes)
+        protected ushort ConvertToUShort(int[] byteIndexes)
         {
             var index1 = byteIndexes[0];
             var index2 = byteIndexes[1];
 
-            var value = (short)(
-                this.Message[index2] << 8 +
-                this.Message[index1]);
+            var value = (ushort)(
+                (this.Message[index1] << 08) +
+                this.Message[index2]);
             return value;
         }
 

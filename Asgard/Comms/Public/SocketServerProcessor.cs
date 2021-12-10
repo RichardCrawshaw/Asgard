@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using NLog;
 
-namespace Asgard
+namespace Asgard.Comms
 {
     class SocketServerProcessor :
         ISocketServerAdapter

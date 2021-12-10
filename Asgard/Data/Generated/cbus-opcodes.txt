@@ -1148,13 +1148,13 @@ opcode,0xFF,property,7,Data6
 
 # "property",Name,DataType,Format
 property,AccErrorCode,AccErrorCodeEnum,Enum
-property,Address,short,decimal
+property,Address,ushort,decimal
 property,AllocationCode,byte,decimal
 property,Build,byte,decimal
 property,CAN_ID,byte,decimal
 property,CSFlags,CSFlagsEnum,Enum
 property,CSNumber,byte,decimal
-property,CV,short,decimal
+property,CV,ushort,decimal
 property,Char1,char,char
 property,Char2,char,char
 property,Char3,char,char
@@ -1171,14 +1171,14 @@ property,Data5,byte,hex
 property,Data6,byte,hex
 property,DccErrorCode,DccErrorCodeEnum,Enum
 property,DebugStatus,byte,hex
-property,DeviceNumber,short,decimal
+property,DeviceNumber,ushort,decimal
 property,Direction,bool,F|R
 property,Div,byte,hex
 property,ENIndex,byte,decimal
 property,EVIndex,byte,decimal
 property,EngineState,EngineStateEnum,Enum
-property,EventData,int,hex
-property,EventNumber,short,decimal
+property,EventData,uint,hex
+property,EventNumber,ushort,decimal
 property,ExtendedOpCode,byte,hex
 property,Fn1,byte,decimal
 property,Fn2,byte,decimal
@@ -1198,7 +1198,7 @@ property,Month,MonthEnum,Enum
 property,MonthDay,byte,decimal
 property,NVIndex,byte,decimal
 property,NodeFlags,NodeFlagsEnum,Enum
-property,NodeNumber,short,decimal
+property,NodeNumber,ushort,decimal
 property,Param1,byte,hex
 property,Param2,byte,hex
 property,Param3,byte,hex
