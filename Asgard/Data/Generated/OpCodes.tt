@@ -9,7 +9,8 @@
 <#@ import namespace="System.Text.RegularExpressions" #>
 <#@ output extension=".cs" #>
 <#@ include file="Common.t4" once="true" #>
-<#	var filename = this.Host.ResolvePath("cbus-opcodes.txt");
+<#	var filename = "cbus-opcodes.txt";
+	var fullpath = this.Host.ResolvePath(filename);
 #>
 using System;
 
@@ -17,7 +18,7 @@ using System;
 	<#= filename #>
 	Any changes made manually will be lost when the file is regenerated.
 */
-<#	var loader = new Loader(filename);
+<#	var loader = new Loader(fullpath);
 	loader.Load();
 
 	var builder = new Builder(loader);
