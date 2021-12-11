@@ -11,7 +11,7 @@ namespace Asgard
     {
         #region Fields
 
-        private IList<ISettings.ISettingsNode> settingsNodes = new List<ISettings.ISettingsNode>();
+        private readonly IList<ISettings.ISettingsNode> settingsNodes = new List<ISettings.ISettingsNode>();
 
         #endregion
 

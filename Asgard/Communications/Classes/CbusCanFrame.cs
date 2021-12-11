@@ -12,33 +12,32 @@ namespace Asgard.Communications
         public byte SidH { get; set; }
         public byte SidL { get; set; }
         public FrameTypes FrameType { get; set; }
+
         public MajorPriority MajorPriority
         {
-            get => (MajorPriority)(SidH >> 6);
-            set => SidH = (byte)(((byte)value << 6) + (SidH & 0x3f));
+            get => (MajorPriority)(this.SidH >> 6);
+            set => this.SidH = (byte)(((byte)value << 6) + (this.SidH & 0x3f));
         }
 
         public MinorPriority MinorPriority
         {
-            get => (MinorPriority)(SidH >> 4 & 0x3);
-            set => SidH = (byte)(((byte)value << 4) + (SidH & 0xcf));
+            get => (MinorPriority)(this.SidH >> 4 & 0x3);
+            set => this.SidH = (byte)(((byte)value << 4) + (this.SidH & 0xcf));
         }
 
         public byte CanId
         {
-            get => (byte)((SidH << 8) + SidL >> 5 & 0x7f);
+            get => (byte)((this.SidH << 8) + this.SidL >> 5 & 0x7f);
             set
             {
-                SidH = (byte)((value >> 3) + (SidH & 0xF0));
-                SidL = (byte)(value << 5 & 0xFF);
+                this.SidH = (byte)((value >> 3) + (this.SidH & 0xF0));
+                this.SidL = (byte)(value << 5 & 0xFF);
             }
         }
+
         public ICbusMessage Message { get; set; }
 
-        public override string ToString()
-        {
-            //TODO: construct a reasonable looking frame representation for logging purposes
-            return base.ToString();
-        }
+        public override string ToString() => 
+            $"0x{this.SidL:X2} 0x{this.SidH:X2} (0x{this.CanId:X2}) {this.FrameType} {this.Message}";
     }
 }
