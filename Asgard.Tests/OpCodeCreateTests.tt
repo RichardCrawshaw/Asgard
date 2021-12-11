@@ -12,7 +12,6 @@
 	var ignores =
 		new Dictionary<string, string>
 		{
-			["BOOT"]   = "Incorrect name in cbusdefs",
 			["CABDAT"] = "Not in version 6b",
 			["DDWS"]   = "Not in version 6b",
 			["DTXC"]   = "Not in version 6b",

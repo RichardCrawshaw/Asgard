@@ -864,8 +864,7 @@ namespace Asgard.Tests
 		}
 
 		[Test]
-		[Ignore("Incorrect name in cbusdefs")]
-		public void CreateBOOTTest() // 0x5C 92
+		public void CreateBOOTMTest() // 0x5C 92
 		{
 			var data = new byte[]
 			{
@@ -880,7 +879,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("BOOT"));
+                Assert.That(opcode?.GetType().Name, Is.EqualTo("BOOTM"));
             });
 		}
 
