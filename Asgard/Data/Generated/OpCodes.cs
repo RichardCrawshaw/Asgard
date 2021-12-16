@@ -94,6 +94,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ACK(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ACK() : base(CbusMessage.Create(new byte[] {0})) {}
 
 		#endregion
 
@@ -146,6 +147,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NAK(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NAK() : base(CbusMessage.Create(new byte[] {1})) {}
 
 		#endregion
 
@@ -198,6 +200,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public HLT(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public HLT() : base(CbusMessage.Create(new byte[] {2})) {}
 
 		#endregion
 
@@ -250,6 +253,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public BON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public BON() : base(CbusMessage.Create(new byte[] {3})) {}
 
 		#endregion
 
@@ -302,6 +306,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public TOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public TOF() : base(CbusMessage.Create(new byte[] {4})) {}
 
 		#endregion
 
@@ -354,6 +359,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public TON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public TON() : base(CbusMessage.Create(new byte[] {5})) {}
 
 		#endregion
 
@@ -406,6 +412,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ESTOP(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ESTOP() : base(CbusMessage.Create(new byte[] {6})) {}
 
 		#endregion
 
@@ -458,6 +465,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARST(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARST() : base(CbusMessage.Create(new byte[] {7})) {}
 
 		#endregion
 
@@ -510,6 +518,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RTOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RTOF() : base(CbusMessage.Create(new byte[] {8})) {}
 
 		#endregion
 
@@ -562,6 +571,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RTON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RTON() : base(CbusMessage.Create(new byte[] {9})) {}
 
 		#endregion
 
@@ -614,6 +624,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RESTP(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RESTP() : base(CbusMessage.Create(new byte[] {10})) {}
 
 		#endregion
 
@@ -666,6 +677,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RSTAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RSTAT() : base(CbusMessage.Create(new byte[] {12})) {}
 
 		#endregion
 
@@ -718,6 +730,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public QNN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public QNN() : base(CbusMessage.Create(new byte[] {13})) {}
 
 		#endregion
 
@@ -770,6 +783,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RQNP(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RQNP() : base(CbusMessage.Create(new byte[] {16})) {}
 
 		#endregion
 
@@ -822,6 +836,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RQMN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RQMN() : base(CbusMessage.Create(new byte[] {17})) {}
 
 		#endregion
 
@@ -884,6 +899,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public KLOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public KLOC() : base(CbusMessage.Create(new byte[] {33})) {}
 
 		#endregion
 
@@ -946,6 +962,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public QLOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public QLOC() : base(CbusMessage.Create(new byte[] {34})) {}
 
 		#endregion
 
@@ -1008,6 +1025,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public DKEEP(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public DKEEP() : base(CbusMessage.Create(new byte[] {35})) {}
 
 		#endregion
 
@@ -1070,6 +1088,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public DBG1(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public DBG1() : base(CbusMessage.Create(new byte[] {48})) {}
 
 		#endregion
 
@@ -1132,6 +1151,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EXTC(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EXTC() : base(CbusMessage.Create(new byte[] {63})) {}
 
 		#endregion
 
@@ -1194,6 +1214,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RLOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RLOC() : base(CbusMessage.Create(new byte[] {64})) {}
 
 		#endregion
 
@@ -1261,6 +1282,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public QCON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public QCON() : base(CbusMessage.Create(new byte[] {65})) {}
 
 		#endregion
 
@@ -1323,6 +1345,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public SNN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public SNN() : base(CbusMessage.Create(new byte[] {66})) {}
 
 		#endregion
 
@@ -1390,6 +1413,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ALOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ALOC() : base(CbusMessage.Create(new byte[] {67})) {}
 
 		#endregion
 
@@ -1467,6 +1491,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public STMOD(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public STMOD() : base(CbusMessage.Create(new byte[] {68})) {}
 
 		#endregion
 
@@ -1534,6 +1559,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public PCON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public PCON() : base(CbusMessage.Create(new byte[] {69})) {}
 
 		#endregion
 
@@ -1601,6 +1627,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public KCON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public KCON() : base(CbusMessage.Create(new byte[] {70})) {}
 
 		#endregion
 
@@ -1668,6 +1695,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public DSPD(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public DSPD() : base(CbusMessage.Create(new byte[] {71})) {}
 
 		#endregion
 
@@ -1750,6 +1778,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public DFLG(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public DFLG() : base(CbusMessage.Create(new byte[] {72})) {}
 
 		#endregion
 
@@ -1817,6 +1846,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public DFNON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public DFNON() : base(CbusMessage.Create(new byte[] {73})) {}
 
 		#endregion
 
@@ -1884,6 +1914,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public DFNOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public DFNOF() : base(CbusMessage.Create(new byte[] {74})) {}
 
 		#endregion
 
@@ -1951,6 +1982,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public SSTAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public SSTAT() : base(CbusMessage.Create(new byte[] {76})) {}
 
 		#endregion
 
@@ -2013,6 +2045,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RQNN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RQNN() : base(CbusMessage.Create(new byte[] {80})) {}
 
 		#endregion
 
@@ -2075,6 +2108,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NNREL(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NNREL() : base(CbusMessage.Create(new byte[] {81})) {}
 
 		#endregion
 
@@ -2137,6 +2171,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NNACK(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NNACK() : base(CbusMessage.Create(new byte[] {82})) {}
 
 		#endregion
 
@@ -2199,6 +2234,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NNLRN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NNLRN() : base(CbusMessage.Create(new byte[] {83})) {}
 
 		#endregion
 
@@ -2261,6 +2297,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NNULN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NNULN() : base(CbusMessage.Create(new byte[] {84})) {}
 
 		#endregion
 
@@ -2323,6 +2360,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NNCLR(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NNCLR() : base(CbusMessage.Create(new byte[] {85})) {}
 
 		#endregion
 
@@ -2385,6 +2423,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NNEVN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NNEVN() : base(CbusMessage.Create(new byte[] {86})) {}
 
 		#endregion
 
@@ -2447,6 +2486,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NERD(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NERD() : base(CbusMessage.Create(new byte[] {87})) {}
 
 		#endregion
 
@@ -2509,6 +2549,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RQEVN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RQEVN() : base(CbusMessage.Create(new byte[] {88})) {}
 
 		#endregion
 
@@ -2571,6 +2612,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public WRACK(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public WRACK() : base(CbusMessage.Create(new byte[] {89})) {}
 
 		#endregion
 
@@ -2633,6 +2675,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RQDAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RQDAT() : base(CbusMessage.Create(new byte[] {90})) {}
 
 		#endregion
 
@@ -2695,6 +2738,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RQDDS(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RQDDS() : base(CbusMessage.Create(new byte[] {91})) {}
 
 		#endregion
 
@@ -2757,6 +2801,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public BOOTM(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public BOOTM() : base(CbusMessage.Create(new byte[] {92})) {}
 
 		#endregion
 
@@ -2819,6 +2864,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ENUM(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ENUM() : base(CbusMessage.Create(new byte[] {93})) {}
 
 		#endregion
 
@@ -2886,6 +2932,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EXTC1(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EXTC1() : base(CbusMessage.Create(new byte[] {95})) {}
 
 		#endregion
 
@@ -2958,6 +3005,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public DFUN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public DFUN() : base(CbusMessage.Create(new byte[] {96})) {}
 
 		#endregion
 
@@ -3025,6 +3073,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public GLOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public GLOC() : base(CbusMessage.Create(new byte[] {97})) {}
 
 		#endregion
 
@@ -3097,6 +3146,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ERR(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ERR() : base(CbusMessage.Create(new byte[] {99})) {}
 
 		#endregion
 
@@ -3164,6 +3214,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public CMDERR(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public CMDERR() : base(CbusMessage.Create(new byte[] {111})) {}
 
 		#endregion
 
@@ -3231,6 +3282,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EVNLF(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EVNLF() : base(CbusMessage.Create(new byte[] {112})) {}
 
 		#endregion
 
@@ -3298,6 +3350,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NVRD(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NVRD() : base(CbusMessage.Create(new byte[] {113})) {}
 
 		#endregion
 
@@ -3365,6 +3418,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NENRD(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NENRD() : base(CbusMessage.Create(new byte[] {114})) {}
 
 		#endregion
 
@@ -3432,6 +3486,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RQNPN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RQNPN() : base(CbusMessage.Create(new byte[] {115})) {}
 
 		#endregion
 
@@ -3499,6 +3554,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NUMEV(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NUMEV() : base(CbusMessage.Create(new byte[] {116})) {}
 
 		#endregion
 
@@ -3566,6 +3622,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public CANID(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public CANID() : base(CbusMessage.Create(new byte[] {117})) {}
 
 		#endregion
 
@@ -3638,6 +3695,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EXTC2(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EXTC2() : base(CbusMessage.Create(new byte[] {127})) {}
 
 		#endregion
 
@@ -3715,6 +3773,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RDCC3(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RDCC3() : base(CbusMessage.Create(new byte[] {128})) {}
 
 		#endregion
 
@@ -3787,6 +3846,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public WCVO(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public WCVO() : base(CbusMessage.Create(new byte[] {130})) {}
 
 		#endregion
 
@@ -3859,6 +3919,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public WCVB(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public WCVB() : base(CbusMessage.Create(new byte[] {131})) {}
 
 		#endregion
 
@@ -3931,6 +3992,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public QCVS(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public QCVS() : base(CbusMessage.Create(new byte[] {132})) {}
 
 		#endregion
 
@@ -4003,6 +4065,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public PCVS(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public PCVS() : base(CbusMessage.Create(new byte[] {133})) {}
 
 		#endregion
 
@@ -4070,6 +4133,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ACON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ACON() : base(CbusMessage.Create(new byte[] {144})) {}
 
 		#endregion
 
@@ -4137,6 +4201,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ACOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ACOF() : base(CbusMessage.Create(new byte[] {145})) {}
 
 		#endregion
 
@@ -4204,6 +4269,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public AREQ(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public AREQ() : base(CbusMessage.Create(new byte[] {146})) {}
 
 		#endregion
 
@@ -4271,6 +4337,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARON() : base(CbusMessage.Create(new byte[] {147})) {}
 
 		#endregion
 
@@ -4338,6 +4405,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public AROF(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public AROF() : base(CbusMessage.Create(new byte[] {148})) {}
 
 		#endregion
 
@@ -4405,6 +4473,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EVULN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EVULN() : base(CbusMessage.Create(new byte[] {149})) {}
 
 		#endregion
 
@@ -4477,6 +4546,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NVSET(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NVSET() : base(CbusMessage.Create(new byte[] {150})) {}
 
 		#endregion
 
@@ -4549,6 +4619,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NVANS(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NVANS() : base(CbusMessage.Create(new byte[] {151})) {}
 
 		#endregion
 
@@ -4616,6 +4687,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ASON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ASON() : base(CbusMessage.Create(new byte[] {152})) {}
 
 		#endregion
 
@@ -4683,6 +4755,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ASOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ASOF() : base(CbusMessage.Create(new byte[] {153})) {}
 
 		#endregion
 
@@ -4750,6 +4823,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ASRQ(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ASRQ() : base(CbusMessage.Create(new byte[] {154})) {}
 
 		#endregion
 
@@ -4822,6 +4896,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public PARAN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public PARAN() : base(CbusMessage.Create(new byte[] {155})) {}
 
 		#endregion
 
@@ -4894,6 +4969,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public REVAL(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public REVAL() : base(CbusMessage.Create(new byte[] {156})) {}
 
 		#endregion
 
@@ -4961,6 +5037,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARSON(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARSON() : base(CbusMessage.Create(new byte[] {157})) {}
 
 		#endregion
 
@@ -5028,6 +5105,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARSOF(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARSOF() : base(CbusMessage.Create(new byte[] {158})) {}
 
 		#endregion
 
@@ -5105,6 +5183,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EXTC3(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EXTC3() : base(CbusMessage.Create(new byte[] {159})) {}
 
 		#endregion
 
@@ -5187,6 +5266,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RDCC4(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RDCC4() : base(CbusMessage.Create(new byte[] {160})) {}
 
 		#endregion
 
@@ -5264,6 +5344,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public WCVS(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public WCVS() : base(CbusMessage.Create(new byte[] {162})) {}
 
 		#endregion
 
@@ -5336,6 +5417,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ACON1(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ACON1() : base(CbusMessage.Create(new byte[] {176})) {}
 
 		#endregion
 
@@ -5408,6 +5490,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ACOF1(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ACOF1() : base(CbusMessage.Create(new byte[] {177})) {}
 
 		#endregion
 
@@ -5480,6 +5563,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public REQEV(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public REQEV() : base(CbusMessage.Create(new byte[] {178})) {}
 
 		#endregion
 
@@ -5552,6 +5636,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARON1(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARON1() : base(CbusMessage.Create(new byte[] {179})) {}
 
 		#endregion
 
@@ -5624,6 +5709,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public AROF1(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public AROF1() : base(CbusMessage.Create(new byte[] {180})) {}
 
 		#endregion
 
@@ -5701,6 +5787,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NEVAL(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NEVAL() : base(CbusMessage.Create(new byte[] {181})) {}
 
 		#endregion
 
@@ -5778,6 +5865,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public PNN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public PNN() : base(CbusMessage.Create(new byte[] {182})) {}
 
 		#endregion
 
@@ -5850,6 +5938,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ASON1(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ASON1() : base(CbusMessage.Create(new byte[] {184})) {}
 
 		#endregion
 
@@ -5922,6 +6011,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ASOF1(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ASOF1() : base(CbusMessage.Create(new byte[] {185})) {}
 
 		#endregion
 
@@ -5994,6 +6084,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARSON1(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARSON1() : base(CbusMessage.Create(new byte[] {189})) {}
 
 		#endregion
 
@@ -6066,6 +6157,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARSOF1(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARSOF1() : base(CbusMessage.Create(new byte[] {190})) {}
 
 		#endregion
 
@@ -6148,6 +6240,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EXTC4(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EXTC4() : base(CbusMessage.Create(new byte[] {191})) {}
 
 		#endregion
 
@@ -6235,6 +6328,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RDCC5(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RDCC5() : base(CbusMessage.Create(new byte[] {192})) {}
 
 		#endregion
 
@@ -6312,6 +6406,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public WCVOA(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public WCVOA() : base(CbusMessage.Create(new byte[] {193})) {}
 
 		#endregion
 
@@ -6404,6 +6499,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public FCLK(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public FCLK() : base(CbusMessage.Create(new byte[] {207})) {}
 
 		#endregion
 
@@ -6481,6 +6577,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ACON2(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ACON2() : base(CbusMessage.Create(new byte[] {208})) {}
 
 		#endregion
 
@@ -6558,6 +6655,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ACOF2(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ACOF2() : base(CbusMessage.Create(new byte[] {209})) {}
 
 		#endregion
 
@@ -6635,6 +6733,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EVLRN(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EVLRN() : base(CbusMessage.Create(new byte[] {210})) {}
 
 		#endregion
 
@@ -6712,6 +6811,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EVANS(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EVANS() : base(CbusMessage.Create(new byte[] {211})) {}
 
 		#endregion
 
@@ -6789,6 +6889,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARON2(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARON2() : base(CbusMessage.Create(new byte[] {212})) {}
 
 		#endregion
 
@@ -6866,6 +6967,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public AROF2(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public AROF2() : base(CbusMessage.Create(new byte[] {213})) {}
 
 		#endregion
 
@@ -6943,6 +7045,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ASON2(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ASON2() : base(CbusMessage.Create(new byte[] {216})) {}
 
 		#endregion
 
@@ -7020,6 +7123,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ASOF2(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ASOF2() : base(CbusMessage.Create(new byte[] {217})) {}
 
 		#endregion
 
@@ -7097,6 +7201,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARSON2(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARSON2() : base(CbusMessage.Create(new byte[] {221})) {}
 
 		#endregion
 
@@ -7174,6 +7279,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARSOF2(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARSOF2() : base(CbusMessage.Create(new byte[] {222})) {}
 
 		#endregion
 
@@ -7261,6 +7367,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EXTC5(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EXTC5() : base(CbusMessage.Create(new byte[] {223})) {}
 
 		#endregion
 
@@ -7353,6 +7460,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public RDCC6(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public RDCC6() : base(CbusMessage.Create(new byte[] {224})) {}
 
 		#endregion
 
@@ -7440,6 +7548,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public PLOC(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public PLOC() : base(CbusMessage.Create(new byte[] {225})) {}
 
 		#endregion
 
@@ -7532,6 +7641,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public NAME(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public NAME() : base(CbusMessage.Create(new byte[] {226})) {}
 
 		#endregion
 
@@ -7619,6 +7729,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public STAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public STAT() : base(CbusMessage.Create(new byte[] {227})) {}
 
 		#endregion
 
@@ -7711,6 +7822,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public PARAMS(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public PARAMS() : base(CbusMessage.Create(new byte[] {239})) {}
 
 		#endregion
 
@@ -7793,6 +7905,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ACON3(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ACON3() : base(CbusMessage.Create(new byte[] {240})) {}
 
 		#endregion
 
@@ -7875,6 +7988,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ACOF3(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ACOF3() : base(CbusMessage.Create(new byte[] {241})) {}
 
 		#endregion
 
@@ -7947,6 +8061,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ENRSP(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ENRSP() : base(CbusMessage.Create(new byte[] {242})) {}
 
 		#endregion
 
@@ -8029,6 +8144,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARON3(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARON3() : base(CbusMessage.Create(new byte[] {243})) {}
 
 		#endregion
 
@@ -8111,6 +8227,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public AROF3(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public AROF3() : base(CbusMessage.Create(new byte[] {244})) {}
 
 		#endregion
 
@@ -8193,6 +8310,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EVLRNI(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EVLRNI() : base(CbusMessage.Create(new byte[] {245})) {}
 
 		#endregion
 
@@ -8280,6 +8398,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ACDAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ACDAT() : base(CbusMessage.Create(new byte[] {246})) {}
 
 		#endregion
 
@@ -8367,6 +8486,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARDAT(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARDAT() : base(CbusMessage.Create(new byte[] {247})) {}
 
 		#endregion
 
@@ -8449,6 +8569,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ASON3(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ASON3() : base(CbusMessage.Create(new byte[] {248})) {}
 
 		#endregion
 
@@ -8531,6 +8652,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ASOF3(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ASOF3() : base(CbusMessage.Create(new byte[] {249})) {}
 
 		#endregion
 
@@ -8618,6 +8740,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public DDES(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public DDES() : base(CbusMessage.Create(new byte[] {250})) {}
 
 		#endregion
 
@@ -8705,6 +8828,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public DDRS(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public DDRS() : base(CbusMessage.Create(new byte[] {251})) {}
 
 		#endregion
 
@@ -8787,6 +8911,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARSON3(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARSON3() : base(CbusMessage.Create(new byte[] {253})) {}
 
 		#endregion
 
@@ -8869,6 +8994,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public ARSOF3(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public ARSOF3() : base(CbusMessage.Create(new byte[] {254})) {}
 
 		#endregion
 
@@ -8961,6 +9087,7 @@ namespace Asgard.Data
 		#region Constructors
 
 		public EXTC6(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public EXTC6() : base(CbusMessage.Create(new byte[] {255})) {}
 
 		#endregion
 
