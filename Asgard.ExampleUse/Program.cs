@@ -1,49 +1,24 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.Abstractions;
-using System;
-using Asgard;
 using Asgard.Extensions;
-using Asgard.Communications;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace Asgard.ExampleUse
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            // In a typical ASP.NET Core application, this will be provided to you
-            var serviceProvider = new ServiceCollection();
-
-            serviceProvider.AddMergCbus();
-            serviceProvider.AddLogging();
-            serviceProvider.AddTransient<ExampleUse>();
-
-            var services = serviceProvider.BuildServiceProvider();
-            var example = services.GetService<ExampleUse>();
-            example.Start();
-
-            Console.ReadKey();
+            await Host.CreateDefaultBuilder(args)
+                .ConfigureServices(ConfigureServices)
+                .RunConsoleAsync();
         }
-    }
 
-    public class ExampleUse
-    {
-        private readonly ICbusMessenger cbusMessenger;
-        private readonly ILogger<ExampleUse> logger;
-
-        public ExampleUse(ICbusMessenger cbusMessenger, ILogger<ExampleUse> logger)
+        private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         {
-            this.cbusMessenger = cbusMessenger;
-            this.logger = logger;
-        }
-        public void Start()
-        {
-            cbusMessenger.Open();
-            cbusMessenger.MessageReceived += (sender, e) =>
-            {
-                logger.LogInformation($"Message received: {e.Message.GetOpCode()}");
-            };
+            services.AddAsgard(context.Configuration.GetSection("Asgard"));
+            services.AddHostedService<ExampleUse>();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Asgard.Communications;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +12,17 @@ namespace Asgard.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        //TODO: create proper options classes, prefer IOptions<T> etc to IConfiguration
-        //see: https://docs.microsoft.com/en-us/dotnet/core/extensions/options-library-authors
-        public static IServiceCollection AddMergCbus(this IServiceCollection services)
+        public static IServiceCollection AddAsgard(this IServiceCollection services, IConfiguration configuration)
         {
-            //TODO: just an example, need to figure out lifetimes correctly
-            services.AddSingleton<Communications.IGridConnectProcessor, Communications.GridConnectProcessor>();
-
-            //TODO: read config, pass in Can ID etc
-            services.AddSingleton<ICbusMessenger, CbusMessenger>();
-
+            
+            services.AddScoped<ICbusMessenger, CbusMessenger>();
             services.AddScoped<ICbusConnectionFactory, CbusConnectionFactory>();
             services.AddScoped<SerialPortTransport>();
+            services.AddScoped<GridConnectProcessor>();
 
             services.AddSingleton<ICbusCanFrameProcessor, CbusCanFrameProcessor>();
+
+            services.Configure<ConnectionOptions>(configuration.GetSection("Connection"));
 
             return services;
         }

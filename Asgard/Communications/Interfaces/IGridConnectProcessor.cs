@@ -25,5 +25,9 @@ namespace Asgard.Communications
         /// <param name="gridConnectMessage">The message to send, in GridConnect format.</param>
         /// <returns>A task that represents the asynchronous send operation.</returns>
         Task SendMessage(string gridConnectMessage);
+        /// <summary>
+        /// Opens and initialises the processor and the underlying transport connection.
+        /// </summary>
+        void Open();
     }
 }

@@ -28,6 +28,7 @@ namespace Asgard.Communications
         {
             transport = connectionFactory.GetConnection();
             transport.GridConnectMessage += HandleTransportMessage;
+            transport.Open();
         }
 
         private void HandleTransportMessage(object sender, MessageReceivedEventArgs e)
