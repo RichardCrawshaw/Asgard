@@ -11,9 +11,11 @@ namespace Asgard.Communications
     public class CbusMessenger : ICbusMessenger
     {
         private IGridConnectProcessor transport;
+
         private readonly ICbusCanFrameProcessor cbusCanFrameProcessor;
         private readonly ICbusConnectionFactory connectionFactory;
         private readonly ILogger<CbusMessenger> logger;
+
         public event EventHandler<CbusMessageEventArgs> MessageReceived;
         public event EventHandler<CbusMessageEventArgs> MessageSent;
 
@@ -26,22 +28,22 @@ namespace Asgard.Communications
 
         public void Open()
         {
-            transport = connectionFactory.GetConnection();
-            transport.GridConnectMessage += HandleTransportMessage;
-            transport.Open();
+            this.transport = connectionFactory.GetConnection();
+            this.transport.GridConnectMessage += HandleTransportMessage;
+            this.transport.Open();
         }
 
         private void HandleTransportMessage(object sender, MessageReceivedEventArgs e)
         {
             try
             {
-                var frame = cbusCanFrameProcessor.ParseFrame(e.Message);
-                logger?.LogTrace("Parsed received Message: {0}", frame);
+                var frame = this.cbusCanFrameProcessor.ParseFrame(e.Message);
+                this.logger?.LogTrace("Parsed received Message: {0}", frame);
                 MessageReceived?.Invoke(this, new CbusMessageEventArgs(frame.Message));
             }
             catch (Exception ex)
             {
-                logger?.LogError(ex, @"Error parsing message ""{0}""", e.Message);
+                this.logger?.LogError(ex, @"Error parsing message ""{0}""", e.Message);
                 //TODO: wrap exception?
                 throw;
             }
@@ -57,8 +59,8 @@ namespace Asgard.Communications
             frame.MajorPriority = MajorPriority.Low;
             frame.Message = message;
 
-            logger?.LogTrace("Sending message: {0}", message);
-            await transport.SendMessage(cbusCanFrameProcessor.ConstructTransportString(frame));
+            this.logger?.LogTrace("Sending message: {0}", message);
+            await this.transport.SendMessage(this.cbusCanFrameProcessor.ConstructTransportString(frame));
             MessageSent?.Invoke(this, new CbusMessageEventArgs(message));
             return true;
         }

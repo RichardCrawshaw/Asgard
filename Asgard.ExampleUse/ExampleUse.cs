@@ -20,30 +20,32 @@ namespace Asgard.ExampleUse
             this.cbusMessenger = cbusMessenger;
             this.logger = logger;
 
-            hostApplicationLifetime.ApplicationStarted.Register(OnStarted);
+            this.hostApplicationLifetime.ApplicationStarted.Register(OnStarted);
         }
 
         private async void OnStarted()
         {
-            cbusMessenger.MessageReceived += (sender, e) =>
+            this.cbusMessenger.MessageReceived += (sender, e) =>
             {
-                logger.LogInformation($"Message received: {e.Message.GetOpCode()}");
+                this.logger.LogInformation($"Message received: {e.Message.GetOpCode()}");
             };
+
             try
             {
-                cbusMessenger.Open();
+                this.cbusMessenger.Open();
 
-                var mm = new MessageManager(cbusMessenger);
-                logger.LogInformation("Sending node query");
+                var mm = new MessageManager(this.cbusMessenger);
+                this.logger.LogInformation("Sending node query");
                 var replies = await mm.SendMessageWaitForReplies<PNN>(new QNN());
                 foreach(var reply in replies)
                 {
-                    logger.LogInformation($"Node info: Node number: {reply.NodeNumber}, ModuleID: {reply.ModuleId}");
+                    this.logger.LogInformation(
+                        $"Node info: Node number: {reply.NodeNumber}, ModuleID: {reply.ModuleId}");
                 }
             }
             catch (TransportException e)
             {
-                logger.LogError("Error opening connection: {0}", e.Message);
+                this.logger.LogError("Error opening connection: {0}", e.Message);
             }
         }
 

@@ -16,6 +16,7 @@ namespace Asgard.Communications
 
         public event EventHandler<TransportErrorEventArgs> TransportError;
         public event EventHandler<MessageReceivedEventArgs> GridConnectMessage;
+
         private CancellationTokenSource cts;
         private bool disposedValue;
 
@@ -27,9 +28,9 @@ namespace Asgard.Communications
 
         public void Open()
         {
-            logger?.LogTrace(nameof(Open));
-            Transport.Open();
-            cts = new CancellationTokenSource();
+            this.logger?.LogTrace(nameof(Open));
+            this.Transport.Open();
+            this.cts = new CancellationTokenSource();
             var pipe = new Pipe();
             //TODO: would this be better as distinct threads rather than using up threads from the threadpool?
             ReadPipe(pipe.Reader).AsgardFireAndForget();
@@ -40,20 +41,20 @@ namespace Asgard.Communications
         {
             return Task.Run(async () => {
                 const int minBufferSize = 64;
-                while (!cts.Token.IsCancellationRequested)
+                while (!this.cts.Token.IsCancellationRequested)
                 {
                     var memory = writer.GetMemory(minBufferSize);
                     try
                     {
-                        var read = await Transport.ReadAsync(memory, cts.Token);
-                        logger?.LogTrace("Read {0} bytes", read);
+                        var read = await Transport.ReadAsync(memory, this.cts.Token);
+                        this.logger?.LogTrace("Read {0} bytes", read);
                         if (read == 0)
                         {
                             //todo?
                         }
 
                         writer.Advance(read);
-                        await writer.FlushAsync(cts.Token);
+                        await writer.FlushAsync(this.cts.Token);
                     }
                     catch (TaskCanceledException)
                     {
@@ -62,7 +63,9 @@ namespace Asgard.Communications
                     catch (Exception e)
                     {
                         logger?.LogError(e, "Error reading from transport");
-                        TransportError?.Invoke(this, new TransportErrorEventArgs(new TransportException("Error receiving bytes", e)));
+                        TransportError?.Invoke(this, 
+                            new TransportErrorEventArgs(
+                                new TransportException("Error receiving bytes", e)));
                     }
                 }
             });
@@ -70,10 +73,11 @@ namespace Asgard.Communications
 
         private Task ReadPipe(PipeReader reader)
         {
-            return Task.Run(async () => {
-                while (!cts.Token.IsCancellationRequested)
+            return Task.Run(async () =>
+            {
+                while (!this.cts.Token.IsCancellationRequested)
                 {
-                    var result = await reader.ReadAsync(cts.Token);
+                    var result = await reader.ReadAsync(this.cts.Token);
                     var buffer = result.Buffer;
                     SequencePosition? endPosition;
                     do
@@ -99,14 +103,17 @@ namespace Asgard.Communications
             if (startPosition != null)
             {
                 var msg = GetMessageString(readOnlySequence.Slice(startPosition.Value, readOnlySequence.End));
-                logger?.LogTrace("Message received {0}", msg);
+                this.logger?.LogTrace("Message received {0}", msg);
                 GridConnectMessage?.Invoke(this, new MessageReceivedEventArgs(msg));
             }
             else
             {
-                var msg = new Lazy<string>(() => $"Partial message received: {GetMessageString(readOnlySequence)}", false);
-                logger?.LogWarning(msg.Value);
-                TransportError?.Invoke(this, new TransportErrorEventArgs(new TransportException(msg.Value)));
+                var msg = new Lazy<string>(() => 
+                    $"Partial message received: {GetMessageString(readOnlySequence)}", false);
+                this.logger?.LogWarning(msg.Value);
+                TransportError?.Invoke(this, 
+                    new TransportErrorEventArgs(
+                        new TransportException(msg.Value)));
             }
         }
 
@@ -131,8 +138,8 @@ namespace Asgard.Communications
         {
             try
             {
-                logger?.LogTrace("Sending message: {0}", gridConnectMessage);
-                await Transport.SendAsync(Encoding.ASCII.GetBytes(gridConnectMessage), cts.Token);
+                this.logger?.LogTrace("Sending message: {0}", gridConnectMessage);
+                await this.Transport.SendAsync(Encoding.ASCII.GetBytes(gridConnectMessage), this.cts.Token);
 
             }
             catch (TaskCanceledException)
@@ -141,22 +148,24 @@ namespace Asgard.Communications
             }
             catch (Exception e)
             {
-                logger?.LogError("Error sending message", e);
-                TransportError?.Invoke(this, new TransportErrorEventArgs(new TransportException("Error sending message", e)));
+                this.logger?.LogError("Error sending message", e);
+                TransportError?.Invoke(this,
+                    new TransportErrorEventArgs(
+                        new TransportException("Error sending message", e)));
             }
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            logger?.LogTrace("Disposing: {0}", disposing);
-            if (!disposedValue)
+            this.logger?.LogTrace("Disposing: {0}", disposing);
+            if (!this.disposedValue)
             {
                 if (disposing)
                 {
-                    cts.Dispose();
-                    cts = null;
+                    this.cts.Dispose();
+                    this.cts = null;
                 }
-                disposedValue = true;
+                this.disposedValue = true;
             }
         }
 

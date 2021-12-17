@@ -19,16 +19,16 @@ namespace Asgard.Communications
 
         public async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken)
         {
-            logger?.LogTrace("Reading from stream");
-            return await TransportStream.ReadAsync(buffer, cancellationToken);
+            this.logger?.LogTrace("Reading from stream");
+            return await this.TransportStream.ReadAsync(buffer, cancellationToken);
         }
 
         public async Task SendAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken)
         {
-            logger?.LogTrace("Writing to stream");
-            logger?.LogDebug("Writing {0} bytes", buffer.Length);
-            await TransportStream.WriteAsync(buffer, cancellationToken);
-            await TransportStream.FlushAsync();
+            this.logger?.LogTrace("Writing to stream");
+            this.logger?.LogDebug("Writing {0} bytes", buffer.Length);
+            await this.TransportStream.WriteAsync(buffer, cancellationToken);
+            await this.TransportStream.FlushAsync();
         }
 
         public abstract void Open();

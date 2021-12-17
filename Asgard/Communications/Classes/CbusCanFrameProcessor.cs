@@ -16,9 +16,11 @@ namespace Asgard.Communications
         {
             this.logger = logger;
         }
+
         public string ConstructTransportString(CbusCanFrame frame)
         {
-            logger?.LogTrace("Creating transport string for {0}", frame);
+            this.logger?.LogTrace("Creating transport string for {0}", frame);
+
             var ts = new StringBuilder(8 + (frame.Message.Length * 2));
             ts.Append(":S");
             ts.Append(frame.SidH.ToString("X2"));
@@ -34,12 +36,12 @@ namespace Asgard.Communications
 
         public CbusCanFrame ParseFrame(string transportString)
         {
-            logger?.LogTrace("Parsing frame from transport string: {0}", transportString);
+            this.logger?.LogTrace("Parsing frame from transport string: {0}", transportString);
             var p = 1;
             if (transportString[p] != 'S')
             {
                 //non-standard, don't support yet
-                throw new NotImplementedException();
+                throw new NotImplementedException("Only standard frames are supported.");
             }
 
             p++;
@@ -56,13 +58,15 @@ namespace Asgard.Communications
                 dataBytes[x] = Convert.ToByte(transportString.Substring(p, 2), 16);
             }
 
-            var frame = new CbusCanFrame();
-            frame.SidH = sidh;
-            frame.SidL = sidl;
-            frame.FrameType = frametype;
+            var frame = new CbusCanFrame
+            {
+                SidH = sidh,
+                SidL = sidl,
+                FrameType = frametype,
 
-            //TODO: consider making a CbusMessageFactory to decouple this dependency
-            frame.Message = CbusMessage.Create(dataBytes);
+                //TODO: consider making a CbusMessageFactory to decouple this dependency
+                Message = CbusMessage.Create(dataBytes)
+            };
 
             return frame;
         }

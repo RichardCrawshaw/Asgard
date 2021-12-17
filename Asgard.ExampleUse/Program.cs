@@ -10,9 +10,11 @@ namespace Asgard.ExampleUse
     {
         static async Task Main(string[] args)
         {
-            await Host.CreateDefaultBuilder(args)
-                .ConfigureServices(ConfigureServices)
-                .RunConsoleAsync();
+            await 
+                Host
+                    .CreateDefaultBuilder(args)
+                    .ConfigureServices(ConfigureServices)
+                    .RunConsoleAsync();
         }
 
         private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
