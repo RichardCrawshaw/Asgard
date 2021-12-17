@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using Asgard.Data;
 
 namespace Asgard.ExampleUse
 {
@@ -22,7 +23,7 @@ namespace Asgard.ExampleUse
             hostApplicationLifetime.ApplicationStarted.Register(OnStarted);
         }
 
-        private void OnStarted()
+        private async void OnStarted()
         {
             cbusMessenger.MessageReceived += (sender, e) =>
             {
@@ -31,6 +32,14 @@ namespace Asgard.ExampleUse
             try
             {
                 cbusMessenger.Open();
+
+                var mm = new MessageManager(cbusMessenger);
+                logger.LogInformation("Sending node query");
+                var replies = await mm.SendMessageWaitForReplies<PNN>(new QNN());
+                foreach(var reply in replies)
+                {
+                    logger.LogInformation($"Node info: Node number: {reply.NodeNumber}, ModuleID: {reply.ModuleId}");
+                }
             }
             catch (TransportException e)
             {
