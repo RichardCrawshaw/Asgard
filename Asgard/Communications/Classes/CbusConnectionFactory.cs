@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +10,24 @@ namespace Asgard.Communications
 {
     internal class CbusConnectionFactory:ICbusConnectionFactory
     {
-        private readonly IServiceScope services;
+        private readonly IServiceProvider services;
+        private readonly IOptionsMonitor<ConnectionOptions> options;
 
-        public CbusConnectionFactory(IServiceScope services)
+        public CbusConnectionFactory(IServiceProvider services, IOptionsMonitor<ConnectionOptions> options)
         {
             this.services = services;
+            this.options = options;
         }
 
         public IGridConnectProcessor GetConnection()
         {
-            //TODO: use settings to find appropriate connection
-            var transport =  services.ServiceProvider.GetRequiredService<SerialPortTransport>();
-
-            return ActivatorUtilities.CreateInstance<IGridConnectProcessor>(services.ServiceProvider, new[] { transport });
+            var opt = options.CurrentValue;
+            ITransport transport = opt.ConnectionType switch
+            {
+                ConnectionOptions.ConnectionTypes.SerialPort => ActivatorUtilities.CreateInstance<SerialPortTransport>(services, new[] { opt.SerialPort }),
+                _ => throw new Exception("Unknown connection type"),
+            };
+            return ActivatorUtilities.CreateInstance<GridConnectProcessor>(services, new[] { transport });
         }
     }
 }

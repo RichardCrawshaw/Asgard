@@ -27,6 +27,7 @@ namespace Asgard.Communications
 
         public void Open()
         {
+            logger?.LogTrace(nameof(Open));
             Transport.Open();
             cts = new CancellationTokenSource();
             var pipe = new Pipe();
@@ -39,12 +40,13 @@ namespace Asgard.Communications
         {
             return Task.Run(async () => {
                 const int minBufferSize = 64;
-                while (!cts.IsCancellationRequested)
+                while (!cts.Token.IsCancellationRequested)
                 {
                     var memory = writer.GetMemory(minBufferSize);
                     try
                     {
                         var read = await Transport.ReadAsync(memory, cts.Token);
+                        logger?.LogTrace("Read {0} bytes", read);
                         if (read == 0)
                         {
                             //todo?
@@ -59,6 +61,7 @@ namespace Asgard.Communications
                     }
                     catch (Exception e)
                     {
+                        logger?.LogError(e, "Error reading from transport");
                         TransportError?.Invoke(this, new TransportErrorEventArgs(new TransportException("Error receiving bytes", e)));
                     }
                 }
@@ -68,7 +71,7 @@ namespace Asgard.Communications
         private Task ReadPipe(PipeReader reader)
         {
             return Task.Run(async () => {
-                while (!cts.IsCancellationRequested)
+                while (!cts.Token.IsCancellationRequested)
                 {
                     var result = await reader.ReadAsync(cts.Token);
                     var buffer = result.Buffer;
@@ -101,9 +104,9 @@ namespace Asgard.Communications
             }
             else
             {
-                //TODO: is there a way to sensibly combine the two string generations to only do it once, but also only when needed
-                logger?.LogWarning("Partial message received: {0}", GetMessageString(readOnlySequence));
-                TransportError?.Invoke(this, new TransportErrorEventArgs(new TransportException($"Partial message received: {GetMessageString(readOnlySequence)}")));
+                var msg = new Lazy<string>(() => $"Partial message received: {GetMessageString(readOnlySequence)}", false);
+                logger?.LogWarning(msg.Value);
+                TransportError?.Invoke(this, new TransportErrorEventArgs(new TransportException(msg.Value)));
             }
         }
 
@@ -145,6 +148,7 @@ namespace Asgard.Communications
 
         protected virtual void Dispose(bool disposing)
         {
+            logger?.LogTrace("Disposing: {0}", disposing);
             if (!disposedValue)
             {
                 if (disposing)
