@@ -13,6 +13,7 @@ namespace Asgard.Communications
         event EventHandler<CbusMessageEventArgs> MessageSent;
 
         Task<bool> SendMessage(ICbusMessage message);
+        Task<bool> SendMessage(ICbusOpCode message) => SendMessage(message.Message);
 
         void Open();
         

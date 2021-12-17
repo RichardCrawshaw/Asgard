@@ -16,6 +16,8 @@ namespace Asgard.Communications
         private readonly ILogger<CbusMessenger> logger;
         public event EventHandler<CbusMessageEventArgs> MessageReceived;
         public event EventHandler<CbusMessageEventArgs> MessageSent;
+        
+        public bool IsOpen { get; private set; }
 
         public CbusMessenger(ICbusCanFrameProcessor cbusCanFrameProcessor, ICbusConnectionFactory connectionFactory, ILogger<CbusMessenger> logger = null)
         {
@@ -26,6 +28,8 @@ namespace Asgard.Communications
 
         public void Open()
         {
+            if (IsOpen) return;
+            IsOpen = true;
             transport = connectionFactory.GetConnection();
             transport.GridConnectMessage += HandleTransportMessage;
             transport.Open();
@@ -47,8 +51,12 @@ namespace Asgard.Communications
             }
         }
 
+        
         public async Task<bool> SendMessage(ICbusMessage message)
         {
+            //Note: An overload of this method exists on ICbusMessenger that allows an ICbusOpcode to be 
+            //      passed instead of the underlying message.
+
             //TODO: consider cbuscanframe factory to decouple this
             var frame = new CbusCanFrame();
             //TODO: make configurable
