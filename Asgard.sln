@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31919.166
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard", "Asgard\Asgard.csproj", "{2A1EB43A-5BB7-4637-A709-19ACFE9F1075}"
 EndProject
@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSocketClientConsole", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard.Tests", "Asgard.Tests\Asgard.Tests.csproj", "{BCB7F423-F15C-4F3D-B603-242ECA5627A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asgard.ExampleUse", "Asgard.ExampleUse\Asgard.ExampleUse.csproj", "{E0C0CC40-78B6-47E7-AFA6-22343FCFAB7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard.ExampleUse", "Asgard.ExampleUse\Asgard.ExampleUse.csproj", "{E0C0CC40-78B6-47E7-AFA6-22343FCFAB7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2C5260FD-671C-49D7-8A16-45FD4B514B28}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
