@@ -33,10 +33,9 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AbstractBase.cs</LastGenOutput>
     </None>
-    <None Update="Data\Generated\Common.t4">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Common.t4</DependentUpon>
+    <None Update="Data\Generated\Interfaces.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Interfaces.cs</LastGenOutput>
     </None>
     <None Update="Data\Generated\OpCodes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -57,6 +56,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Enumerations.tt</DependentUpon>
     </None>
+    <None Include="Data\Generated\Interfaces.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Interfaces.tt</DependentUpon>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -69,6 +73,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Enumerations.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Data\Generated\Interfaces.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Interfaces.tt</DependentUpon>
     </Compile>
     <Compile Update="Data\Generated\OpCodes.cs">
       <DesignTime>True</DesignTime>

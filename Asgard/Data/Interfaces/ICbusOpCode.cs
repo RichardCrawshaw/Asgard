@@ -23,14 +23,14 @@
 		OpCodeGroup Group { get; }
 
 		/// <summary>
-		/// Gets the name.
-		/// </summary>
-		string Name { get; }
-
-		/// <summary>
 		/// Gets the op-code number.
 		/// </summary>
 		byte Number { get; }
+
+		/// <summary>
+		/// Gets the name.
+		/// </summary>
+		string OpcodeName { get; }
 
 		/// <summary>
 		/// Gets the op-code priority.

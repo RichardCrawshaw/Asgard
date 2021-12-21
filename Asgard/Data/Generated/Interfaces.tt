@@ -1,7 +1,7 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Collections" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="C:\Users\richa\source\repos\Bifrost\Bifrost\bin\Debug\Bifrost.dll" #>
-<#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Globalization" #>
 <#@ import namespace="System.IO" #>
@@ -43,7 +43,8 @@ namespace Asgard.Data
 
 	#endregion
 
-<#	if (!string.IsNullOrEmpty(builder.FileCommentBlock?.Text))
+<#	var commentText = builder.FileCommentBlock?.Text;
+	if (!string.IsNullOrEmpty(commentText))
 	{
 #>
 /*
@@ -52,49 +53,27 @@ namespace Asgard.Data
 
 <#	}
 #>
-	#region OpCodeGroup
+	#region Interfaces
 
-	public enum OpCodeGroup
+<#	foreach(var opCodeBlock in builder.OpCodeBlocks)
 	{
-		Unknown = 0,
-		Accessory,
-		Config,
-		DCC,
-		General,
-	}
-
-	#endregion
-<#	foreach (var enumerationName in loader.EnumerationNames)
-	{
+		var code = opCodeBlock.Code.Substring(0, 1).ToUpper() + opCodeBlock.Code.Substring(1).ToLower();
 #>
+	#region <#= $"0x{opCodeBlock.Value:X2}" #> <#= opCodeBlock.Code #> <#= opCodeBlock.Name #>
 
-	#region <#= enumerationName #>
-
-<#		var enumerations =
-			loader.EnumerationLines
-				.Where(n => n.EnumName == enumerationName)
-				.ToList();
-		var isFlags =
-			enumerations
-				.Any(n => n.IsFlags);
-		if (isFlags)
+	public interface I<#= code #>
+	{
+<#		foreach (var property in opCodeBlock.Properties)
 		{
 #>
-	[Flags]
-<#		}
-		
-#>
-	public enum <#= enumerationName #>
-	{
-<#		foreach (var enumeration in enumerations)
-		{
-#>
-		<#= enumeration.ItemName #> = <#= isFlags ? Math.Pow(2, enumeration.Value) : enumeration.Value #>,
+		public <#= property.DataType #> <#= property.Name #> { get; set; }
 <#		}
 #>
 	}
 
 	#endregion
+
 <#	}
 #>
+	#endregion
 }

@@ -36,7 +36,7 @@ namespace Asgard.ExampleUse
 
                 var mm = new MessageManager(this.cbusMessenger);
                 this.logger.LogInformation("Sending node query");
-                var replies = await mm.SendMessageWaitForReplies<PNN>(new QNN());
+                var replies = await mm.SendMessageWaitForReplies<Pnn>(new Qnn());
                 foreach(var reply in replies)
                 {
                     this.logger.LogInformation(

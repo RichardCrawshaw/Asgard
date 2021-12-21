@@ -30,7 +30,7 @@ namespace Asgard.Data
         /// <summary>
         /// Gets the name.
         /// </summary>
-        public abstract string Name { get; }
+        public abstract string OpcodeName { get; }
 
         /// <summary>
         /// Gets the op-code number.
@@ -126,9 +126,9 @@ namespace Asgard.Data
         }
 
         protected void ConvertFromEnum<TEnum>(int byteIndex, TEnum value)
-            where TEnum : struct, Enum
+            where TEnum : struct, System.Enum
         {
-            var type = Enum.GetUnderlyingType(typeof(TEnum));
+            var type = System.Enum.GetUnderlyingType(typeof(TEnum));
             if (type == typeof(int) ||
                 type == typeof(short) ||
                 type == typeof(byte))
@@ -138,9 +138,9 @@ namespace Asgard.Data
         }
 
         protected void ConvertFromEnum<TEnum>(int byteIndex, int bitIndex, TEnum value)
-    where TEnum : struct, Enum
+    where TEnum : struct, System.Enum
         {
-            var type = Enum.GetUnderlyingType(typeof(TEnum));
+            var type = System.Enum.GetUnderlyingType(typeof(TEnum));
             if (type == typeof(int) ||
                 type == typeof(short) ||
                 type == typeof(byte))
@@ -150,9 +150,9 @@ namespace Asgard.Data
         }
 
         protected void ConvertFromEnum<TEnum>(int byteIndex, int[] bitIndexes, TEnum value)
-            where TEnum : struct, Enum
+            where TEnum : struct, System.Enum
         {
-            var type = Enum.GetUnderlyingType(typeof(TEnum));
+            var type = System.Enum.GetUnderlyingType(typeof(TEnum));
             if (type == typeof(int) ||
                 type == typeof(short) ||
                 type == typeof(byte))
@@ -256,9 +256,9 @@ namespace Asgard.Data
         }
 
         protected TEnum ConvertToEnum<TEnum>(int byteIndex)
-            where TEnum : struct, Enum
+            where TEnum : struct, System.Enum
         {
-            var type = Enum.GetUnderlyingType(typeof(TEnum));
+            var type = System.Enum.GetUnderlyingType(typeof(TEnum));
             if (type == typeof(int) ||
                 type == typeof(short) ||
                 type == typeof(byte))
@@ -271,9 +271,9 @@ namespace Asgard.Data
         }
 
         protected TEnum ConvertToEnum<TEnum>(int byteIndex, int bitIndex) 
-            where TEnum : struct, Enum
+            where TEnum : struct, System.Enum
         {
-            var type = Enum.GetUnderlyingType(typeof(TEnum));
+            var type = System.Enum.GetUnderlyingType(typeof(TEnum));
             if (type == typeof(int) ||
                 type == typeof(short) ||
                 type == typeof(byte))
@@ -285,9 +285,9 @@ namespace Asgard.Data
             return default;
         }
         protected TEnum ConvertToEnum<TEnum>(int byteIndex, int[] bitIndexes)
-            where TEnum : struct, Enum
+            where TEnum : struct, System.Enum
         {
-            var type = Enum.GetUnderlyingType(typeof(TEnum));
+            var type = System.Enum.GetUnderlyingType(typeof(TEnum));
             if (type == typeof(int) ||
                 type == typeof(short) ||
                 type == typeof(byte))
