@@ -30,7 +30,7 @@ namespace Asgard.Data
         /// <summary>
         /// Gets the name.
         /// </summary>
-        public abstract string OpcodeName { get; }
+        public abstract string Name { get; }
 
         /// <summary>
         /// Gets the op-code number.

@@ -19,12 +19,12 @@ namespace Asgard.Tests.CommunicationTests
         {
             var messenger = new Mock<ICbusMessenger>();
             messenger.Setup(m => m.SendMessage(It.IsAny<ICbusMessage>())).Callback(() => {
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new Pnn().Message));
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new Pnn().Message));
+                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode().Message));
+                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode().Message));
             });
 
             var mm = new MessageManager(messenger.Object);
-            var response = await mm.SendMessageWaitForReplies<Pnn>(new Qnn());
+            var response = await mm.SendMessageWaitForReplies<ResponseToQueryNode>(new QueryNodeNumber());
 
             response.Count().Should().Be(2);
         }
@@ -34,12 +34,12 @@ namespace Asgard.Tests.CommunicationTests
         {
             var messenger = new Mock<ICbusMessenger>();
             messenger.Setup(m => m.SendMessage(It.IsAny<ICbusMessage>())).Callback(() => {
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new Pnn() { NodeNumber = 1 }.Message));
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new Pnn() { NodeNumber = 2 }.Message));
+                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode() { NodeNumber = 1 }.Message));
+                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode() { NodeNumber = 2 }.Message));
             });
 
             var mm = new MessageManager(messenger.Object);
-            var response = await mm.SendMessageWaitForReply<Pnn>(new Qnn());
+            var response = await mm.SendMessageWaitForReply<ResponseToQueryNode>(new QueryNodeNumber());
 
             response.NodeNumber.Should().Be(1);
         }
@@ -50,12 +50,12 @@ namespace Asgard.Tests.CommunicationTests
         {
             var messenger = new Mock<ICbusMessenger>();
             messenger.Setup(m => m.SendMessage(It.IsAny<CbusMessage>())).Callback(() => {
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new Pnn() { NodeNumber = 1 }.Message));
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new Pnn() { NodeNumber = 2 }.Message));
+                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode() { NodeNumber = 1 }.Message));
+                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode() { NodeNumber = 2 }.Message));
             });
 
             var mm = new MessageManager(messenger.Object);
-            var response = await mm.SendMessageWaitForReply<Pnn>(new Qnn(), m => m.NodeNumber == 2);
+            var response = await mm.SendMessageWaitForReply<ResponseToQueryNode>(new QueryNodeNumber(), m => m.NodeNumber == 2);
 
             response.NodeNumber.Should().Be(2);
         }
@@ -65,12 +65,12 @@ namespace Asgard.Tests.CommunicationTests
         {
             var messenger = new Mock<ICbusMessenger>();
             messenger.Setup(m => m.SendMessage(It.IsAny<CbusMessage>())).Callback(() => {
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new Pnn() { NodeNumber = 1 }.Message));
+                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode() { NodeNumber = 1 }.Message));
             });
 
             var mm = new MessageManager(messenger.Object);
             Assert.ThrowsAsync<TimeoutException>(async () => {
-                await mm.SendMessageWaitForReplies<Pnn>(new Qnn(), 2);
+                await mm.SendMessageWaitForReplies<ResponseToQueryNode>(new QueryNodeNumber(), 2);
             });
         }
     }

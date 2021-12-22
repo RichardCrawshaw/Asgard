@@ -14,8 +14,8 @@ namespace Asgard.Tests.CommunicationTests
             var frame = cfp.ParseFrame(":SB020N9101000005;");
             var m = frame.Message.GetOpCode();
 
-            m.Should().BeOfType<Acof>();
-            var msg = (Acof)m;
+            m.Should().BeOfType<AccessoryOff>();
+            var msg = (AccessoryOff)m;
             msg.NodeNumber.Should().Be(256);
             msg.EventNumber.Should().Be(5);
         }

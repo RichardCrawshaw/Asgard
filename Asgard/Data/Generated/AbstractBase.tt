@@ -67,9 +67,23 @@ namespace Asgard.Data
 			{
 <#	foreach (var opcode in builder.OpCodeBlocks)
 	{
+#>
+                <#= $"0x{opcode.Value:X2}" #> => new <#= opcode.ClassName #>(message),
+<#	}
+#>
+				_ => null,
+			};
+		}
+
+		public static OpCodeData Create(string opcodeName)
+		{
+			return opcodeName.ToUpper() switch
+			{
+<#	foreach (var opcode in builder.OpCodeBlocks)
+	{
 		var code = opcode.Code.Substring(0, 1).ToUpper() + opcode.Code.Substring(1).ToLower();
 #>
-                <#= $"0x{opcode.Value:X2}" #> => new <#= code #>(message),
+				"<#= opcode.Code #>" => new <#= opcode.ClassName #>(),
 <#	}
 #>
 				_ => null,

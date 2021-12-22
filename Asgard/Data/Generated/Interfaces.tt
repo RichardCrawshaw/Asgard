@@ -57,11 +57,10 @@ namespace Asgard.Data
 
 <#	foreach(var opCodeBlock in builder.OpCodeBlocks)
 	{
-		var code = opCodeBlock.Code.Substring(0, 1).ToUpper() + opCodeBlock.Code.Substring(1).ToLower();
 #>
 	#region <#= $"0x{opCodeBlock.Value:X2}" #> <#= opCodeBlock.Code #> <#= opCodeBlock.Name #>
 
-	public interface I<#= code #>
+	public interface <#= opCodeBlock.InterfaceName #>
 	{
 <#		foreach (var property in opCodeBlock.Properties)
 		{

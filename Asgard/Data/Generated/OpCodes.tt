@@ -56,7 +56,6 @@ namespace Asgard.Data
 
 <#	foreach(var opCodeBlock in builder.OpCodeBlocks)
 	{
-		var code = opCodeBlock.Code.Substring(0, 1).ToUpper() + opCodeBlock.Code.Substring(1).ToLower();
 #>
 	#region <#= $"0x{opCodeBlock.Value:X2}" #> <#= opCodeBlock.Code #> <#= opCodeBlock.Name #>
 
@@ -71,28 +70,28 @@ namespace Asgard.Data
 		Name = "<#= opCodeBlock.Name #>", 
 		Number = <#= opCodeBlock.Value #>, 
 		Priority = <#= opCodeBlock.Priority #>)]
-	public partial class <#= code #> : <#= opCodeBlock.BaseClassName #>, // <#= $"0x{opCodeBlock.Value:X2}" #>
-		I<#= code #>
+	public partial class <#= opCodeBlock.ClassName #> : <#= opCodeBlock.BaseClassName #>, // <#= $"0x{opCodeBlock.Value:X2}" #>
+		<#= opCodeBlock.InterfaceName #>
 	{
 		#region Fields
 
-		public const string _CODE = "<#= opCodeBlock.Code #>";
-		public const string _DESCRIPTION = "<#= opCodeBlock.Description #>";
-		public const OpCodeGroup _GROUP = OpCodeGroup.<#= opCodeBlock.Group #>;
-		public const string _NAME = "<#= opCodeBlock.Name #>";
-		public const byte _NUMBER = <#= $"0x{opCodeBlock.Value:X2}" #>; // <#= opCodeBlock.Value #>
-		public const int _PRIORITY = <#= opCodeBlock.Priority #>;
+		public const string CODE = "<#= opCodeBlock.Code #>";
+		public const string DESCRIPTION = "<#= opCodeBlock.Description #>";
+		public const OpCodeGroup GROUP = OpCodeGroup.<#= opCodeBlock.Group #>;
+		public const string NAME = "<#= opCodeBlock.Name #>";
+		public const byte NUMBER = <#= $"0x{opCodeBlock.Value:X2}" #>; // <#= opCodeBlock.Value #>
+		public const int PRIORITY = <#= opCodeBlock.Priority #>;
 
 		#endregion
 
 		#region Override properties
 
-		public override string Code => _CODE;
-		public override string Description => _DESCRIPTION;
-		public override OpCodeGroup Group => _GROUP;
-		public override string OpcodeName => _NAME;
-		public override byte Number => _NUMBER;
-		public override int Priority => _PRIORITY;
+		public override string Code => CODE;
+		public override string Description => DESCRIPTION;
+		public override OpCodeGroup Group => GROUP;
+		public override string Name => NAME;
+		public override byte Number => NUMBER;
+		public override int Priority => PRIORITY;
 
 		#endregion
 <#		if (opCodeBlock.Properties.Any())
@@ -130,8 +129,8 @@ namespace Asgard.Data
 
 		#region Constructors
 
-		public <#= code #>(ICbusMessage cbusMessage) : base(cbusMessage) { }
-		public <#= code #>() : base(CbusMessage.Create(new byte[] {<#= opCodeBlock.Value #>})) {}
+		public <#= opCodeBlock.ClassName #>(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		public <#= opCodeBlock.ClassName #>() : base(CbusMessage.Create(new byte[] {<#= opCodeBlock.Value #>})) {}
 
 		#endregion
 

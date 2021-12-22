@@ -32,7 +32,7 @@ namespace Asgard.Tests.CommunicationTests
             transport.Raise(t => t.GridConnectMessage += null, new MessageReceivedEventArgs(":SB020N9101000005;"));
             var opCode = m.GetOpCode();
             opCode.Should().NotBeNull()
-                .And.BeOfType<Acof>()
+                .And.BeOfType<AccessoryOff>()
                 .Which.Should().BeEquivalentTo(new { NodeNumber = 256, EventNumber = 5 });
         }
 
@@ -49,7 +49,7 @@ namespace Asgard.Tests.CommunicationTests
             cm.Open();
 
             //TODO: need to consider how we want applications to be able to send messages to the bus
-            var opc = new Acon(null) { NodeNumber = 1, EventNumber = 2 };
+            var opc = new AccessoryOn(null) { NodeNumber = 1, EventNumber = 2 };
 
             await cm.SendMessage(opc.Message);
 
