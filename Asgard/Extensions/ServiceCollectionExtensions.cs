@@ -15,10 +15,11 @@ namespace Asgard.Extensions
         public static IServiceCollection AddAsgard(this IServiceCollection services, IConfiguration configuration)
         {
             
-            services.AddScoped<ICbusMessenger, CbusMessenger>();
-            services.AddScoped<ICbusConnectionFactory, CbusConnectionFactory>();
-            services.AddScoped<SerialPortTransport>();
-            services.AddScoped<GridConnectProcessor>();
+            services.AddSingleton<ICbusMessenger, CbusMessenger>();
+            services.AddSingleton<ICbusConnectionFactory, CbusConnectionFactory>();
+            services.AddScoped<ITransport, SerialPortTransport>();
+            services.AddScoped<IGridConnectProcessor, GridConnectProcessor>();
+            services.AddScoped<SerialPortTransportSettings>();
 
             services.AddSingleton<ICbusCanFrameProcessor, CbusCanFrameProcessor>();
 

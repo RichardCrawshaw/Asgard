@@ -1,6 +1,6 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ assembly name="C:\Users\richa\source\repos\Bifrost\Bifrost\bin\Debug\Bifrost.dll" #>
+<#@ include file="BifrostReference.t4" once="true" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Globalization" #>
