@@ -22,7 +22,7 @@ namespace Asgard.Communications
 
         public GridConnectProcessor(ITransport transport, ILogger<GridConnectProcessor> logger = null)
         {
-            Transport = transport;
+            this.Transport = transport;
             this.logger = logger;
         }
 
@@ -46,7 +46,7 @@ namespace Asgard.Communications
                     var memory = writer.GetMemory(minBufferSize);
                     try
                     {
-                        var read = await Transport.ReadAsync(memory, this.cts.Token);
+                        var read = await this.Transport.ReadAsync(memory, this.cts.Token);
                         this.logger?.LogTrace("Read {0} bytes", read);
                         if (read == 0)
                         {

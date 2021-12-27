@@ -25,9 +25,7 @@ namespace Asgard.Tests.CommunicationTests
             var cm = new CbusMessenger(cfp, connectionFactory.Object);
             cm.Open();
             ICbusMessage m = null;
-            cm.MessageReceived += (sender, args) => {
-                m = args.Message;
-            };
+            cm.MessageReceived += (sender, args) => m = args.Message;
 
             transport.Raise(t => t.GridConnectMessage += null, new MessageReceivedEventArgs(":SB020N9101000005;"));
             var opCode = m.GetOpCode();

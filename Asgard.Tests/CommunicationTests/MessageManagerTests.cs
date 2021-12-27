@@ -49,10 +49,19 @@ namespace Asgard.Tests.CommunicationTests
         public async Task ManagerReturnsCorrectMessages_WhenWaitingForASingleReply_WithAFilter()
         {
             var messenger = new Mock<ICbusMessenger>();
-            messenger.Setup(m => m.SendMessage(It.IsAny<CbusMessage>())).Callback(() => {
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode() { NodeNumber = 1 }.Message));
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode() { NodeNumber = 2 }.Message));
-            });
+            messenger
+                .Setup(m => m.SendMessage(It.IsAny<CbusMessage>()))
+                .Callback(() =>
+                {
+                    messenger.Raise(m => 
+                        m.MessageReceived += null, 
+                        new CbusMessageEventArgs(
+                            new ResponseToQueryNode() { NodeNumber = 1 }.Message));
+                    messenger.Raise(m => 
+                        m.MessageReceived += null, 
+                        new CbusMessageEventArgs(
+                            new ResponseToQueryNode() { NodeNumber = 2 }.Message));
+                });
 
             var mm = new MessageManager(messenger.Object);
             var response = await mm.SendMessageWaitForReply<ResponseToQueryNode>(new QueryNodeNumber(), m => m.NodeNumber == 2);
@@ -64,14 +73,18 @@ namespace Asgard.Tests.CommunicationTests
         public void ManagerShouldTimeout_WhenNotAllExpectedArrive()
         {
             var messenger = new Mock<ICbusMessenger>();
-            messenger.Setup(m => m.SendMessage(It.IsAny<CbusMessage>())).Callback(() => {
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode() { NodeNumber = 1 }.Message));
-            });
+            messenger
+                .Setup(m => m.SendMessage(It.IsAny<CbusMessage>()))
+                .Callback(() => 
+                    messenger.Raise(m => 
+                        m.MessageReceived += null, 
+                        new CbusMessageEventArgs(
+                            new ResponseToQueryNode() { NodeNumber = 1 }.Message)));
 
             var mm = new MessageManager(messenger.Object);
-            Assert.ThrowsAsync<TimeoutException>(async () => {
-                await mm.SendMessageWaitForReplies<ResponseToQueryNode>(new QueryNodeNumber(), 2);
-            });
+            Assert.ThrowsAsync<TimeoutException>(async () => await 
+                mm.SendMessageWaitForReplies<ResponseToQueryNode>(
+                    new QueryNodeNumber(), 2));
         }
     }
 }

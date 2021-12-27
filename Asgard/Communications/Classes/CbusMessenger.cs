@@ -31,10 +31,11 @@ namespace Asgard.Communications
         public void Open()
         {
             if (this.IsOpen) return;
-            this.IsOpen = true;
+            //this.IsOpen = true;
             this.transport = connectionFactory.GetConnection();
             this.transport.GridConnectMessage += HandleTransportMessage;
             this.transport.Open();
+            this.IsOpen = true;
         }
 
         private void HandleTransportMessage(object sender, MessageReceivedEventArgs e)

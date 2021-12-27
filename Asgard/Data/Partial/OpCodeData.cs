@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Asgard.Data
+﻿namespace Asgard.Data
 {
 
     public partial class OpCodeData
@@ -93,15 +91,11 @@ namespace Asgard.Data
             }
         }
 
-        protected void ConvertFromByte(int byteIndex, byte value)
-        {
+        protected void ConvertFromByte(int byteIndex, byte value) => 
             this.Message[byteIndex] = value;
-        }
 
-        protected void ConvertFromChar(int byteIndex, char value)
-        {
+        protected void ConvertFromChar(int byteIndex, char value) => 
             this.Message[byteIndex] = (byte)value;
-        }
 
         protected void ConvertFromUInt(int[] byteIndexes, uint value)
         {
@@ -138,7 +132,7 @@ namespace Asgard.Data
         }
 
         protected void ConvertFromEnum<TEnum>(int byteIndex, int bitIndex, TEnum value)
-    where TEnum : struct, System.Enum
+            where TEnum : struct, System.Enum
         {
             var type = System.Enum.GetUnderlyingType(typeof(TEnum));
             if (type == typeof(int) ||
@@ -161,10 +155,8 @@ namespace Asgard.Data
             }
         }
 
-        protected void ConvertFromEnum(int byteIndex, int value)
-        {
+        protected void ConvertFromEnum(int byteIndex, int value) => 
             this.Message[byteIndex] = (byte)value;
-        }
 
         protected void ConvertFromEnum(int byteIndex, int bitIndex, int value)
         {
@@ -217,17 +209,9 @@ namespace Asgard.Data
             };
         }
 
-        protected byte ConvertToByte(int byteIndex)
-        {
-            var byteValue = this.Message[byteIndex];
-            return byteValue;
-        }
+        protected byte ConvertToByte(int byteIndex) => this.Message[byteIndex];
 
-        protected char ConvertToChar(int byteIndex)
-        {
-            var charValue = (char)this.Message[byteIndex];
-            return charValue;
-        }
+        protected char ConvertToChar(int byteIndex) => (char)this.Message[byteIndex];
 
         protected uint ConvertToUInt(int[] byteIndexes)
         {
@@ -299,10 +283,7 @@ namespace Asgard.Data
             return default;
         }
 
-        protected int ConvertToEnum(int byteIndex)
-        {
-            return this.Message[byteIndex];
-        }
+        protected int ConvertToEnum(int byteIndex) => this.Message[byteIndex];
 
         protected int ConvertToEnum(int byteIndex, int[] bitIndexes)
         {
