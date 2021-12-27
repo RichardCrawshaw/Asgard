@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.IO.Ports;
+using System.Threading;
 
 namespace Asgard.Communications
 {
@@ -21,7 +22,11 @@ namespace Asgard.Communications
             this.logger = logger;
         }
 
-        public override void Open()
+        /// <summary>
+        /// Attempts to open the underlying serial port.
+        /// </summary>
+        /// <exception cref="TransportException">If the selected serial port could not be found.</exception>
+        public override void Open(CancellationToken cancellationToken)
         {
             this.logger?.LogInformation("Opening serial port: {0}", this.settings.PortName);
             this.port = new SerialPort(this.settings.PortName);
@@ -29,13 +34,50 @@ namespace Asgard.Communications
             try
             {
                 this.port.Open();
+                this.TransportStream = this.port.BaseStream;
             }
-            catch(FileNotFoundException e)
+            catch (FileNotFoundException e)
             {
                 this.logger?.LogError(@"Unable to open serial port - ""{0}"" not found", e.FileName);
-                throw new TransportException($"The selected SerialPort could not be found: {e.FileName}", e);
+                LogAvailablePorts();
+
+                // Wait for the port to become available.
+                var reconnected = Reconnect(cancellationToken);
+                if (!reconnected)
+                    throw new TransportException($"The selected SerialPort could not be found: {e.FileName}", e);
             }
-            this.TransportStream = this.port.BaseStream;
+        }
+
+        /// <summary>
+        /// Attemp to (re)open the Serial Port but with minimal logging as this routine is 
+        /// typically called when the port has disconnected, so it will spend most of its time
+        /// failing.
+        /// </summary>
+        /// <returns>True if the port was re-opened successfully; false otherwise.</returns>
+        protected override bool Reopen()
+        {
+            // Ensure that any previous port has been disposed of prior to creating a new one.
+            this.port?.Dispose();
+
+            this.port = new SerialPort(this.settings.PortName);
+
+            try
+            {
+                this.port.Open();
+                this.TransportStream = this.port.BaseStream;
+                return true;
+            }
+            catch (FileNotFoundException)
+            {
+                // Don't bother logging anything, as this routine is likely to be called repeatedly
+                // and we don't want the logs to fill up with the same message.
+                return false;
+            }
+            catch(Exception ex)
+            {
+                this.logger.LogError(ex, "Attempting to re-open {0}.", this.settings.PortName);
+                throw;
+            }
         }
 
         protected virtual void Dispose(bool disposing)
@@ -57,6 +99,17 @@ namespace Asgard.Communications
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Helper routine to log the available serial ports.
+        /// </summary>
+        private void LogAvailablePorts()
+        {
+            var portNames = SerialPort.GetPortNames();
+            this.logger?.LogInformation("Found {0} COM ports:", portNames.Length);
+            foreach (var name in portNames)
+                this.logger?.LogInformation(name);
         }
     }
 }

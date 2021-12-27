@@ -8,7 +8,8 @@ using Asgard.Data;
 
 namespace Asgard.Communications
 {
-    public class CbusMessenger : ICbusMessenger
+    public class CbusMessenger : 
+        ICbusMessenger
     {
         private IGridConnectProcessor transport;
 
@@ -31,10 +32,11 @@ namespace Asgard.Communications
         public void Open()
         {
             if (this.IsOpen) return;
-            //this.IsOpen = true;
+
             this.transport = connectionFactory.GetConnection();
             this.transport.GridConnectMessage += HandleTransportMessage;
             this.transport.Open();
+
             this.IsOpen = true;
         }
 

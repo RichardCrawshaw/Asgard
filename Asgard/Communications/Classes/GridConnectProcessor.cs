@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Buffers;
+using System.IO;
 using System.IO.Pipelines;
 using System.Text;
 using System.Threading;
@@ -8,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace Asgard.Communications
 {
-    public class GridConnectProcessor:IGridConnectProcessor,IDisposable
+    public class GridConnectProcessor : IGridConnectProcessor, 
+        IDisposable
     {
         private readonly ILogger<GridConnectProcessor> logger;
 
@@ -29,72 +31,86 @@ namespace Asgard.Communications
         public void Open()
         {
             this.logger?.LogTrace(nameof(Open));
-            this.Transport.Open();
             this.cts = new CancellationTokenSource();
+
+            this.Transport.Open(this.cts.Token);
+            if (this.cts.Token.IsCancellationRequested)
+                return;
+
             var pipe = new Pipe();
             //TODO: would this be better as distinct threads rather than using up threads from the threadpool?
             ReadPipe(pipe.Reader).AsgardFireAndForget();
             Listen(pipe.Writer).AsgardFireAndForget();
         }
 
-        private Task Listen(PipeWriter writer)
-        {
-            return Task.Run(async () => {
-                const int minBufferSize = 64;
-                while (!this.cts.Token.IsCancellationRequested)
-                {
-                    var memory = writer.GetMemory(minBufferSize);
-                    try
-                    {
-                        var read = await this.Transport.ReadAsync(memory, this.cts.Token);
-                        this.logger?.LogTrace("Read {0} bytes", read);
-                        if (read == 0)
-                        {
-                            //todo?
-                        }
+        private Task Listen(PipeWriter writer) => Task.Run(() => ListenAsync(writer));
 
-                        writer.Advance(read);
-                        await writer.FlushAsync(this.cts.Token);
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        //ok
-                    }
-                    catch (Exception e)
-                    {
-                        logger?.LogError(e, "Error reading from transport");
-                        TransportError?.Invoke(this, 
-                            new TransportErrorEventArgs(
-                                new TransportException("Error receiving bytes", e)));
-                    }
+        private async void ListenAsync(PipeWriter writer)
+        {
+            const int minBufferSize = 64;
+
+            while (!this.cts.Token.IsCancellationRequested)
+            {
+                var memory = writer.GetMemory(minBufferSize);
+                try
+                {
+                    var read = await this.Transport.ReadAsync(memory, this.cts.Token);
+
+                    // Check for cancellation.
+                    if (this.cts.Token.IsCancellationRequested) break;
+
+                    // Check for whether we should continue reading or not.
+                    if (read == -1) break;
+
+                    // Nothing has been received so just try again.
+                    if (read == 0) continue; ;
+
+                    this.logger?.LogTrace("Read {0} bytes", read);
+
+                    writer.Advance(read);
+                    await writer.FlushAsync(this.cts.Token);
                 }
-            });
+                catch (IOException ex)
+                {
+                    this.logger?.LogError(ex, "IO error reading from transport.");
+                }
+                catch (TaskCanceledException)
+                {
+                    //ok
+                }
+                catch (Exception e)
+                {
+                    logger?.LogError(e, "Error reading from transport");
+                    TransportError?.Invoke(this,
+                        new TransportErrorEventArgs(
+                            new TransportException("Error receiving bytes", e)));
+                }
+            }
         }
 
-        private Task ReadPipe(PipeReader reader)
+        private Task ReadPipe(PipeReader reader) => Task.Run(() => ReadAsync(reader));
+
+        private async void ReadAsync(PipeReader reader)
         {
-            return Task.Run(async () =>
+            while (!this.cts.Token.IsCancellationRequested)
             {
-                while (!this.cts.Token.IsCancellationRequested)
+                var result = await reader.ReadAsync(this.cts.Token);
+                var buffer = result.Buffer;
+                SequencePosition? endPosition;
+                do
                 {
-                    var result = await reader.ReadAsync(this.cts.Token);
-                    var buffer = result.Buffer;
-                    SequencePosition? endPosition;
-                    do
+                    endPosition = buffer.PositionOf((byte)';');
+                    if (endPosition != null)
                     {
-                        endPosition = buffer.PositionOf((byte)';');
-                        if (endPosition != null)
-                        {
-                            endPosition = buffer.GetPosition(1, endPosition.Value);
-                            ProcessMessage(buffer.Slice(0, endPosition.Value));
-                            buffer = buffer.Slice(endPosition.Value);
-                        }
+                        endPosition = buffer.GetPosition(1, endPosition.Value);
+                        ProcessMessage(buffer.Slice(0, endPosition.Value));
+                        buffer = buffer.Slice(endPosition.Value);
+                    }
 
-                    } while (endPosition != null);
+                } while (endPosition != null);
 
-                    reader.AdvanceTo(buffer.Start, buffer.End);
-                }
-            });
+                reader.AdvanceTo(buffer.Start, buffer.End);
+            }
         }
 
         private void ProcessMessage(ReadOnlySequence<byte> readOnlySequence)
@@ -117,7 +133,7 @@ namespace Asgard.Communications
             }
         }
 
-        string GetMessageString(ReadOnlySequence<byte> buffer)
+        private string GetMessageString(ReadOnlySequence<byte> buffer)
         {
             if (buffer.IsSingleSegment)
             {
