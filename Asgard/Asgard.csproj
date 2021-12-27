@@ -20,9 +20,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
-    <PackageReference Include="NLog" Version="4.7.11" />
-    <PackageReference Include="NLog.Config" Version="4.7.11" />
-    <PackageReference Include="NLog.Schema" Version="4.7.11" />
     <PackageReference Include="System.IO.Pipelines" Version="6.0.0" />
     <PackageReference Include="System.IO.Ports" Version="5.0.1" />
     <PackageReference Include="Unity" Version="5.11.10" />

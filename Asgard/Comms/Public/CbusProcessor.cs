@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using NLog;
 
 namespace Asgard.Comms
 {
@@ -11,16 +10,6 @@ namespace Asgard.Comms
         ICbusProcessor
     {
         #region Fields
-
-        /// <summary>
-        /// Logger for standard program logging.
-        /// </summary>
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-
-        /// <summary>
-        /// The settings object.
-        /// </summary>
-        private readonly ISettings settings;
 
         /// <summary>
         /// The grid connect processor.
@@ -52,13 +41,11 @@ namespace Asgard.Comms
         /// <paramref name="gridConnectProcessor"/>.
         /// </summary>
         /// <param name="gridConnectProcessor">An <see cref="IGridConnectProcessor"/> object.</param>
-        public CbusProcessor(ISettings settings, IGridConnectProcessor gridConnectProcessor)
+        public CbusProcessor(IGridConnectProcessor gridConnectProcessor)
         {
-            logger.Trace(() => nameof(CbusProcessor));
             if (gridConnectProcessor is null)
                 throw new ArgumentNullException(nameof(gridConnectProcessor));
 
-            this.settings = settings;
             this.gridConnectProcessor = gridConnectProcessor;
         }
 
@@ -107,12 +94,8 @@ namespace Asgard.Comms
         /// </summary>
         public void Connect()
         {
-            logger.Trace(() => nameof(Connect));
-
             this.gridConnectProcessor.Connect();
             this.gridConnectProcessor.MessageReceived += GridConnectProcessor_MessageReceived;
-
-            logger.Debug("Connected.");
         }
 
         /// <summary>
@@ -120,12 +103,8 @@ namespace Asgard.Comms
         /// </summary>
         public void Disconnect()
         {
-            logger.Trace(() => nameof(Disconnect));
-
             this.gridConnectProcessor.Disconnect();
             this.gridConnectProcessor.MessageReceived -= GridConnectProcessor_MessageReceived;
-
-            logger.Debug("Disconnected.");
         }
 
         #endregion
@@ -134,8 +113,6 @@ namespace Asgard.Comms
 
         protected static (string OpCode, byte[] Data) GetMessage(byte[] payload)
         {
-            logger.Trace(() => nameof(GetMessage));
-
             if (Enum.IsDefined(typeof(merg.cbus.OpCodes), (int)payload[0]))
             {
                 var result = (OpCode: Enum.GetName(typeof(merg.cbus.OpCodes), payload[0]), Data: payload);
@@ -147,32 +124,12 @@ namespace Asgard.Comms
 
         protected static string InterpretMessage((string OpCode, byte[] Data) data)
         {
-            logger.Trace(() => nameof(InterpretMessage));
-
             if (data.OpCode is null)
                 return $"Unknown message: {string.Join(" ", data.Data.Select(d => $"0x{d:X2}"))}";
 
             var result =
                 $"0x{data.Data[0]:X2} {data.OpCode} {string.Join(" ", data.Data.Skip(1).Select(d => $"0x{d:X2}"))}";
             return result;
-        }
-
-        /// <summary>
-        /// Interpret the specified <paramref name="data"/> as a descriptive CBUS message.
-        /// </summary>
-        /// <param name="data">The data of the CBUS message.</param>
-        /// <returns>A string containing the descriptive message.</returns>
-        private static string InterpretMessage(byte[] data)
-        {
-            logger.Trace(() => nameof(InterpretMessage));
-
-            if (Enum.IsDefined(typeof(merg.cbus.OpCodes), (int)data[0]))
-            {
-                var result = $"0X{data[0]:X2} {Enum.GetName(typeof(merg.cbus.OpCodes), data[0])} {string.Join(" ", data.Skip(1).Select(n => $"0x{n:X2}"))}";
-                return result;
-            }
-
-            return $"Unknown message: {string.Join(" ", data.Select(n => $"0X{n:X2}"))}";
         }
 
         #endregion
@@ -184,12 +141,8 @@ namespace Asgard.Comms
         /// </summary>
         /// <param name="sender">The object that raised the event.</param>
         /// <param name="e">The <see cref="EventArgs"/> for the event.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0022:Use expression body for methods",
-            Justification = "Virtual method; want to have comment block within the braces.")]
         protected virtual void GridConnectProcessor_MessageReceived(object sender, GridConnectMessageEventArgs e)
         {
-            logger.Trace(() => nameof(GridConnectProcessor_MessageReceived));
-
             // Add an override to provide the required behaviour.
         }
 

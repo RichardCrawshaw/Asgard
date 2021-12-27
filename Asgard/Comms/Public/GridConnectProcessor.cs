@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
-using NLog;
 
 namespace Asgard.Comms
 {
@@ -24,11 +23,6 @@ namespace Asgard.Comms
         /// The terminating character of a GridConnect message.
         /// </summary>
         private const char MESSAGE_TERMINATE = ';';
-
-        /// <summary>
-        /// Logger for standard program logging.
-        /// </summary>
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// The <see cref="ISettings"/> object.
@@ -88,8 +82,6 @@ namespace Asgard.Comms
         /// <param name="commsAdapter">A <see cref="ICommsAdapter"/> object.</param>
         public GridConnectProcessor(ISettings settings, ICommsAdapter commsAdapter)
         {
-            logger.Trace(() => nameof(GridConnectProcessor));
-
             if (commsAdapter is null)
                 throw new ArgumentNullException(nameof(commsAdapter));
 
@@ -126,8 +118,6 @@ namespace Asgard.Comms
                 // set large fields to null
                 this.IsDisposed = true;
             }
-
-            logger.Trace(() => $"{nameof(GridConnectProcessor)} has been disposed of.");
         }
 
         // // override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
@@ -155,8 +145,6 @@ namespace Asgard.Comms
         /// <returns>True on success; false otherwise.</returns>
         public bool Connect()
         {
-            logger.Trace(() => nameof(Connect));
-
             // Move this to a derived class.
             //if (this.commsAdapter is ISerialPortAdapter serialPortAdapter)
             //{
@@ -174,8 +162,6 @@ namespace Asgard.Comms
             if (this.commsAdapter is ISerialPortAdapter serialPortAdapter)
                 serialPortAdapter.SerialPortError += SerialPortAdapter_SerialPortError;
 
-            logger.Debug(() => $"Connected to {this.commsAdapter.Name}");
-
             // Start the receive processing routine on a separate thread. This will run
             // independently until the Disconnect method is called.
             ThreadPool.QueueUserWorkItem(_ => ProcessSerial());
@@ -189,8 +175,6 @@ namespace Asgard.Comms
         /// <returns>True on success; false otherwise.</returns>
         public bool Disconnect()
         {
-            logger.Trace(() => nameof(Disconnect));
-
             try
             {
                 if (!this.commsAdapter.IsConnected)
@@ -217,8 +201,6 @@ namespace Asgard.Comms
                 this.autoResetEvent.WaitOne(1000);
                 // then close the serial port.
                 this.commsAdapter.Disconnect();
-
-                logger.Debug(() => "Disconnected");
             }
         }
 
@@ -247,8 +229,6 @@ namespace Asgard.Comms
         /// </remarks>
         private void ProcessSerial()
         {
-            logger.Trace(() => nameof(ProcessSerial));
-
             // Signal that the processing routine has started.
             this.autoResetEvent.Reset();
 
@@ -277,7 +257,6 @@ namespace Asgard.Comms
                         // the process is cancelled.
                         do
                         {
-                            logger.Trace(() => previousText);
                         }
                         while (!this.cancellationTokenSource.IsCancellationRequested && 
                                 ProcessText(ref previousText));
@@ -288,20 +267,16 @@ namespace Asgard.Comms
             {
                 // If the manual reset event is waiting when the cancellation token is cancelled it
                 // it will throw this exception; just log it and continue.
-                logger.Trace(() => $"{nameof(ProcessSerial)} cancelled.");
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-                logger.Info(() => $"{nameof(ProcessSerial)} errored.");
-                logger.Error(ex);
+                // Log the exception.
             }
             finally
             {
                 // Clear down the receive queue to prevent old messages being processed if we are
                 // connected subsequently.
                 this.receiveQueue.Clear();
-
-                logger.Trace(() => $"{nameof(ProcessSerial)} terminated.");
 
                 // Signal that the processing routine has terminated.
                 this.autoResetEvent.Set();
@@ -317,8 +292,6 @@ namespace Asgard.Comms
         /// <returns>True if further processing may be necessary; false otherwise.</returns>
         private bool ProcessText(ref string text)
         {
-            logger.Trace(() => nameof(ProcessText));
-
             // If there is no text then we cannot process, so processing has finished.
             if (string.IsNullOrEmpty(text)) return false;
 
@@ -400,9 +373,6 @@ namespace Asgard.Comms
         private void SerialPortAdapter_SerialPortError(object sender, SerialPortErrorEventArgs e)
         {
             // Log the details of a serial port error.
-
-            logger.Trace(() => nameof(SerialPortAdapter_SerialPortError));
-            logger.Error(e.Exception);
         }
 
         /// <summary>
@@ -412,8 +382,6 @@ namespace Asgard.Comms
         /// <param name="e">The <see cref="DataReceivedEventArgs"/> for the event.</param>
         private void CommsAdapter_DataReceived(object sender, DataReceivedEventArgs e)
         {
-            logger.Trace(() => nameof(CommsAdapter_DataReceived));
-
             // Convert the received bytes into chars, concatenate them into a string and put it in
             // the received message queue. Then flag to the ProcessQueue routine that is has work
             // to do.

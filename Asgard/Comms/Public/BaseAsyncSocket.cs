@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using NLog;
 
 namespace Asgard.Comms
 {
@@ -11,8 +10,6 @@ namespace Asgard.Comms
         IDisposable
     {
         #region Fields
-
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         private readonly CancellationTokenSource cancellationTokenSource = new();
 
@@ -214,7 +211,6 @@ namespace Asgard.Comms
             if (socket is null) return;
 
             socket.Close();
-            logger.Trace(() => $"Socket closed: {socket.Handle}.");
         }
 
         /// <summary>
@@ -235,9 +231,6 @@ namespace Asgard.Comms
         /// <param name="socket"></param>
         protected void Read(Socket socket)
         {
-            logger.Trace(() => nameof(Read));
-            logger.Trace(() => $"{nameof(socket)}: {socket.Handle} connected is {socket.Connected}.");
-
             if (!socket.Connected) return;
 
             try
@@ -253,7 +246,6 @@ namespace Asgard.Comms
             }
             catch (Exception ex)
             {
-                logger.Error(ex);
             }
         }
 
@@ -264,8 +256,6 @@ namespace Asgard.Comms
         /// <param name="text">A <see cref="string"/> containing the text to send.</param>
         protected void Send(Socket socket, string text)
         {
-            logger.Trace(() => nameof(Send));
-
             // Convert the string data to byte data using the defined encoding.  
             var data = this.Encoding.GetBytes(text);
 
@@ -278,12 +268,8 @@ namespace Asgard.Comms
         /// </summary>
         /// <param name="socket">A <see cref="Socket"/> instance.</param>
         /// <param name="data">A <see cref="byte[]"/> containing the data to send.</param>
-        protected void Send(Socket socket, byte[] data)
-        {
-            logger.Trace(() => nameof(Send));
-
+        protected void Send(Socket socket, byte[] data) => 
             socket.BeginSend(data, 0, data.Length, SocketFlags.None, new AsyncCallback(SendCallback), socket);
-        }
 
         /// <summary>
         /// Shutdown the specified <paramref name="socket"/> for both <see cref="SocketShutdown.Send"/>
@@ -296,8 +282,6 @@ namespace Asgard.Comms
 
             if (socket.Connected)
                 socket.Shutdown(SocketShutdown.Both);
-
-            logger.Trace(() => $"Socket shutdown: {socket.Handle}.");
         }
 
         #endregion
@@ -313,7 +297,6 @@ namespace Asgard.Comms
             if (socket is not null)
                 this.ConnectionClosed?.Invoke(this,
                     new ConnectionClosedEventArgs(socket));
-            logger.Trace(() => $"Connection closed: {socket?.Handle}.");
         }
 
         /// <summary>
@@ -337,19 +320,15 @@ namespace Asgard.Comms
         /// </remarks>
         private void ReadCallback(IAsyncResult asyncResult)
         {
-            logger.Trace(() => nameof(ReadCallback));
-
             // Retrieve the state object and the client socket
             // from the asynchronous state object.  
             if (asyncResult.AsyncState is not StateObject client)
             {
-                logger.Error(() => "Reading failed.");
-                logger.Warn(() => $"Failed to get {nameof(client)} from {nameof(asyncResult)} when reading.");
                 return;
             }
 
-            if (!client.Socket.Connected)
-                logger.Trace(() => $"Socket is disconnected: {client.Socket.Handle}.");
+            if (!client.Socket.Connected) 
+            { }
             else if (ReadCallback(asyncResult, client))
                 return;
 
@@ -372,13 +351,10 @@ namespace Asgard.Comms
             }
             catch (SocketException ex)
             {
-                logger.Info($"Socket error from {client.Socket?.Handle}: {ex.SocketErrorCode}.");
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                logger.Error(ex);
-                logger.Warn(() => $"Reading from {client.Socket?.Handle} ended unexpectedly.");
                 return false;
             }
         }
@@ -397,10 +373,8 @@ namespace Asgard.Comms
             var count = socket.EndReceive(asyncResult);
             if (count == 0)
             {
-                logger.Trace(() => $"No data received from socket: {socket.Handle}. Closing connection.");
                 return false;
             }
-            logger.Debug(() => $"Read {count} bytes from socket: {socket.Handle}.");
 
             // Handle the received data.
             OnDataReceived(client.Buffer[0..count]);
@@ -420,13 +394,9 @@ namespace Asgard.Comms
         /// <param name="asyncResult">The <see cref="IAsyncResult"/> instance to process.</param>
         private void SendCallback(IAsyncResult asyncResult)
         {
-            logger.Trace(() => nameof(SendCallback));
-
             // Retrieve the socket from the state object.  
             if (asyncResult.AsyncState is not Socket socket)
             {
-                logger.Error(() => "Sending failed.");
-                logger.Warn(() => $"Failed to get {nameof(socket)} from {nameof(asyncResult)} when sending.");
                 return;
             }
 
@@ -434,12 +404,10 @@ namespace Asgard.Comms
             {
                 // Complete sending the data to the remote device.  
                 var count = socket.EndSend(asyncResult);
-                logger.Debug(() => $"Sent {count} bytes to socket {socket.Handle}.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                logger.Warn(() => $"Sending data to {socket.Handle} failed.");
-                logger.Error(ex);
+                // Log the exception.
             }
         }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using NLog;
 
 namespace Asgard.Comms
 {
@@ -14,8 +13,6 @@ namespace Asgard.Comms
         ISocketServerAdapter
     {
         #region Fields
-
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         // Thread signals to synchronise between different threads.
         private readonly ManualResetEventSlim listenerStarted = new(false);
@@ -69,8 +66,6 @@ namespace Asgard.Comms
         public AsyncSocketServer(ISettings settings)
             : base()
         {
-            logger.Trace(() => nameof(AsyncSocketServer));
-
             this.settings = settings;
 
             var settingsNode = this.settings.Get<AsyncSocketServer, ServerSettings>();
@@ -116,8 +111,6 @@ namespace Asgard.Comms
         /// <param name="socket">The <see cref="Socket"/> that is to be disconnected.</param>
         public void Disconnect(Socket socket)
         {
-            logger.Trace(() => nameof(Disconnect));
-
             if (SocketConnected(socket))
             {
                 Send(socket, string.Empty);
@@ -132,8 +125,6 @@ namespace Asgard.Comms
         /// <returns></returns>
         public override bool Send(byte[] data)
         {
-            logger.Trace(() => nameof(Send));
-
             if (!this.isConnected) return false;
 
             var sockets = SocketsGet();
@@ -150,8 +141,6 @@ namespace Asgard.Comms
         /// <param name="text">A <see cref="string"/> containing the text to send.</param>
         public override bool Send(string text)
         {
-            logger.Trace(() => nameof(Send));
-
             if (!this.IsConnected) return false;
 
             var sockets = SocketsGet();
@@ -167,8 +156,6 @@ namespace Asgard.Comms
         /// </summary>
         public void Start()
         {
-            logger.Trace(() => nameof(Start));
-
             // Establish the local endpoint for the socket from the IP Address and Port.
             var localEndPoint = GetEndPoint();
 
@@ -189,16 +176,13 @@ namespace Asgard.Comms
             {
                 // Wait for the listener process to start.
                 this.listenerStarted.Wait(this.Token);
-                logger.Trace(() => "Server started.");
 
                 // Wait for a connection to come in.
                 this.listenerConnected.Wait(this.Token);
-                logger.Trace(() => "Listener connected.");
                 this.isConnected = true;
             }
             catch (OperationCanceledException)
             {
-                logger.Trace(() => $"Listening cancelled (in {nameof(Start)}).");
             }
         }
 
@@ -207,8 +191,6 @@ namespace Asgard.Comms
         /// </summary>
         public void Stop()
         {
-            logger.Trace(() => nameof(Stop));
-
             Cancel();
 
             ShutdownSocket(this.socket);
@@ -223,12 +205,7 @@ namespace Asgard.Comms
         /// </summary>
         /// <param name="socket">The <see cref="Socket"/> that the <paramref name="data"/> is to be echoed to.</param>
         /// <param name="data">A <see cref="byte[]"/> containing the data to echo.</param>
-        protected override void Echo(Socket socket, byte[] data)
-        {
-            logger.Trace(() => nameof(Echo));
-
-            Send(socket, data);
-        }
+        protected override void Echo(Socket socket, byte[] data) => Send(socket, data);
 
         #endregion
 
@@ -243,43 +220,33 @@ namespace Asgard.Comms
         /// </remarks>
         private void Connect(Socket listener)
         {
-            logger.Trace(() => nameof(Connect));
-            logger.Trace(() => $"{nameof(listener)}: {listener.Handle} listening for connections {listener.Connected}.");
-
             try
             {
                 while (!this.IsCancellationRequested)
                 {
                     // Flag that the listening loop has started.
                     this.listenerStarted.Set();
-                    logger.Trace(() => "ListenerStarted: Set");
 
                     // Set the event to nonsignaled state, just to be sure.
                     this.listenerConnected.Reset();
-                    logger.Trace(() => "ListenerConnected: Reset");
 
                     // Start an asynchronous socket to listen for connections.  
-                    logger.Trace(() => "Waiting for a connection...");
                     listener.BeginAccept(
                         new AsyncCallback(ConnectCallback),
                         listener);
 
                     // Wait until a connection is made before continuing.
-                    logger.Trace(() => "ListenerConnected: Wait");
                     this.listenerConnected.Wait(this.Token);
                 }
             }
             catch (OperationCanceledException)
             {
-                logger.Trace(() => $"Listening cancelled for {listener.Handle}.");
             }
             catch (Exception ex)
             {
-                logger.Error(ex);
             }
             finally
             {
-                logger.Trace(() => $"Finished listening on {listener.Handle}.");
             }
         }
 
@@ -289,19 +256,14 @@ namespace Asgard.Comms
         /// <param name="asyncResult">The <see cref="IAsyncResult"/> instance to process.</param>
         private void ConnectCallback(IAsyncResult asyncResult)
         {
-            logger.Trace(() => nameof(ConnectCallback));
-
             try
             {
                 // Flag that a client has connected.
                 this.listenerConnected.Set();
-                logger.Trace(() => "ListenerConnected: Set");
 
                 // Get the socket that handles the client request.  
                 if (asyncResult.AsyncState is not Socket socket)
                 {
-                    logger.Error(() => "Connection failed.");
-                    logger.Warn(() => $"Failed to get {nameof(socket)} from {nameof(asyncResult)} when connecting.");
                     return;
                 }
 
@@ -309,7 +271,6 @@ namespace Asgard.Comms
                 // access the socket, as it has probably already been disposed.
                 if (this.IsCancellationRequested)
                 {
-                    logger.Trace(() => $"Listening cancelled on {socket.Handle}.");
                     return;
                 }
 
@@ -317,16 +278,12 @@ namespace Asgard.Comms
                 var handler = socket.EndAccept(asyncResult);
                 SocketAdd(handler);
 
-                logger.Trace(() => $"Connection recd: {this.isConnected} ({socket.Connected}) {socket.Handle}.");
-                logger.Trace(() => $"Connection made: {this.IsConnected} ({handler.Connected}) {handler.Handle}.");
-
                 // Initiate receiving data...
                 Read(handler);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                logger.Error(ex);
-                logger.Warn(() => $"Connection to {(asyncResult?.AsyncState as Socket)?.Handle} ended.");
+                // Log the exception.
             }
         }
 

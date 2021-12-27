@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using NLog;
 
 namespace Asgard.Comms
 {
@@ -13,8 +12,6 @@ namespace Asgard.Comms
         ISocketClientAdapter
     {
         #region Fields
-
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         // Thread signals to synchronise between different threads.
         private readonly ManualResetEventSlim connectDone = new(false);
@@ -51,8 +48,6 @@ namespace Asgard.Comms
         public AsyncSocketClient(ISettings settings)
             : base()
         {
-            logger.Trace(() => nameof(AsyncSocketClient));
-
             this.settings = settings;
 
             var settingsNode = this.settings.Get<AsyncSocketClient, ClientSettings>();
@@ -97,8 +92,6 @@ namespace Asgard.Comms
         /// </summary>
         public void Connect()
         {
-            logger.Trace(() => nameof(Connect));
-
             // Connect to a remote device.  
             try
             {
@@ -116,17 +109,12 @@ namespace Asgard.Comms
 
                 // Wait for the connection to be accepted.
                 this.connectDone.Wait(this.Token);
-
-                logger.Trace(() => "Connection established with server.");
             }
             catch (OperationCanceledException)
             {
-                logger.Trace(() => "Connection attempt cancelled.");
             }
             catch (Exception ex)
             {
-                logger.Warn(() => "Failed to connect.");
-                logger.Error(ex);
             }
         }
 
@@ -135,8 +123,6 @@ namespace Asgard.Comms
         /// </summary>
         public void Disconnect()
         {
-            logger.Trace(() => nameof(Disconnect));
-
             Cancel();
             try
             {
@@ -148,7 +134,6 @@ namespace Asgard.Comms
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                logger.Error(ex);
             }
             finally
             {
@@ -163,8 +148,6 @@ namespace Asgard.Comms
         /// <returns></returns>
         public override bool Send(byte[] data)
         {
-            logger.Trace(() => nameof(Send));
-
             if (!this.IsConnected) return false;
 
             Send(this.socket, data);
@@ -177,8 +160,6 @@ namespace Asgard.Comms
         /// <param name="text">A <see cref="string"/> containing the text to send.</param>
         public override bool Send(string text)
         {
-            logger.Trace(() => nameof(Send));
-
             if (!this.IsConnected) return false;
 
             Send(this.socket, text);
@@ -195,15 +176,11 @@ namespace Asgard.Comms
         /// <param name="asyncResult">The <see cref="IAsyncResult"/> instance to process.</param>
         private void ConnectCallback(IAsyncResult asyncResult)
         {
-            logger.Trace(() => nameof(ConnectCallback));
-
             try
             {
                 // Retrieve the socket from the state object.  
                 if (asyncResult.AsyncState is not Socket client)
                 {
-                    logger.Error(() => "Connecting failed.");
-                    logger.Warn(() => $"Failed to get {nameof(client)} from {nameof(asyncResult)} when connecting.");
                     return;
                 }
 
@@ -213,14 +190,12 @@ namespace Asgard.Comms
                 // Signal that the connection has been made.  
                 this.connectDone.Set();
 
-                logger.Trace(() => $"Connection made: {this.IsConnected} ({client.Connected}).");
-
                 // Initiate receiving data...
                 Read(client);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                logger.Error(ex);
+                // Log the exception.
             }
         }
 

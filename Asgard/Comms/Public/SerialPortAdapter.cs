@@ -2,7 +2,6 @@
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
-using NLog;
 
 namespace Asgard.Comms
 {
@@ -18,7 +17,7 @@ namespace Asgard.Comms
     public class SerialPortAdapter :
         ISerialPortAdapter
     {
-        #region Members
+        #region Fields
 
         /// <summary>
         /// The default read buffer size.
@@ -29,11 +28,6 @@ namespace Asgard.Comms
         /// Internal open flag.
         /// </summary>
         private bool isOpen = false;
-
-        /// <summary>
-        /// Logger.
-        /// </summary>
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// The underlying serial port.
@@ -145,12 +139,7 @@ namespace Asgard.Comms
         /// <summary>
         /// Creates a new instance of the <see cref="SerialPortAdapter"/>.
         /// </summary>
-        public SerialPortAdapter()
-        {
-            logger.Trace(() => nameof(SerialPortAdapter));
-
-            this.serialPort = new();
-        }
+        public SerialPortAdapter() => this.serialPort = new();
 
         #endregion
 
@@ -200,12 +189,8 @@ namespace Asgard.Comms
         /// </summary>
         public void Disconnect()
         {
-            logger.Trace(() => nameof(Disconnect));
-
             this.isOpen = false;
             this.serialPort.Close();
-
-            logger.Debug(() => "Closed.");
         }
 
         /// <summary>
@@ -213,14 +198,9 @@ namespace Asgard.Comms
         /// </summary>
         public void Connect()
         {
-            logger.Trace(() => nameof(Connect));
-            logger.Debug(() => $"{this.PortName} {this.BaudRate} baud with {this.DataBits} data bits {this.StopBits} stop bits and {this.Parity} parity.");
-
             if (this.serialPort.IsOpen) return;
 
             this.serialPort.Open();
-
-            logger.Info(() => $"Port opened: {this.serialPort.IsOpen}.");
 
             if (!this.serialPort.IsOpen) return;
 
@@ -265,8 +245,6 @@ namespace Asgard.Comms
         /// <param name="data">The data that has been received.</param>
         protected virtual void OnReceivedSerialData(byte[] data)
         {
-            logger.Trace(() => nameof(OnReceivedSerialData));
-
             this.DataReceived?.Invoke(this.serialPort,
                 new DataReceivedEventArgs(data));
         }
@@ -302,8 +280,6 @@ namespace Asgard.Comms
         /// <param name="serialPort">The serial port to monitor.</param>
         private void ReadIncomingData(SerialPort serialPort)
         {
-            logger.Trace(() => nameof(ReadIncomingData));
-
             // Discard anything that had been received before the serial port was opened.
             serialPort.DiscardInBuffer();
 
@@ -341,11 +317,8 @@ namespace Asgard.Comms
                             kickoffRead(stream);
                         else if (!this.IsDisposed && this.isOpen)
                         {
-                            logger.Warn(() => $"{serialPort.PortName} has been closed.");
-
                             if (Reconnect(serialPort))
                             {
-                                logger.Warn(() => $"{serialPort.PortName} has been re-opened.");
                                 kickoffRead(serialPort.BaseStream);
                             }
                         }
@@ -353,8 +326,6 @@ namespace Asgard.Comms
                     null);
 
             kickoffRead(serialPort.BaseStream);
-
-            logger.Trace(() => $"{this.serialPort.PortName} waiting for incoming data.");
         }
 
         /// <summary>
@@ -374,9 +345,8 @@ namespace Asgard.Comms
                     serialPort.Open();
                 }
                 catch (FileNotFoundException) { }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    logger.Error(ex, $"Failed to reconnect {serialPort.PortName}.");
                     return false;
                 }
             }
