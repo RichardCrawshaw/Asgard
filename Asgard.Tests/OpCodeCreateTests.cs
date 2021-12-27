@@ -31,7 +31,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ACK"));
+                Assert.That(opcode?.Code, Is.EqualTo("ACK"));
             });
 		}
 
@@ -49,7 +49,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NAK"));
+                Assert.That(opcode?.Code, Is.EqualTo("NAK"));
             });
 		}
 
@@ -67,7 +67,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("HLT"));
+                Assert.That(opcode?.Code, Is.EqualTo("HLT"));
             });
 		}
 
@@ -85,7 +85,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("BON"));
+                Assert.That(opcode?.Code, Is.EqualTo("BON"));
             });
 		}
 
@@ -103,7 +103,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("TOF"));
+                Assert.That(opcode?.Code, Is.EqualTo("TOF"));
             });
 		}
 
@@ -121,7 +121,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("TON"));
+                Assert.That(opcode?.Code, Is.EqualTo("TON"));
             });
 		}
 
@@ -139,7 +139,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ESTOP"));
+                Assert.That(opcode?.Code, Is.EqualTo("ESTOP"));
             });
 		}
 
@@ -157,7 +157,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARST"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARST"));
             });
 		}
 
@@ -175,7 +175,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RTOF"));
+                Assert.That(opcode?.Code, Is.EqualTo("RTOF"));
             });
 		}
 
@@ -193,7 +193,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RTON"));
+                Assert.That(opcode?.Code, Is.EqualTo("RTON"));
             });
 		}
 
@@ -211,7 +211,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RESTP"));
+                Assert.That(opcode?.Code, Is.EqualTo("RESTP"));
             });
 		}
 
@@ -229,7 +229,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RSTAT"));
+                Assert.That(opcode?.Code, Is.EqualTo("RSTAT"));
             });
 		}
 
@@ -247,7 +247,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("QNN"));
+                Assert.That(opcode?.Code, Is.EqualTo("QNN"));
             });
 		}
 
@@ -265,7 +265,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RQNP"));
+                Assert.That(opcode?.Code, Is.EqualTo("RQNP"));
             });
 		}
 
@@ -283,7 +283,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RQMN"));
+                Assert.That(opcode?.Code, Is.EqualTo("RQMN"));
             });
 		}
 
@@ -302,7 +302,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("KLOC"));
+                Assert.That(opcode?.Code, Is.EqualTo("KLOC"));
             });
 		}
 
@@ -321,7 +321,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("QLOC"));
+                Assert.That(opcode?.Code, Is.EqualTo("QLOC"));
             });
 		}
 
@@ -340,7 +340,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DKEEP"));
+                Assert.That(opcode?.Code, Is.EqualTo("DKEEP"));
             });
 		}
 
@@ -359,7 +359,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DBG1"));
+                Assert.That(opcode?.Code, Is.EqualTo("DBG1"));
             });
 		}
 
@@ -378,7 +378,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EXTC"));
+                Assert.That(opcode?.Code, Is.EqualTo("EXTC"));
             });
 		}
 
@@ -398,7 +398,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RLOC"));
+                Assert.That(opcode?.Code, Is.EqualTo("RLOC"));
             });
 		}
 
@@ -418,7 +418,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("QCON"));
+                Assert.That(opcode?.Code, Is.EqualTo("QCON"));
             });
 		}
 
@@ -438,7 +438,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("SNN"));
+                Assert.That(opcode?.Code, Is.EqualTo("SNN"));
             });
 		}
 
@@ -458,7 +458,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("STMOD"));
+                Assert.That(opcode?.Code, Is.EqualTo("STMOD"));
             });
 		}
 
@@ -478,7 +478,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("PCON"));
+                Assert.That(opcode?.Code, Is.EqualTo("PCON"));
             });
 		}
 
@@ -498,7 +498,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("KCON"));
+                Assert.That(opcode?.Code, Is.EqualTo("KCON"));
             });
 		}
 
@@ -518,7 +518,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DSPD"));
+                Assert.That(opcode?.Code, Is.EqualTo("DSPD"));
             });
 		}
 
@@ -538,7 +538,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DFLG"));
+                Assert.That(opcode?.Code, Is.EqualTo("DFLG"));
             });
 		}
 
@@ -558,7 +558,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DFNON"));
+                Assert.That(opcode?.Code, Is.EqualTo("DFNON"));
             });
 		}
 
@@ -578,7 +578,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DFNOF"));
+                Assert.That(opcode?.Code, Is.EqualTo("DFNOF"));
             });
 		}
 
@@ -598,7 +598,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("SSTAT"));
+                Assert.That(opcode?.Code, Is.EqualTo("SSTAT"));
             });
 		}
 
@@ -619,7 +619,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NNRSM"));
+                Assert.That(opcode?.Code, Is.EqualTo("NNRSM"));
             });
 		}
 
@@ -639,7 +639,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RQNN"));
+                Assert.That(opcode?.Code, Is.EqualTo("RQNN"));
             });
 		}
 
@@ -659,7 +659,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NNREL"));
+                Assert.That(opcode?.Code, Is.EqualTo("NNREL"));
             });
 		}
 
@@ -679,7 +679,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NNACK"));
+                Assert.That(opcode?.Code, Is.EqualTo("NNACK"));
             });
 		}
 
@@ -699,7 +699,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NNLRN"));
+                Assert.That(opcode?.Code, Is.EqualTo("NNLRN"));
             });
 		}
 
@@ -719,7 +719,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NNULN"));
+                Assert.That(opcode?.Code, Is.EqualTo("NNULN"));
             });
 		}
 
@@ -739,7 +739,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NNCLR"));
+                Assert.That(opcode?.Code, Is.EqualTo("NNCLR"));
             });
 		}
 
@@ -759,7 +759,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NNEVN"));
+                Assert.That(opcode?.Code, Is.EqualTo("NNEVN"));
             });
 		}
 
@@ -779,7 +779,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NERD"));
+                Assert.That(opcode?.Code, Is.EqualTo("NERD"));
             });
 		}
 
@@ -799,7 +799,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RQEVN"));
+                Assert.That(opcode?.Code, Is.EqualTo("RQEVN"));
             });
 		}
 
@@ -819,7 +819,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("WRACK"));
+                Assert.That(opcode?.Code, Is.EqualTo("WRACK"));
             });
 		}
 
@@ -839,7 +839,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RQDAT"));
+                Assert.That(opcode?.Code, Is.EqualTo("RQDAT"));
             });
 		}
 
@@ -859,7 +859,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RQDDS"));
+                Assert.That(opcode?.Code, Is.EqualTo("RQDDS"));
             });
 		}
 
@@ -879,7 +879,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("BOOTM"));
+                Assert.That(opcode?.Code, Is.EqualTo("BOOTM"));
             });
 		}
 
@@ -899,7 +899,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ENUM"));
+                Assert.That(opcode?.Code, Is.EqualTo("ENUM"));
             });
 		}
 
@@ -920,7 +920,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NNRST"));
+                Assert.That(opcode?.Code, Is.EqualTo("NNRST"));
             });
 		}
 
@@ -940,7 +940,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EXTC1"));
+                Assert.That(opcode?.Code, Is.EqualTo("EXTC1"));
             });
 		}
 
@@ -961,7 +961,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DFUN"));
+                Assert.That(opcode?.Code, Is.EqualTo("DFUN"));
             });
 		}
 
@@ -982,7 +982,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("GLOC"));
+                Assert.That(opcode?.Code, Is.EqualTo("GLOC"));
             });
 		}
 
@@ -1003,7 +1003,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ERR"));
+                Assert.That(opcode?.Code, Is.EqualTo("ERR"));
             });
 		}
 
@@ -1024,7 +1024,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("CMDERR"));
+                Assert.That(opcode?.Code, Is.EqualTo("CMDERR"));
             });
 		}
 
@@ -1045,7 +1045,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EVNLF"));
+                Assert.That(opcode?.Code, Is.EqualTo("EVNLF"));
             });
 		}
 
@@ -1066,7 +1066,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NVRD"));
+                Assert.That(opcode?.Code, Is.EqualTo("NVRD"));
             });
 		}
 
@@ -1087,7 +1087,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NENRD"));
+                Assert.That(opcode?.Code, Is.EqualTo("NENRD"));
             });
 		}
 
@@ -1108,7 +1108,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RQNPN"));
+                Assert.That(opcode?.Code, Is.EqualTo("RQNPN"));
             });
 		}
 
@@ -1129,7 +1129,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NUMEV"));
+                Assert.That(opcode?.Code, Is.EqualTo("NUMEV"));
             });
 		}
 
@@ -1150,7 +1150,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("CANID"));
+                Assert.That(opcode?.Code, Is.EqualTo("CANID"));
             });
 		}
 
@@ -1171,7 +1171,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EXTC2"));
+                Assert.That(opcode?.Code, Is.EqualTo("EXTC2"));
             });
 		}
 
@@ -1193,7 +1193,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RDCC3"));
+                Assert.That(opcode?.Code, Is.EqualTo("RDCC3"));
             });
 		}
 
@@ -1215,7 +1215,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("WCVO"));
+                Assert.That(opcode?.Code, Is.EqualTo("WCVO"));
             });
 		}
 
@@ -1237,7 +1237,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("WCVB"));
+                Assert.That(opcode?.Code, Is.EqualTo("WCVB"));
             });
 		}
 
@@ -1259,7 +1259,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("QCVS"));
+                Assert.That(opcode?.Code, Is.EqualTo("QCVS"));
             });
 		}
 
@@ -1281,7 +1281,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("PCVS"));
+                Assert.That(opcode?.Code, Is.EqualTo("PCVS"));
             });
 		}
 
@@ -1303,7 +1303,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ACON"));
+                Assert.That(opcode?.Code, Is.EqualTo("ACON"));
             });
 		}
 
@@ -1325,7 +1325,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ACOF"));
+                Assert.That(opcode?.Code, Is.EqualTo("ACOF"));
             });
 		}
 
@@ -1347,7 +1347,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("AREQ"));
+                Assert.That(opcode?.Code, Is.EqualTo("AREQ"));
             });
 		}
 
@@ -1369,7 +1369,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARON"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARON"));
             });
 		}
 
@@ -1391,7 +1391,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("AROF"));
+                Assert.That(opcode?.Code, Is.EqualTo("AROF"));
             });
 		}
 
@@ -1413,7 +1413,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EVULN"));
+                Assert.That(opcode?.Code, Is.EqualTo("EVULN"));
             });
 		}
 
@@ -1435,7 +1435,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NVSET"));
+                Assert.That(opcode?.Code, Is.EqualTo("NVSET"));
             });
 		}
 
@@ -1457,7 +1457,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NVANS"));
+                Assert.That(opcode?.Code, Is.EqualTo("NVANS"));
             });
 		}
 
@@ -1479,7 +1479,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ASON"));
+                Assert.That(opcode?.Code, Is.EqualTo("ASON"));
             });
 		}
 
@@ -1501,7 +1501,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ASOF"));
+                Assert.That(opcode?.Code, Is.EqualTo("ASOF"));
             });
 		}
 
@@ -1523,7 +1523,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ASRQ"));
+                Assert.That(opcode?.Code, Is.EqualTo("ASRQ"));
             });
 		}
 
@@ -1545,7 +1545,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("PARAN"));
+                Assert.That(opcode?.Code, Is.EqualTo("PARAN"));
             });
 		}
 
@@ -1567,7 +1567,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("REVAL"));
+                Assert.That(opcode?.Code, Is.EqualTo("REVAL"));
             });
 		}
 
@@ -1589,7 +1589,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARSON"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARSON"));
             });
 		}
 
@@ -1611,7 +1611,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARSOF"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARSOF"));
             });
 		}
 
@@ -1633,7 +1633,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EXTC3"));
+                Assert.That(opcode?.Code, Is.EqualTo("EXTC3"));
             });
 		}
 
@@ -1656,7 +1656,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RDCC4"));
+                Assert.That(opcode?.Code, Is.EqualTo("RDCC4"));
             });
 		}
 
@@ -1679,7 +1679,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("WCVS"));
+                Assert.That(opcode?.Code, Is.EqualTo("WCVS"));
             });
 		}
 
@@ -1702,7 +1702,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ACON1"));
+                Assert.That(opcode?.Code, Is.EqualTo("ACON1"));
             });
 		}
 
@@ -1725,7 +1725,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ACOF1"));
+                Assert.That(opcode?.Code, Is.EqualTo("ACOF1"));
             });
 		}
 
@@ -1748,7 +1748,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("REQEV"));
+                Assert.That(opcode?.Code, Is.EqualTo("REQEV"));
             });
 		}
 
@@ -1771,7 +1771,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARON1"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARON1"));
             });
 		}
 
@@ -1794,7 +1794,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("AROF1"));
+                Assert.That(opcode?.Code, Is.EqualTo("AROF1"));
             });
 		}
 
@@ -1817,7 +1817,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NEVAL"));
+                Assert.That(opcode?.Code, Is.EqualTo("NEVAL"));
             });
 		}
 
@@ -1840,7 +1840,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("PNN"));
+                Assert.That(opcode?.Code, Is.EqualTo("PNN"));
             });
 		}
 
@@ -1863,7 +1863,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ASON1"));
+                Assert.That(opcode?.Code, Is.EqualTo("ASON1"));
             });
 		}
 
@@ -1886,7 +1886,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ASOF1"));
+                Assert.That(opcode?.Code, Is.EqualTo("ASOF1"));
             });
 		}
 
@@ -1909,7 +1909,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARSON1"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARSON1"));
             });
 		}
 
@@ -1932,7 +1932,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARSOF1"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARSOF1"));
             });
 		}
 
@@ -1955,7 +1955,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EXTC4"));
+                Assert.That(opcode?.Code, Is.EqualTo("EXTC4"));
             });
 		}
 
@@ -1979,7 +1979,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RDCC5"));
+                Assert.That(opcode?.Code, Is.EqualTo("RDCC5"));
             });
 		}
 
@@ -2003,7 +2003,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("WCVOA"));
+                Assert.That(opcode?.Code, Is.EqualTo("WCVOA"));
             });
 		}
 
@@ -2028,7 +2028,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("CABDAT"));
+                Assert.That(opcode?.Code, Is.EqualTo("CABDAT"));
             });
 		}
 
@@ -2052,7 +2052,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("FCLK"));
+                Assert.That(opcode?.Code, Is.EqualTo("FCLK"));
             });
 		}
 
@@ -2076,7 +2076,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ACON2"));
+                Assert.That(opcode?.Code, Is.EqualTo("ACON2"));
             });
 		}
 
@@ -2100,7 +2100,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ACOF2"));
+                Assert.That(opcode?.Code, Is.EqualTo("ACOF2"));
             });
 		}
 
@@ -2124,7 +2124,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EVLRN"));
+                Assert.That(opcode?.Code, Is.EqualTo("EVLRN"));
             });
 		}
 
@@ -2148,7 +2148,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EVANS"));
+                Assert.That(opcode?.Code, Is.EqualTo("EVANS"));
             });
 		}
 
@@ -2172,7 +2172,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARON2"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARON2"));
             });
 		}
 
@@ -2196,7 +2196,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("AROF2"));
+                Assert.That(opcode?.Code, Is.EqualTo("AROF2"));
             });
 		}
 
@@ -2220,7 +2220,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ASON2"));
+                Assert.That(opcode?.Code, Is.EqualTo("ASON2"));
             });
 		}
 
@@ -2244,7 +2244,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ASOF2"));
+                Assert.That(opcode?.Code, Is.EqualTo("ASOF2"));
             });
 		}
 
@@ -2268,7 +2268,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARSON2"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARSON2"));
             });
 		}
 
@@ -2292,7 +2292,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARSOF2"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARSOF2"));
             });
 		}
 
@@ -2316,7 +2316,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EXTC5"));
+                Assert.That(opcode?.Code, Is.EqualTo("EXTC5"));
             });
 		}
 
@@ -2341,7 +2341,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("RDCC6"));
+                Assert.That(opcode?.Code, Is.EqualTo("RDCC6"));
             });
 		}
 
@@ -2366,7 +2366,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("PLOC"));
+                Assert.That(opcode?.Code, Is.EqualTo("PLOC"));
             });
 		}
 
@@ -2391,7 +2391,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("NAME"));
+                Assert.That(opcode?.Code, Is.EqualTo("NAME"));
             });
 		}
 
@@ -2416,7 +2416,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("STAT"));
+                Assert.That(opcode?.Code, Is.EqualTo("STAT"));
             });
 		}
 
@@ -2442,7 +2442,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DTXC"));
+                Assert.That(opcode?.Code, Is.EqualTo("DTXC"));
             });
 		}
 
@@ -2467,7 +2467,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("PARAMS"));
+                Assert.That(opcode?.Code, Is.EqualTo("PARAMS"));
             });
 		}
 
@@ -2492,7 +2492,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ACON3"));
+                Assert.That(opcode?.Code, Is.EqualTo("ACON3"));
             });
 		}
 
@@ -2517,7 +2517,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ACOF3"));
+                Assert.That(opcode?.Code, Is.EqualTo("ACOF3"));
             });
 		}
 
@@ -2542,7 +2542,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ENRSP"));
+                Assert.That(opcode?.Code, Is.EqualTo("ENRSP"));
             });
 		}
 
@@ -2567,7 +2567,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARON3"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARON3"));
             });
 		}
 
@@ -2592,7 +2592,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("AROF3"));
+                Assert.That(opcode?.Code, Is.EqualTo("AROF3"));
             });
 		}
 
@@ -2617,7 +2617,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EVLRNI"));
+                Assert.That(opcode?.Code, Is.EqualTo("EVLRNI"));
             });
 		}
 
@@ -2642,7 +2642,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ACDAT"));
+                Assert.That(opcode?.Code, Is.EqualTo("ACDAT"));
             });
 		}
 
@@ -2667,7 +2667,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARDAT"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARDAT"));
             });
 		}
 
@@ -2692,7 +2692,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ASON3"));
+                Assert.That(opcode?.Code, Is.EqualTo("ASON3"));
             });
 		}
 
@@ -2717,7 +2717,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ASOF3"));
+                Assert.That(opcode?.Code, Is.EqualTo("ASOF3"));
             });
 		}
 
@@ -2742,7 +2742,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DDES"));
+                Assert.That(opcode?.Code, Is.EqualTo("DDES"));
             });
 		}
 
@@ -2767,7 +2767,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DDRS"));
+                Assert.That(opcode?.Code, Is.EqualTo("DDRS"));
             });
 		}
 
@@ -2793,7 +2793,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("DDWS"));
+                Assert.That(opcode?.Code, Is.EqualTo("DDWS"));
             });
 		}
 
@@ -2818,7 +2818,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARSON3"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARSON3"));
             });
 		}
 
@@ -2843,7 +2843,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("ARSOF3"));
+                Assert.That(opcode?.Code, Is.EqualTo("ARSOF3"));
             });
 		}
 
@@ -2868,7 +2868,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("EXTC6"));
+                Assert.That(opcode?.Code, Is.EqualTo("EXTC6"));
             });
 		}
 	}

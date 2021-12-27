@@ -95,7 +95,7 @@ namespace Asgard.Tests
             Assert.Multiple(() =>
             {
                 Assert.That(opcode, Is.Not.Null);
-                Assert.That(opcode?.GetType().Name, Is.EqualTo("<#= opcodeName #>"));
+                Assert.That(opcode?.Code, Is.EqualTo("<#= opcodeName #>"));
             });
 		}
 <#	}
