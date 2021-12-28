@@ -22,10 +22,18 @@ namespace Asgard.Communications
         {
             var options = this.options.CurrentValue;
 
+            var frame = 
+                options.Frame ?? 
+                new CbusCanFrameSettings
+                {
+                    CanId = 125,
+                    MajorPriority = Enum.GetName(MajorPriority.Low),
+                    MinorPriority = Enum.GetName(MinorPriority.Normal),
+                };
+
             var result =
-                new CbusCanFrame(options.Frame, null);
-                //ActivatorUtilities.CreateInstance<CbusCanFrame>(
-                //    this.services, new[] { options.Frame, });
+                ActivatorUtilities.CreateInstance<CbusCanFrame>(
+                    this.services, new[] { frame, });
             result.Instantiate(message.GetOpCode());
             result.Message = message;
             return result;
