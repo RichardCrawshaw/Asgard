@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Threading.Tasks;
 using Asgard.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
 
 namespace Asgard.ExampleUse
 {

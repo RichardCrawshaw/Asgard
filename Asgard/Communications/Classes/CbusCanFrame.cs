@@ -1,9 +1,13 @@
 ﻿using Asgard.Data;
+using Microsoft.Extensions.Logging;
 
 namespace Asgard.Communications
 {
-    public class CbusCanFrame:ICbusCanFrame
+    public class CbusCanFrame : ICbusCanFrame
     {
+        private readonly CbusCanFrameSettings settings;
+        private readonly ILogger<CbusCanFrame> logger;
+
         public byte SidH { get; set; }
         public byte SidL { get; set; }
         public FrameTypes FrameType { get; set; }
@@ -31,6 +35,23 @@ namespace Asgard.Communications
         }
 
         public ICbusMessage Message { get; set; }
+
+        public CbusCanFrame(CbusCanFrameSettings settings, ILogger<CbusCanFrame> logger)
+        {
+            this.settings = settings;
+            this.logger = logger;
+        }
+
+        public void Instantiate(ICbusOpCode cbusOpCode)
+        {
+            // TODO: Extract the major and minor priority from the op-code meta-data.
+
+            this.CanId = this.settings?.CanId ?? 125;
+            this.MajorPriority = this.settings?.GetMajorPriority() ?? MajorPriority.Low;
+            this.MinorPriority = this.settings?.GetMinorPriority() ?? MinorPriority.Normal;
+
+            this.logger?.LogInformation($"Created CAN frame for {cbusOpCode?.Code}");
+        }
 
         public override string ToString() => 
             $"0x{this.SidL:X2} 0x{this.SidH:X2} (0x{this.CanId:X2}) {this.FrameType} {this.Message}";

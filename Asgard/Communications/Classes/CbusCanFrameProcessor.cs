@@ -1,14 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text;
-using System.Threading.Tasks;
 using Asgard.Data;
+using Microsoft.Extensions.Logging;
 
 namespace Asgard.Communications
 {
-    internal class CbusCanFrameProcessor : ICbusCanFrameProcessor
+    internal class CbusCanFrameProcessor :
+        ICbusCanFrameProcessor
     {
         private readonly ILogger<CbusCanFrameProcessor> logger;
 
@@ -17,7 +15,7 @@ namespace Asgard.Communications
             this.logger = logger;
         }
 
-        public string ConstructTransportString(CbusCanFrame frame)
+        public string ConstructTransportString(ICbusCanFrame frame)
         {
             this.logger?.LogTrace("Creating transport string for {0}", frame);
 
@@ -25,12 +23,12 @@ namespace Asgard.Communications
             ts.Append(":S");
             ts.Append(frame.SidH.ToString("X2"));
             ts.Append(frame.SidL.ToString("X2"));
-            ts.Append("N");
+            ts.Append('N');
             for (var x = 0; x < frame.Message.Length; x++)
             {
                 ts.Append(frame.Message[x].ToString("X2"));
             }
-            ts.Append(";");
+            ts.Append(';');
             return ts.ToString();
         }
 
@@ -58,7 +56,7 @@ namespace Asgard.Communications
                 dataBytes[x] = Convert.ToByte(transportString.Substring(p, 2), 16);
             }
 
-            var frame = new CbusCanFrame
+            var frame = new CbusCanFrame(null, null)
             {
                 SidH = sidh,
                 SidL = sidl,

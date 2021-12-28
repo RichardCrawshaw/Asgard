@@ -12,6 +12,7 @@ namespace Asgard.Communications
 
         private readonly ICbusCanFrameProcessor cbusCanFrameProcessor;
         private readonly ICbusConnectionFactory connectionFactory;
+        private readonly ICbusCanFrameFactory cbusCanFrameFactory;
         private readonly ILogger<CbusMessenger> logger;
 
         public event EventHandler<CbusMessageEventArgs> MessageReceived;
@@ -19,10 +20,11 @@ namespace Asgard.Communications
         
         public bool IsOpen { get; private set; }
 
-        public CbusMessenger(ICbusCanFrameProcessor cbusCanFrameProcessor, ICbusConnectionFactory connectionFactory, ILogger<CbusMessenger> logger = null)
+        public CbusMessenger(ICbusCanFrameProcessor cbusCanFrameProcessor, ICbusConnectionFactory connectionFactory, ICbusCanFrameFactory cbusCanFrameFactory, ILogger<CbusMessenger> logger = null)
         {
             this.cbusCanFrameProcessor = cbusCanFrameProcessor;
             this.connectionFactory = connectionFactory;
+            this.cbusCanFrameFactory = cbusCanFrameFactory;
             this.logger = logger;
         }
 
@@ -66,20 +68,14 @@ namespace Asgard.Communications
         
         public async Task<bool> SendMessage(ICbusMessage message)
         {
-            //Note: An overload of this method exists on ICbusMessenger that allows an ICbusOpcode to be 
-            //      passed instead of the underlying message.
+            //Note: An overload of this method exists on ICbusMessenger that allows an ICbusOpcode
+            //      to be passed instead of the underlying message.
 
-            //TODO: consider cbuscanframe factory to decouple this
-            var frame = new CbusCanFrame();
-            //TODO: make configurable
-            frame.CanId = 125;
-            frame.MinorPriority = MinorPriority.Normal;
-            frame.MajorPriority = MajorPriority.Low;
-            frame.Message = message;
+            var cbusCanFrame = this.cbusCanFrameFactory.CreateFrame(message);
 
             this.logger?.LogTrace("Sending message: {0}", message);
             await this.transport.SendMessage(
-                this.cbusCanFrameProcessor.ConstructTransportString(frame));
+                this.cbusCanFrameProcessor.ConstructTransportString(cbusCanFrame));
             MessageSent?.Invoke(this, new CbusMessageEventArgs(message));
             return true;
         }

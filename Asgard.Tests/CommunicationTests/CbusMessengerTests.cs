@@ -21,15 +21,22 @@ namespace Asgard.Tests.CommunicationTests
             var connectionFactory = new Mock<ICbusConnectionFactory>();
             connectionFactory.Setup(cf => cf.GetConnection()).Returns(transport.Object);
 
+            var frame = new Mock<ICbusCanFrame>();
+            var frameFactory = new Mock<ICbusCanFrameFactory>();
+            frameFactory.Setup(ff => ff.CreateFrame(null)).Returns(frame.Object);
+
             var cfp = new CbusCanFrameProcessor();
-            var cm = new CbusMessenger(cfp, connectionFactory.Object);
+            var cm = new CbusMessenger(cfp, connectionFactory.Object, frameFactory.Object);
             cm.Open();
             ICbusMessage m = null;
             cm.MessageReceived += (sender, args) => m = args.Message;
 
-            transport.Raise(t => t.GridConnectMessage += null, new MessageReceivedEventArgs(":SB020N9101000005;"));
+            transport.Raise(t => 
+                t.GridConnectMessage += null, 
+                new MessageReceivedEventArgs(":SB020N9101000005;"));
             var opCode = m.GetOpCode();
-            opCode.Should().NotBeNull()
+            opCode
+                .Should().NotBeNull()
                 .And.BeOfType<AccessoryOff>()
                 .Which.Should().BeEquivalentTo(new { NodeNumber = 256, EventNumber = 5 });
         }
@@ -42,8 +49,12 @@ namespace Asgard.Tests.CommunicationTests
             var connectionFactory = new Mock<ICbusConnectionFactory>();
             connectionFactory.Setup(cf => cf.GetConnection()).Returns(transport.Object);
 
+            var frame = new Mock<ICbusCanFrame>();
+            var frameFactory = new Mock<ICbusCanFrameFactory>();
+            frameFactory.Setup(ff => ff.CreateFrame(null)).Returns(frame.Object);
+
             var cfp = new CbusCanFrameProcessor();
-            var cm = new CbusMessenger(cfp, connectionFactory.Object);
+            var cm = new CbusMessenger(cfp, connectionFactory.Object, frameFactory.Object);
             cm.Open();
 
             //TODO: need to consider how we want applications to be able to send messages to the bus

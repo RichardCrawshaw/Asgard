@@ -87,7 +87,7 @@ namespace Asgard.Communications
                 }
                 catch (TaskCanceledException)
                 {
-                    //ok
+                    // Catch the cancelled exception and just let the loop terminate normally.
                 }
                 catch (Exception e)
                 {
@@ -105,22 +105,29 @@ namespace Asgard.Communications
         {
             while (!this.cts.Token.IsCancellationRequested)
             {
-                var result = await reader.ReadAsync(this.cts.Token);
-                var buffer = result.Buffer;
-                SequencePosition? endPosition;
-                do
+                try
                 {
-                    endPosition = buffer.PositionOf((byte)';');
-                    if (endPosition != null)
+                    var result = await reader.ReadAsync(this.cts.Token);
+                    var buffer = result.Buffer;
+                    SequencePosition? endPosition;
+                    do
                     {
-                        endPosition = buffer.GetPosition(1, endPosition.Value);
-                        ProcessMessage(buffer.Slice(0, endPosition.Value));
-                        buffer = buffer.Slice(endPosition.Value);
-                    }
+                        endPosition = buffer.PositionOf((byte)';');
+                        if (endPosition != null)
+                        {
+                            endPosition = buffer.GetPosition(1, endPosition.Value);
+                            ProcessMessage(buffer.Slice(0, endPosition.Value));
+                            buffer = buffer.Slice(endPosition.Value);
+                        }
 
-                } while (endPosition != null);
+                    } while (endPosition != null);
 
-                reader.AdvanceTo(buffer.Start, buffer.End);
+                    reader.AdvanceTo(buffer.Start, buffer.End);
+                }
+                catch (OperationCanceledException)
+                {
+                    // Catch the cancelled exception and just let the loop terminate normally.
+                }
             }
         }
 

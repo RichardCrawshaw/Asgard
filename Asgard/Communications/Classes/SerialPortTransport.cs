@@ -15,7 +15,8 @@ namespace Asgard.Communications
         private SerialPort port;
         private bool disposedValue;
 
-        public SerialPortTransport(SerialPortTransportSettings settings, ILogger<SerialPortTransport> logger = null) 
+        public SerialPortTransport(SerialPortTransportSettings settings,
+                                   ILogger<SerialPortTransport> logger = null) 
             : base(logger)
         {
             this.settings = settings;
@@ -90,7 +91,10 @@ namespace Asgard.Communications
             var serialPort =
                 new SerialPort(this.settings.PortName)
                 {
-                    BaudRate = this.settings.BaudRate,
+                    BaudRate = this.settings.BaudRate ?? 115200,
+                    DataBits = this.settings.DataBits ?? 8,
+                    StopBits = this.settings.GetStopBits() ?? StopBits.One,
+                    Parity = this.settings.GetParity() ?? Parity.None,
                 };
             return serialPort;
         }
