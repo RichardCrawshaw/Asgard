@@ -30,5 +30,10 @@ namespace Asgard.Communications
         /// Opens and initialises the processor and the underlying transport connection.
         /// </summary>
         void Open();
+
+        /// <summary>
+        /// Closes the processor and the underlying transport connection.
+        /// </summary>
+        bool Close();
     }
 }

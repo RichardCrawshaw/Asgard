@@ -41,9 +41,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Enumerations.cs</LastGenOutput>
     </None>
-    <None Update="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>

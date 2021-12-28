@@ -13,6 +13,6 @@ namespace Asgard.Communications
         Task<bool> SendMessage(ICbusOpCode message) => SendMessage(message.Message);
 
         void Open();
-        
+        void Close();
     }
 }

@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace Asgard.Communications
 {
@@ -29,7 +29,7 @@ namespace Asgard.Communications
         public override void Open(CancellationToken cancellationToken)
         {
             this.logger?.LogInformation("Opening serial port: {0}", this.settings.PortName);
-            this.port = new SerialPort(this.settings.PortName);
+            this.port = GetSerialPort();
 
             try
             {
@@ -59,7 +59,7 @@ namespace Asgard.Communications
             // Ensure that any previous port has been disposed of prior to creating a new one.
             this.port?.Dispose();
 
-            this.port = new SerialPort(this.settings.PortName);
+            this.port = GetSerialPort();
 
             try
             {
@@ -78,6 +78,21 @@ namespace Asgard.Communications
                 this.logger.LogError(ex, "Attempting to re-open {0}.", this.settings.PortName);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Creates and returns an instance of a <see cref="SerialPort"/> using the values in 
+        /// <seealso cref="settings"/>.
+        /// </summary>
+        /// <returns>A <see cref="SerialPort"/> object.</returns>
+        private SerialPort GetSerialPort()
+        {
+            var serialPort =
+                new SerialPort(this.settings.PortName)
+                {
+                    BaudRate = this.settings.BaudRate,
+                };
+            return serialPort;
         }
 
         protected virtual void Dispose(bool disposing)

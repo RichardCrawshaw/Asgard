@@ -241,12 +241,11 @@ namespace Asgard.Comms
             }
             catch (OperationCanceledException)
             {
+                // No logging of cancellation required.
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-            }
-            finally
-            {
+                // Log exception.
             }
         }
 

@@ -1,10 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 using Asgard.Data;
+using Microsoft.Extensions.Logging;
 
 namespace Asgard.Communications
 {
@@ -40,6 +37,17 @@ namespace Asgard.Communications
             this.IsOpen = true;
         }
 
+        public void Close()
+        {
+            // Don't test the IsOpen flag, as it won't be set if the Open method hasn't completed.
+
+            if (this.transport?.Close() ?? false)
+                this.transport.GridConnectMessage -= HandleTransportMessage;
+            this.transport = null;
+
+            this.IsOpen = false;
+        }
+
         private void HandleTransportMessage(object sender, MessageReceivedEventArgs e)
         {
             try
@@ -55,7 +63,6 @@ namespace Asgard.Communications
                 throw;
             }
         }
-
         
         public async Task<bool> SendMessage(ICbusMessage message)
         {
@@ -71,7 +78,8 @@ namespace Asgard.Communications
             frame.Message = message;
 
             this.logger?.LogTrace("Sending message: {0}", message);
-            await this.transport.SendMessage(this.cbusCanFrameProcessor.ConstructTransportString(frame));
+            await this.transport.SendMessage(
+                this.cbusCanFrameProcessor.ConstructTransportString(frame));
             MessageSent?.Invoke(this, new CbusMessageEventArgs(message));
             return true;
         }

@@ -112,9 +112,11 @@ namespace Asgard.Comms
             }
             catch (OperationCanceledException)
             {
+                // No logging of cancellation required.
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                // Log exception.
             }
         }
 
@@ -132,8 +134,9 @@ namespace Asgard.Comms
                     this.receiveDone.Wait(this.Token);
             }
             catch (OperationCanceledException) { }
-            catch (Exception ex)
+            catch (Exception)
             {
+                // Log exception.
             }
             finally
             {

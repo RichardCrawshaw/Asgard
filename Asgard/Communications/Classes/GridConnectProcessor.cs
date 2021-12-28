@@ -1,15 +1,16 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Buffers;
 using System.IO;
 using System.IO.Pipelines;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Asgard.Communications
 {
-    public class GridConnectProcessor : IGridConnectProcessor, 
+    public class GridConnectProcessor : 
+        IGridConnectProcessor, 
         IDisposable
     {
         private readonly ILogger<GridConnectProcessor> logger;
@@ -41,6 +42,16 @@ namespace Asgard.Communications
             //TODO: would this be better as distinct threads rather than using up threads from the threadpool?
             ReadPipe(pipe.Reader).AsgardFireAndForget();
             Listen(pipe.Writer).AsgardFireAndForget();
+        }
+
+        public bool Close()
+        {
+            this.logger?.LogTrace(nameof(Close));
+
+            // Force all the various async processes to stop, tidy up and quit.
+            this.cts.Cancel();
+
+            return true;
         }
 
         private Task Listen(PipeWriter writer) => Task.Run(() => ListenAsync(writer));

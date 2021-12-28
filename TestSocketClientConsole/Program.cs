@@ -3,18 +3,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Asgard.Comms;
-using NLog;
 
 namespace TestSocketClientConsole
 {
     class Program
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-
         static void Main()
         {
-            logger.Info(() => nameof(TestSocketClientConsole));
-
             var settings = new Settings();
 
             var client = new AsyncSocketClient(settings);
@@ -52,11 +47,9 @@ namespace TestSocketClientConsole
             if ((e.Data?.Length ?? 0) > 0)
             {
                 var text = Encoding.ASCII.GetString(e.Data);
-                logger.Debug(() => text);
                 Console.WriteLine($">>> {text}");
 
                 text = string.Join(" ", e.Data.Select(b => $"0X{b:X2}"));
-                logger.Debug(() => text);
                 Console.WriteLine($">>> {text}");
             }
         }

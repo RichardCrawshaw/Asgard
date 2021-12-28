@@ -1,14 +1,14 @@
-﻿using Asgard.Communications;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Hosting;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Threading;
-using System;
+using Asgard.Communications;
 using Asgard.Data;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Asgard.ExampleUse
 {
-    public class ExampleUse:IHostedService
+    public class ExampleUse : 
+        IHostedService
     {
         private readonly IHostApplicationLifetime hostApplicationLifetime;
         private readonly ICbusMessenger cbusMessenger;
@@ -51,6 +51,7 @@ namespace Asgard.ExampleUse
         private void OnStopping()
         {
             this.logger?.LogInformation("Application stopping.");
+            this.cbusMessenger?.Close();
             if (this.cbusMessenger is not null)
                 this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
         }

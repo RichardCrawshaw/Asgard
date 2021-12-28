@@ -244,8 +244,9 @@ namespace Asgard.Comms
                 // Begin receiving the data from the remote device.  
                 socket.BeginReceive(state.Buffer, 0, StateObject.BUFFER_SIZE, 0, new AsyncCallback(ReadCallback), state);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                // Log exception.
             }
         }
 
@@ -349,8 +350,9 @@ namespace Asgard.Comms
             {
                 return ReadCallback(asyncResult, client, client.Socket);
             }
-            catch (SocketException ex)
+            catch (SocketException)
             {
+                // Log exception.
                 return false;
             }
             catch (Exception)
