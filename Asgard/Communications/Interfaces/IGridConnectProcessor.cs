@@ -29,7 +29,7 @@ namespace Asgard.Communications
         /// <summary>
         /// Opens and initialises the processor and the underlying transport connection.
         /// </summary>
-        void Open();
+        Task OpenAsync();
 
         /// <summary>
         /// Closes the processor and the underlying transport connection.

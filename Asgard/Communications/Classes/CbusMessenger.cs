@@ -28,13 +28,13 @@ namespace Asgard.Communications
             this.logger = logger;
         }
 
-        public void Open()
+        public async Task OpenAsync()
         {
             if (this.IsOpen) return;
 
             this.transport = connectionFactory.GetConnection();
             this.transport.GridConnectMessage += HandleTransportMessage;
-            this.transport.Open();
+            await this.transport.OpenAsync();
 
             this.IsOpen = true;
         }

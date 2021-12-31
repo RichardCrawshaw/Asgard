@@ -9,7 +9,7 @@ namespace Asgard.Communications
         ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken);
         Task SendAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken);
 
-        void Open(CancellationToken cancellationToken);
+        Task OpenAsync(CancellationToken cancellationToken);
 
         // TODO: Events for (dis)connection?
     }

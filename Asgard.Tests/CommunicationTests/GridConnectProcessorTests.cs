@@ -18,7 +18,7 @@ namespace Asgard.Tests.CommunicationTests
         [TestCase(":somemsg;", ":somemsg;")]
         [TestCase(":;", ":;")]
         [TestCase(":s;", ":s;")]
-        public void GridConnectProcessor_RaisesSingleEvent_ForEachSingleMessage(string input, string output)
+        public async Task GridConnectProcessor_RaisesSingleEvent_ForEachSingleMessage(string input, string output)
         {
 
             var mre = new ManualResetEvent(false);
@@ -36,7 +36,7 @@ namespace Asgard.Tests.CommunicationTests
                 mre.Set();
             };
 
-            s.Open();
+            await s.OpenAsync();
 
             mre.WaitOne(TimeSpan.FromSeconds(2));
             msg.Should().Be(output);
@@ -48,7 +48,7 @@ namespace Asgard.Tests.CommunicationTests
         [TestCase(":somemsg;123", ":somemsg;")]
         [TestCase("abc:somemsg;123", ":somemsg;")]
         [TestCase("a;bc:somemsg;123", ":somemsg;")]
-        public void StreamTransport_RaisesSingleEvent_AndIgnoresPartialMessages(string input, string output)
+        public async Task StreamTransport_RaisesSingleEvent_AndIgnoresPartialMessages(string input, string output)
         {
 
             var mre = new ManualResetEvent(false);
@@ -67,7 +67,7 @@ namespace Asgard.Tests.CommunicationTests
                 mre.Set();
             };
 
-            s.Open();
+            await s.OpenAsync();
 
             mre.WaitOne(TimeSpan.FromSeconds(2));
             msg.Should().Be(output);
