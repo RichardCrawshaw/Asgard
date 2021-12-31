@@ -31,7 +31,7 @@ namespace Asgard.ExampleUse
 
             try
             {
-                this.cbusMessenger.Open();
+                await this.cbusMessenger.OpenAsync();
 
                 var mm = new MessageManager(this.cbusMessenger);
                 this.logger.LogInformation("Sending node query");

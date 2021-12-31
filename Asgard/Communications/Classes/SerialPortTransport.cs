@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace Asgard.Communications
@@ -27,7 +28,7 @@ namespace Asgard.Communications
         /// Attempts to open the underlying serial port.
         /// </summary>
         /// <exception cref="TransportException">If the selected serial port could not be found.</exception>
-        public override void Open(CancellationToken cancellationToken)
+        public override async Task OpenAsync(CancellationToken cancellationToken)
         {
             this.logger?.LogInformation("Opening serial port: {0}", this.settings.PortName);
             this.port = GetSerialPort();
@@ -43,7 +44,7 @@ namespace Asgard.Communications
                 LogAvailablePorts();
 
                 // Wait for the port to become available.
-                var reconnected = Reconnect(cancellationToken);
+                var reconnected = await Reconnect(cancellationToken);
                 if (!reconnected)
                     throw new TransportException($"The selected SerialPort could not be found: {e.FileName}", e);
             }

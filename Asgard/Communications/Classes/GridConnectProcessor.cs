@@ -29,12 +29,12 @@ namespace Asgard.Communications
             this.logger = logger;
         }
 
-        public void Open()
+        public async Task OpenAsync()
         {
-            this.logger?.LogTrace(nameof(Open));
+            this.logger?.LogTrace(nameof(OpenAsync));
             this.cts = new CancellationTokenSource();
 
-            this.Transport.Open(this.cts.Token);
+            await this.Transport.OpenAsync(this.cts.Token);
             if (this.cts.Token.IsCancellationRequested)
                 return;
 
