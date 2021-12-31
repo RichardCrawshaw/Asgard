@@ -44,7 +44,7 @@ namespace Asgard.Communications
                 LogAvailablePorts();
 
                 // Wait for the port to become available.
-                var reconnected = await Reconnect(cancellationToken);
+                var reconnected = await ReconnectAsync(cancellationToken);
                 if (!reconnected)
                     throw new TransportException($"The selected SerialPort could not be found: {e.FileName}", e);
             }

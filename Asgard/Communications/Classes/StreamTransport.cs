@@ -39,7 +39,7 @@ namespace Asgard.Communications
 
                 // An external cancellation hasn't been requested; so it looks like the port has 
                 // been disconnected; attempt to reconnect.
-                var reconnected = await Reconnect(cancellationToken);
+                var reconnected = await ReconnectAsync(cancellationToken);
                 if (!reconnected)
                     // Reconnection has failed, so force the read handling to drop out.
                     return -1;
@@ -64,9 +64,9 @@ namespace Asgard.Communications
         /// <remarks>
         /// If reconnection was not successful the calling method should tidy up and quit.
         /// </remarks>
-        protected async Task<bool> Reconnect(CancellationToken cancellationToken)
+        protected async Task<bool> ReconnectAsync(CancellationToken cancellationToken)
         {
-            //if (this.TransportStream == null) return false;
+            // Don't check the TransportStream for null as it may legitimately be null.
 
             this.logger?.LogInformation("Waiting for reconnection...");
 
