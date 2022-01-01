@@ -1,13 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32002.261
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard", "Asgard\Asgard.csproj", "{2A1EB43A-5BB7-4637-A709-19ACFE9F1075}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSocketListenerConsole", "TestSocketListenerConsole\TestSocketListenerConsole.csproj", "{EA6C1B1A-14A7-4D78-92C9-ADAE7066D406}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestSocketClientConsole", "TestSocketClientConsole\TestSocketClientConsole.csproj", "{E45B7A3F-67EE-45BA-8A78-60DB96E958AB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard.Tests", "Asgard.Tests\Asgard.Tests.csproj", "{BCB7F423-F15C-4F3D-B603-242ECA5627A1}"
 EndProject
@@ -28,14 +24,6 @@ Global
 		{2A1EB43A-5BB7-4637-A709-19ACFE9F1075}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A1EB43A-5BB7-4637-A709-19ACFE9F1075}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A1EB43A-5BB7-4637-A709-19ACFE9F1075}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA6C1B1A-14A7-4D78-92C9-ADAE7066D406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA6C1B1A-14A7-4D78-92C9-ADAE7066D406}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA6C1B1A-14A7-4D78-92C9-ADAE7066D406}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA6C1B1A-14A7-4D78-92C9-ADAE7066D406}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E45B7A3F-67EE-45BA-8A78-60DB96E958AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E45B7A3F-67EE-45BA-8A78-60DB96E958AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E45B7A3F-67EE-45BA-8A78-60DB96E958AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E45B7A3F-67EE-45BA-8A78-60DB96E958AB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BCB7F423-F15C-4F3D-B603-242ECA5627A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BCB7F423-F15C-4F3D-B603-242ECA5627A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCB7F423-F15C-4F3D-B603-242ECA5627A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
