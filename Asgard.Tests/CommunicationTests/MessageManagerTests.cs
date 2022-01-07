@@ -108,9 +108,18 @@ namespace Asgard.Tests.CommunicationTests
             var responseTask3 = mm.SendMessageWaitForReply(new GetEngineSession() { Address = 30 });
 
 
-            messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new EngineReport() { Address = 20 }.Message));
-            messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new EngineReport() { Address = 10 }.Message));
-            messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new CommandStationErrorReport() { Data1 = 0, Data2 = 30 }.Message));
+            messenger.Raise(m => 
+                m.MessageReceived += null, 
+                new CbusMessageEventArgs(
+                    new EngineReport() { Address = 20 }.Message, received: true));
+            messenger.Raise(m => 
+                m.MessageReceived += null, 
+                new CbusMessageEventArgs(
+                    new EngineReport() { Address = 10 }.Message, received: true));
+            messenger.Raise(m => 
+                m.MessageReceived += null, 
+                new CbusMessageEventArgs(
+                    new CommandStationErrorReport() { Data1 = 0, Data2 = 30 }.Message, received: true));
 
             var response1 = await responseTask1;
             var response2 = await responseTask2;
