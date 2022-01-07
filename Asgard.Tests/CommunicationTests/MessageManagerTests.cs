@@ -96,5 +96,39 @@ namespace Asgard.Tests.CommunicationTests
                 mm.SendMessageWaitForReplies<ResponseToQueryNode>(
                     new QueryNodeNumber(), 2));
         }
+
+        [Test]
+        public async Task Manager_ReturnsCorrectMessages_WhenMultipleRequestsAreInFlight()
+        {
+            var messenger = new Mock<ICbusMessenger>();
+            var mm = new MessageManager(messenger.Object);
+
+            var responseTask1 = mm.SendMessageWaitForReply(new GetEngineSession() { Address = 10 });
+            var responseTask2 = mm.SendMessageWaitForReply(new GetEngineSession() { Address = 20 });
+            var responseTask3 = mm.SendMessageWaitForReply(new GetEngineSession() { Address = 30 });
+
+
+            messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new EngineReport() { Address = 20 }.Message));
+            messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new EngineReport() { Address = 10 }.Message));
+            messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new CommandStationErrorReport() { Data1 = 0, Data2 = 30 }.Message));
+
+            var response1 = await responseTask1;
+            var response2 = await responseTask2;
+            var response3 = await responseTask3;
+
+            response1.Should().BeOfType<EngineReport>();
+            response2.Should().BeOfType<EngineReport>();
+            response3.Should().BeOfType<CommandStationErrorReport>();
+
+            var r1 = (EngineReport)response1;
+            var r2 = (EngineReport)response2;
+            var r3 = (CommandStationErrorReport)response3;
+
+            r1.Address.Should().Be(10);
+            r2.Address.Should().Be(20);
+            r3.Data2.Should().Be(30);
+        }
+
+
     }
 }

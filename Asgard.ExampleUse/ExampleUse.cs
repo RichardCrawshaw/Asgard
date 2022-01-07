@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Asgard.Communications;
 using Asgard.Data;
@@ -32,8 +33,9 @@ namespace Asgard.ExampleUse
             try
             {
                 await this.cbusMessenger.OpenAsync();
-
                 var mm = new MessageManager(this.cbusMessenger);
+
+                //Send and receive replies by specifying what you're expecting in response to a request
                 this.logger.LogInformation("Sending node query");
                 var replies = await mm.SendMessageWaitForReplies<ResponseToQueryNode>(new QueryNodeNumber());
                 foreach(var reply in replies)
@@ -41,6 +43,27 @@ namespace Asgard.ExampleUse
                     this.logger.LogInformation(
                         $"Node info: Node number: {reply.NodeNumber}, ModuleID: {reply.ModuleId}");
                 }
+
+                
+                //Send and receive replies using built-in Asgard response filtering
+                var response = await mm.SendMessageWaitForReply(new GetEngineSession());
+                switch (response)
+                {
+                    case ResponseToQueryNode report:
+                        //do stuff
+                        break;
+                    case CommandStationErrorReport error:
+                        //do other stuff
+                        break;
+                }
+                if (response is IErrorReplyTo<GetEngineSession>)
+                {
+                    //Do stuff if it was a en error reply without knowing specific response type as above
+                }
+
+
+
+
             }
             catch (TransportException e)
             {
