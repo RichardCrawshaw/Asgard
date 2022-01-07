@@ -8,7 +8,7 @@ namespace Asgard.Communications
 {
     public interface ICbusConnectionFactory
     {
-        //TODO: pass in settings
         IGridConnectProcessor GetConnection();
+        IGridConnectProcessor GetConnection(ConnectionOptions connectionOptions);
     }
 }

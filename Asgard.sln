@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard.Console", "Asgard.Console\Asgard.Console.csproj", "{F6B4819C-2765-48AC-A9FB-0C506CE796D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{E0C0CC40-78B6-47E7-AFA6-22343FCFAB7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0C0CC40-78B6-47E7-AFA6-22343FCFAB7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0C0CC40-78B6-47E7-AFA6-22343FCFAB7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6B4819C-2765-48AC-A9FB-0C506CE796D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6B4819C-2765-48AC-A9FB-0C506CE796D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6B4819C-2765-48AC-A9FB-0C506CE796D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6B4819C-2765-48AC-A9FB-0C506CE796D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

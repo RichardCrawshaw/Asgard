@@ -27,7 +27,16 @@ namespace Asgard.Communications
             this.cbusCanFrameFactory = cbusCanFrameFactory;
             this.logger = logger;
         }
+        public async Task OpenAsync(ConnectionOptions connectionOptions)
+        {
+            if (this.IsOpen) return;
 
+            this.transport = connectionFactory.GetConnection(connectionOptions);
+            this.transport.GridConnectMessage += HandleTransportMessage;
+            await this.transport.OpenAsync();
+
+            this.IsOpen = true;
+        }
         public async Task OpenAsync()
         {
             if (this.IsOpen) return;

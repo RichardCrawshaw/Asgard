@@ -94,7 +94,7 @@ namespace Asgard.Data
     
     public partial class ResponseToQueryNode
     {
-        public bool IsReply(QueryNodeNumber request) => throw new NotImplementedException();
+        public bool IsReply(QueryNodeNumber request) => true;
     }
     
     public partial class AccessoryShortResponseOn1
