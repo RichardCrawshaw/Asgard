@@ -16,15 +16,17 @@ namespace Asgard.Communications
             this.services = services;
             this.options = options;
         }
-
         public IGridConnectProcessor GetConnection()
         {
-            var options = this.options.CurrentValue;
-            ITransport transport = options.ConnectionType switch
+            return GetConnection(this.options.CurrentValue);
+        }
+        public IGridConnectProcessor GetConnection(ConnectionOptions connectionOptions)
+        {
+            ITransport transport = connectionOptions.ConnectionType switch
             {
                 ConnectionOptions.ConnectionTypes.SerialPort => 
                     ActivatorUtilities.CreateInstance<SerialPortTransport>(
-                        this.services, new[] { options.SerialPort }),
+                        this.services, new[] { connectionOptions.SerialPort }),
                 _ => throw new Exception("Unknown connection type"),
             };
 
