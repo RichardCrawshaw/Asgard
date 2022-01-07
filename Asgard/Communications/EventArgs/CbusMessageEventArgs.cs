@@ -7,9 +7,12 @@ namespace Asgard.Communications
     {
         public ICbusMessage Message { get; }
 
-        public CbusMessageEventArgs(ICbusMessage message)
+        public bool Received { get; }
+
+        public CbusMessageEventArgs(ICbusMessage message, bool received)
         {
             this.Message = message;
+            this.Received = received;
         }
     }
 }

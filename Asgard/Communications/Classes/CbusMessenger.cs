@@ -56,7 +56,7 @@ namespace Asgard.Communications
             {
                 var frame = this.cbusCanFrameProcessor.ParseFrame(e.Message);
                 this.logger?.LogTrace("Parsed received Message: {0}", frame);
-                MessageReceived?.Invoke(this, new CbusMessageEventArgs(frame.Message));
+                MessageReceived?.Invoke(this, new CbusMessageEventArgs(frame.Message, true));
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace Asgard.Communications
             this.logger?.LogTrace("Sending message: {0}", message);
             await this.transport.SendMessage(
                 this.cbusCanFrameProcessor.ConstructTransportString(cbusCanFrame));
-            MessageSent?.Invoke(this, new CbusMessageEventArgs(message));
+            MessageSent?.Invoke(this, new CbusMessageEventArgs(message, false));
             return true;
         }
 

@@ -19,8 +19,12 @@ namespace Asgard.Tests.CommunicationTests
         {
             var messenger = new Mock<ICbusMessenger>();
             messenger.Setup(m => m.SendMessage(It.IsAny<ICbusMessage>())).Callback(() => {
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode().Message));
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode().Message));
+                messenger.Raise(m => 
+                    m.MessageReceived += null, 
+                    new CbusMessageEventArgs(new ResponseToQueryNode().Message, true));
+                messenger.Raise(m => 
+                    m.MessageReceived += null, 
+                    new CbusMessageEventArgs(new ResponseToQueryNode().Message, true));
             });
 
             var mm = new MessageManager(messenger.Object);
@@ -34,8 +38,14 @@ namespace Asgard.Tests.CommunicationTests
         {
             var messenger = new Mock<ICbusMessenger>();
             messenger.Setup(m => m.SendMessage(It.IsAny<ICbusMessage>())).Callback(() => {
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode() { NodeNumber = 1 }.Message));
-                messenger.Raise(m => m.MessageReceived += null, new CbusMessageEventArgs(new ResponseToQueryNode() { NodeNumber = 2 }.Message));
+                messenger.Raise(m => 
+                    m.MessageReceived += null, 
+                    new CbusMessageEventArgs(
+                        new ResponseToQueryNode() { NodeNumber = 1 }.Message, true));
+                messenger.Raise(m => 
+                    m.MessageReceived += null, 
+                    new CbusMessageEventArgs(
+                        new ResponseToQueryNode() { NodeNumber = 2 }.Message, true));
             });
 
             var mm = new MessageManager(messenger.Object);
@@ -56,11 +66,11 @@ namespace Asgard.Tests.CommunicationTests
                     messenger.Raise(m => 
                         m.MessageReceived += null, 
                         new CbusMessageEventArgs(
-                            new ResponseToQueryNode() { NodeNumber = 1 }.Message));
+                            new ResponseToQueryNode() { NodeNumber = 1 }.Message, true));
                     messenger.Raise(m => 
                         m.MessageReceived += null, 
                         new CbusMessageEventArgs(
-                            new ResponseToQueryNode() { NodeNumber = 2 }.Message));
+                            new ResponseToQueryNode() { NodeNumber = 2 }.Message, true));
                 });
 
             var mm = new MessageManager(messenger.Object);
@@ -79,7 +89,7 @@ namespace Asgard.Tests.CommunicationTests
                     messenger.Raise(m => 
                         m.MessageReceived += null, 
                         new CbusMessageEventArgs(
-                            new ResponseToQueryNode() { NodeNumber = 1 }.Message)));
+                            new ResponseToQueryNode() { NodeNumber = 1 }.Message, true)));
 
             var mm = new MessageManager(messenger.Object);
             Assert.ThrowsAsync<TimeoutException>(async () => await 

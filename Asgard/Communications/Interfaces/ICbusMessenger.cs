@@ -6,6 +6,8 @@ namespace Asgard.Communications
 {
     public interface ICbusMessenger
     {
+        bool IsOpen { get; }
+
         event EventHandler<CbusMessageEventArgs> MessageReceived;
         event EventHandler<CbusMessageEventArgs> MessageSent;
 
