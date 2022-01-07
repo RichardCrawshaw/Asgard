@@ -2,6 +2,6 @@
 {
     public partial class EngineReport : IReplyTo<GetEngineSession>
     {
-        public bool IsReply(GetEngineSession request) => this.Address == request.Address;
+        //public bool IsReply(GetEngineSession request) => this.Address == request.Address;
     }
 }

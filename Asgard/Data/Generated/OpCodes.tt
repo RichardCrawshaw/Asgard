@@ -10,7 +10,15 @@
 <#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="CBUS.Bifrost" #>
 <#@ output extension=".cs" #>
-<#	var name = "cbus-4.0-Rev-8d-Guide-6b-opcodes";
+<#	
+    // The name of the CBUS OpCode spec to use for the code generation.
+    var name = "cbus-4.0-Rev-8d-Guide-6b-opcodes";
+
+    // Controls whether the IReplyTo methods are generated or not. If they are they are appended to
+    // the end of the file. Should only be set true if substantial changes are made to the request
+    // response definition.
+    // Minor changes are best managed by hand modifying OpCodeReplImplementation.cs in Partial.
+    var generate_iReplyImplementation = false;
 #>
 using System;
 
@@ -56,6 +64,10 @@ namespace Asgard.Data
 
 <#	foreach(var opCodeBlock in builder.OpCodeBlocks)
 	{
+        var requestOpCodeData =
+            builder.ResponseBlocks
+                .Where(n => n.ResponseOpCode.Equals(opCodeBlock.Code))
+                .ToList();
 #>
     #region <#= $"0x{opCodeBlock.Value:X2}" #> <#= opCodeBlock.Code #> <#= opCodeBlock.Name #>
 
@@ -72,6 +84,25 @@ namespace Asgard.Data
         Number = <#= opCodeBlock.Value #>, 
         Priority = <#= opCodeBlock.Priority #>)]
     public partial class <#= opCodeBlock.ClassName #> : <#= opCodeBlock.BaseClassName #>, // <#= $"0x{opCodeBlock.Value:X2}" #>
+<#  foreach (var requestOpCode in requestOpCodeData)
+    {
+        var requestOpCodeClassName =
+            builder.OpCodeBlocks
+                .Where(n => n.Code == requestOpCode.RequestOpCode)
+                .Select(n => n.ClassName)
+                .FirstOrDefault();
+        if (requestOpCodeClassName == null)
+        {
+#>
+        // <#= requestOpCode.ResponseOpCode #> not found!
+<#      }
+        else
+        {
+#>
+        IReplyTo<<#= requestOpCodeClassName #>>,
+<#      }
+    }
+#>
         <#= opCodeBlock.InterfaceName #>
     {
         #region Fields
@@ -147,4 +178,40 @@ namespace Asgard.Data
 <#	}
 #>
     #endregion
+<#  if (generate_iReplyImplementation)
+    {
+#>
+<#      foreach(var opCodeBlock in builder.OpCodeBlocks)
+        {
+            var requestOpCodeData =
+                builder.ResponseBlocks
+                    .Where(n => n.ResponseOpCode.Equals(opCodeBlock.Code))
+                    .ToList();
+            if (!requestOpCodeData.Any()) continue;
+#>
+    public partial class <#= opCodeBlock.ClassName #>
+    {
+<#          foreach (var requestOpCode in requestOpCodeData)
+            {
+                var requestOpCodeClassName =
+                    builder.OpCodeBlocks
+                        .Where(n => n.Code == requestOpCode.RequestOpCode)
+                        .Select(n => n.ClassName)
+                        .FirstOrDefault();
+                if (requestOpCodeClassName == null)
+                {
+#>
+        // <#= requestOpCode.ResponseOpCode #> not found!
+<#              }
+                else
+                {
+#>
+        public bool IsReply(<#= requestOpCodeClassName #> request) => throw new NotImplementedException();
+<#              }
+            }
+#>
+    }
+<#      }
+    }
+#>
 }

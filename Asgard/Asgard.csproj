@@ -8,16 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Classes\**" />
     <Compile Remove="Comms\**" />
+    <Compile Remove="Interfaces\**" />
+    <Compile Remove="Public\**" />
+    <EmbeddedResource Remove="Classes\**" />
     <EmbeddedResource Remove="Comms\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="Public\**" />
+    <None Remove="Classes\**" />
     <None Remove="Comms\**" />
+    <None Remove="Interfaces\**" />
+    <None Remove="Public\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Classes\SettingsHelper.cs" />
-    <Compile Remove="Interfaces\ISettings.cs" />
-    <Compile Remove="Public\Resolver.cs" />
-    <Compile Remove="Public\Settings.cs" />
+    <None Remove="Asgard.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -103,12 +109,6 @@
   
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Classes\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Public\" />
   </ItemGroup>
 
 </Project>

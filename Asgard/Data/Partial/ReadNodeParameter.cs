@@ -8,7 +8,7 @@ namespace Asgard.Data
 {
     public partial class ResponseToRequestForIndividualNodeParameter : IReplyTo<RequestReadOfANodeParameterByIndex>
     {
-        public bool IsReply(RequestReadOfANodeParameterByIndex request) =>
-            request.NodeNumber == this.NodeNumber && request.ParamIndex == this.ParamIndex;
+        //public bool IsReply(RequestReadOfANodeParameterByIndex request) =>
+        //    request.NodeNumber == this.NodeNumber && request.ParamIndex == this.ParamIndex;
     }
 }

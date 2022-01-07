@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Asgard.Data
+﻿namespace Asgard.Data
 {
     /// <summary>
     /// Applied to OpCodes to indicate that they may be sent in response to specific request messages.
     /// </summary>
     /// <typeparam name="T">The type of request message that this may be a response to.</typeparam>
-    public interface IReplyTo<T>:ICbusOpCode where T:ICbusOpCode {
+    public interface IReplyTo<T> :
+        ICbusOpCode
+        where T : ICbusOpCode
+    {
         /// <summary>
         /// Called automatically to check if this particular response is for a specific request.
         /// </summary>
@@ -23,5 +20,7 @@ namespace Asgard.Data
     /// Applied to OpCodes to indicate that they may be sent as an error response to specific request messages.
     /// </summary>
     /// <typeparam name="T">The type of request message that this may be a response to.</typeparam>
-    public interface IErrorReplyTo<T> : IReplyTo<T> where T : ICbusOpCode { }
+    public interface IErrorReplyTo<T> :
+        IReplyTo<T>
+        where T : ICbusOpCode { }
 }
