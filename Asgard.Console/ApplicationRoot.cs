@@ -16,7 +16,8 @@ namespace Asgard.Console
             var menu = new MenuBar(new MenuBarItem[] {
                 new MenuBarItem("CBUS", new MenuItem[] {
                     new MenuItem("Connect", "", ShowConnectionOptions),
-                    new MenuItem("Query Nodes","", QueryNodes)
+                    new MenuItem("Query Nodes","", QueryNodes),
+                    new MenuItem("Drive Loco", "", DriveLoco)
                 })
             });
             return menu;       
@@ -48,6 +49,16 @@ namespace Asgard.Console
             SetActiveWindow(queryNodes);
         }
 
+        private DriveLoco driveLoco = null;
+        private void DriveLoco()
+        {
+            if (driveLoco == null)
+            {
+                driveLoco = new DriveLoco(cbusMessenger);
+            }
+            SetActiveWindow(driveLoco);
+        }
+
         private void SetActiveWindow(Window window)
         {
             if (activeWindow != null)
@@ -58,7 +69,7 @@ namespace Asgard.Console
             activeWindow.X = 0;
             activeWindow.Y = 1;
             activeWindow.Width = Dim.Fill();
-            activeWindow.Height = Dim.Height(Application.Top) - 4;
+            activeWindow.Height = Dim.Height(Application.Top) - 3;
             Application.Top.Add(activeWindow);
         }
 
@@ -72,9 +83,9 @@ namespace Asgard.Console
             var history = new MessageHistory(cbusMessenger)
             {
                 X = 0,
-                Y = Pos.Bottom(top) - 3,
+                Y = Pos.Bottom(top) - 2,
                 Width = Dim.Fill(),
-                Height = 3
+                Height = 2
             };
 
             top.Add(history);
