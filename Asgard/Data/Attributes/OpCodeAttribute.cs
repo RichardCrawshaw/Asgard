@@ -2,7 +2,11 @@
 
 namespace Asgard.Data
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(
+        AttributeTargets.Class |
+        AttributeTargets.Method, 
+        AllowMultiple = false, 
+        Inherited = true)]
 	public partial class OpCodeAttribute : Attribute
 	{
 		/// <summary>

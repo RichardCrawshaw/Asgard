@@ -50,6 +50,9 @@ namespace Asgard.Communications
 
         public async Task SendAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken)
         {
+            if (this.TransportStream is null)
+                throw new InvalidOperationException("Underlying transport stream is null.");
+
             this.logger?.LogTrace("Writing to stream");
             this.logger?.LogDebug("Writing {0} bytes", buffer.Length);
             await this.TransportStream.WriteAsync(buffer, cancellationToken);

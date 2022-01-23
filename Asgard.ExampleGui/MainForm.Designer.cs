@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label2;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.tsmiFile = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiFileExit = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,32 +59,35 @@
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panelMessages = new System.Windows.Forms.Panel();
             this.panelNodes = new System.Windows.Forms.Panel();
+            this.pictureBoxNodes = new System.Windows.Forms.PictureBox();
             this.splitterNodes = new System.Windows.Forms.Splitter();
             this.splitterMessages = new System.Windows.Forms.Splitter();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.imageList = new System.Windows.Forms.ImageList(this.components);
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.panelMessages.SuspendLayout();
             this.panelNodes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNodes)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(12, 3);
+            label1.Location = new System.Drawing.Point(10, 2);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(52, 20);
+            label1.Size = new System.Drawing.Size(41, 15);
             label1.TabIndex = 0;
             label1.Text = "Nodes";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(6, 3);
+            label2.Location = new System.Drawing.Point(5, 2);
             label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(73, 20);
+            label2.Size = new System.Drawing.Size(58, 15);
             label2.TabIndex = 0;
             label2.Text = "Messages";
             // 
@@ -97,7 +101,8 @@
             this.tsmiComms});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(800, 28);
+            this.menuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip.Size = new System.Drawing.Size(700, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -106,13 +111,13 @@
             this.tsmiFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiFileExit});
             this.tsmiFile.Name = "tsmiFile";
-            this.tsmiFile.Size = new System.Drawing.Size(46, 24);
+            this.tsmiFile.Size = new System.Drawing.Size(37, 20);
             this.tsmiFile.Text = "&File";
             // 
             // tsmiFileExit
             // 
             this.tsmiFileExit.Name = "tsmiFileExit";
-            this.tsmiFileExit.Size = new System.Drawing.Size(116, 26);
+            this.tsmiFileExit.Size = new System.Drawing.Size(93, 22);
             this.tsmiFileExit.Text = "E&xit";
             this.tsmiFileExit.Click += new System.EventHandler(this.TsmiFileExit_Click);
             // 
@@ -124,27 +129,27 @@
             this.tssNodes1,
             this.tsmiNodesSort});
             this.tsmiNodes.Name = "tsmiNodes";
-            this.tsmiNodes.Size = new System.Drawing.Size(66, 24);
+            this.tsmiNodes.Size = new System.Drawing.Size(53, 20);
             this.tsmiNodes.Text = "&Nodes";
             // 
             // tsmiNodesClear
             // 
             this.tsmiNodesClear.Name = "tsmiNodesClear";
-            this.tsmiNodesClear.Size = new System.Drawing.Size(141, 26);
+            this.tsmiNodesClear.Size = new System.Drawing.Size(113, 22);
             this.tsmiNodesClear.Text = "&Clear";
             this.tsmiNodesClear.Click += new System.EventHandler(this.TsmiNodesClear_Click);
             // 
             // tsmiNodesRefresh
             // 
             this.tsmiNodesRefresh.Name = "tsmiNodesRefresh";
-            this.tsmiNodesRefresh.Size = new System.Drawing.Size(141, 26);
+            this.tsmiNodesRefresh.Size = new System.Drawing.Size(113, 22);
             this.tsmiNodesRefresh.Text = "&Refresh";
             this.tsmiNodesRefresh.Click += new System.EventHandler(this.TsmiNodesRefresh_Click);
             // 
             // tssNodes1
             // 
             this.tssNodes1.Name = "tssNodes1";
-            this.tssNodes1.Size = new System.Drawing.Size(138, 6);
+            this.tssNodes1.Size = new System.Drawing.Size(110, 6);
             // 
             // tsmiNodesSort
             // 
@@ -154,7 +159,7 @@
             this.tsmiNodesSortAscending,
             this.tsmiNodesSortDescending});
             this.tsmiNodesSort.Name = "tsmiNodesSort";
-            this.tsmiNodesSort.Size = new System.Drawing.Size(141, 26);
+            this.tsmiNodesSort.Size = new System.Drawing.Size(113, 22);
             this.tsmiNodesSort.Text = "&Sort";
             // 
             // tsmiNodesSortUnsorted
@@ -162,7 +167,7 @@
             this.tsmiNodesSortUnsorted.Checked = true;
             this.tsmiNodesSortUnsorted.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmiNodesSortUnsorted.Name = "tsmiNodesSortUnsorted";
-            this.tsmiNodesSortUnsorted.Size = new System.Drawing.Size(170, 26);
+            this.tsmiNodesSortUnsorted.Size = new System.Drawing.Size(136, 22);
             this.tsmiNodesSortUnsorted.Tag = "0";
             this.tsmiNodesSortUnsorted.Text = "&Unsorted";
             this.tsmiNodesSortUnsorted.ToolTipText = "The nodes will be shown in the order that they have been discovered";
@@ -171,12 +176,12 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(133, 6);
             // 
             // tsmiNodesSortAscending
             // 
             this.tsmiNodesSortAscending.Name = "tsmiNodesSortAscending";
-            this.tsmiNodesSortAscending.Size = new System.Drawing.Size(170, 26);
+            this.tsmiNodesSortAscending.Size = new System.Drawing.Size(136, 22);
             this.tsmiNodesSortAscending.Tag = "1";
             this.tsmiNodesSortAscending.Text = "&Ascending";
             this.tsmiNodesSortAscending.ToolTipText = "The nodes will be shown in alphabetical order";
@@ -185,7 +190,7 @@
             // tsmiNodesSortDescending
             // 
             this.tsmiNodesSortDescending.Name = "tsmiNodesSortDescending";
-            this.tsmiNodesSortDescending.Size = new System.Drawing.Size(170, 26);
+            this.tsmiNodesSortDescending.Size = new System.Drawing.Size(136, 22);
             this.tsmiNodesSortDescending.Tag = "-1";
             this.tsmiNodesSortDescending.Text = "&Descending";
             this.tsmiNodesSortDescending.ToolTipText = "The nodes will be shown in reverse alphabetical order";
@@ -198,7 +203,7 @@
             this.tsmiMessagesClear,
             this.tsmiMessagesCompose});
             this.tsmiMessages.Name = "tsmiMessages";
-            this.tsmiMessages.Size = new System.Drawing.Size(87, 24);
+            this.tsmiMessages.Size = new System.Drawing.Size(70, 20);
             this.tsmiMessages.Text = "&Messages";
             // 
             // tsmiMessagesLog
@@ -206,21 +211,21 @@
             this.tsmiMessagesLog.Checked = true;
             this.tsmiMessagesLog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmiMessagesLog.Name = "tsmiMessagesLog";
-            this.tsmiMessagesLog.Size = new System.Drawing.Size(155, 26);
+            this.tsmiMessagesLog.Size = new System.Drawing.Size(125, 22);
             this.tsmiMessagesLog.Text = "&Log";
             this.tsmiMessagesLog.Click += new System.EventHandler(this.TsmiMessagesLog_Click);
             // 
             // tsmiMessagesClear
             // 
             this.tsmiMessagesClear.Name = "tsmiMessagesClear";
-            this.tsmiMessagesClear.Size = new System.Drawing.Size(155, 26);
+            this.tsmiMessagesClear.Size = new System.Drawing.Size(125, 22);
             this.tsmiMessagesClear.Text = "&Clear";
             this.tsmiMessagesClear.Click += new System.EventHandler(this.TsmiMessagesClear_Click);
             // 
             // tsmiMessagesCompose
             // 
             this.tsmiMessagesCompose.Name = "tsmiMessagesCompose";
-            this.tsmiMessagesCompose.Size = new System.Drawing.Size(155, 26);
+            this.tsmiMessagesCompose.Size = new System.Drawing.Size(125, 22);
             this.tsmiMessagesCompose.Text = "Co&mpose";
             this.tsmiMessagesCompose.Click += new System.EventHandler(this.TsmiMessagesCompose_Click);
             // 
@@ -232,32 +237,32 @@
             this.tssComms1,
             this.tsmiCommsConnection});
             this.tsmiComms.Name = "tsmiComms";
-            this.tsmiComms.Size = new System.Drawing.Size(73, 24);
+            this.tsmiComms.Size = new System.Drawing.Size(61, 20);
             this.tsmiComms.Text = "&Comms";
             // 
             // tsmiCommsStart
             // 
             this.tsmiCommsStart.Name = "tsmiCommsStart";
-            this.tsmiCommsStart.Size = new System.Drawing.Size(167, 26);
+            this.tsmiCommsStart.Size = new System.Drawing.Size(136, 22);
             this.tsmiCommsStart.Text = "&Start";
             this.tsmiCommsStart.Click += new System.EventHandler(this.TsmiCommsStart_Click);
             // 
             // tsmiCommsStop
             // 
             this.tsmiCommsStop.Name = "tsmiCommsStop";
-            this.tsmiCommsStop.Size = new System.Drawing.Size(167, 26);
+            this.tsmiCommsStop.Size = new System.Drawing.Size(136, 22);
             this.tsmiCommsStop.Text = "&Stop";
             this.tsmiCommsStop.Click += new System.EventHandler(this.TsmiCommsStop_Click);
             // 
             // tssComms1
             // 
             this.tssComms1.Name = "tssComms1";
-            this.tssComms1.Size = new System.Drawing.Size(164, 6);
+            this.tssComms1.Size = new System.Drawing.Size(133, 6);
             // 
             // tsmiCommsConnection
             // 
             this.tsmiCommsConnection.Name = "tsmiCommsConnection";
-            this.tsmiCommsConnection.Size = new System.Drawing.Size(167, 26);
+            this.tsmiCommsConnection.Size = new System.Drawing.Size(136, 22);
             this.tsmiCommsConnection.Text = "&Connection";
             this.tsmiCommsConnection.Click += new System.EventHandler(this.TsmiCommsConnection_Click);
             // 
@@ -267,22 +272,23 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsslConnection,
             this.tsslConnectionInfo});
-            this.statusStrip.Location = new System.Drawing.Point(0, 424);
+            this.statusStrip.Location = new System.Drawing.Point(0, 316);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(800, 26);
+            this.statusStrip.Padding = new System.Windows.Forms.Padding(1, 0, 12, 0);
+            this.statusStrip.Size = new System.Drawing.Size(700, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
             // tsslConnection
             // 
             this.tsslConnection.Name = "tsslConnection";
-            this.tsslConnection.Size = new System.Drawing.Size(87, 20);
+            this.tsslConnection.Size = new System.Drawing.Size(72, 17);
             this.tsslConnection.Text = "Connection:";
             // 
             // tsslConnectionInfo
             // 
             this.tsslConnectionInfo.Name = "tsslConnectionInfo";
-            this.tsslConnectionInfo.Size = new System.Drawing.Size(68, 20);
+            this.tsslConnectionInfo.Size = new System.Drawing.Size(57, 17);
             this.tsslConnectionInfo.Text = "unknown";
             // 
             // contextMenuStrip
@@ -296,35 +302,52 @@
             this.panelMessages.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelMessages.Controls.Add(label2);
             this.panelMessages.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelMessages.Location = new System.Drawing.Point(593, 28);
+            this.panelMessages.Location = new System.Drawing.Point(440, 24);
+            this.panelMessages.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelMessages.Name = "panelMessages";
-            this.panelMessages.Size = new System.Drawing.Size(207, 396);
+            this.panelMessages.Size = new System.Drawing.Size(260, 292);
             this.panelMessages.TabIndex = 4;
             // 
             // panelNodes
             // 
             this.panelNodes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelNodes.Controls.Add(this.pictureBoxNodes);
             this.panelNodes.Controls.Add(label1);
             this.panelNodes.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelNodes.Location = new System.Drawing.Point(0, 28);
+            this.panelNodes.Location = new System.Drawing.Point(0, 24);
+            this.panelNodes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelNodes.Name = "panelNodes";
-            this.panelNodes.Size = new System.Drawing.Size(187, 396);
+            this.panelNodes.Size = new System.Drawing.Size(122, 292);
             this.panelNodes.TabIndex = 6;
+            // 
+            // pictureBoxNodes
+            // 
+            this.pictureBoxNodes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxNodes.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBoxNodes.BackgroundImage")));
+            this.pictureBoxNodes.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBoxNodes.Location = new System.Drawing.Point(90, -1);
+            this.pictureBoxNodes.Name = "pictureBoxNodes";
+            this.pictureBoxNodes.Size = new System.Drawing.Size(25, 27);
+            this.pictureBoxNodes.TabIndex = 1;
+            this.pictureBoxNodes.TabStop = false;
+            this.pictureBoxNodes.Click += new System.EventHandler(this.PictureBoxNodes_Click);
             // 
             // splitterNodes
             // 
-            this.splitterNodes.Location = new System.Drawing.Point(187, 28);
+            this.splitterNodes.Location = new System.Drawing.Point(122, 24);
+            this.splitterNodes.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.splitterNodes.Name = "splitterNodes";
-            this.splitterNodes.Size = new System.Drawing.Size(4, 396);
+            this.splitterNodes.Size = new System.Drawing.Size(4, 292);
             this.splitterNodes.TabIndex = 8;
             this.splitterNodes.TabStop = false;
             // 
             // splitterMessages
             // 
             this.splitterMessages.Dock = System.Windows.Forms.DockStyle.Right;
-            this.splitterMessages.Location = new System.Drawing.Point(589, 28);
+            this.splitterMessages.Location = new System.Drawing.Point(436, 24);
+            this.splitterMessages.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.splitterMessages.Name = "splitterMessages";
-            this.splitterMessages.Size = new System.Drawing.Size(4, 396);
+            this.splitterMessages.Size = new System.Drawing.Size(4, 292);
             this.splitterMessages.TabIndex = 9;
             this.splitterMessages.TabStop = false;
             // 
@@ -332,16 +355,24 @@
             // 
             this.panelMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMain.Location = new System.Drawing.Point(191, 28);
+            this.panelMain.Location = new System.Drawing.Point(126, 24);
+            this.panelMain.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(398, 396);
+            this.panelMain.Size = new System.Drawing.Size(310, 292);
             this.panelMain.TabIndex = 10;
+            // 
+            // imageList
+            // 
+            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList.Images.SetKeyName(0, "refresh.ico");
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(700, 338);
             this.Controls.Add(this.panelMain);
             this.Controls.Add(this.splitterMessages);
             this.Controls.Add(this.splitterNodes);
@@ -350,6 +381,7 @@
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainForm";
             this.Text = "Asgard Example GUI";
             this.menuStrip.ResumeLayout(false);
@@ -360,6 +392,7 @@
             this.panelMessages.PerformLayout();
             this.panelNodes.ResumeLayout(false);
             this.panelNodes.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNodes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -397,5 +430,7 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiCommsConnection;
         private System.Windows.Forms.ToolStripStatusLabel tsslConnection;
         private System.Windows.Forms.ToolStripStatusLabel tsslConnectionInfo;
+        private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.PictureBox pictureBoxNodes;
     }
 }

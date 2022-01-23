@@ -30,24 +30,83 @@ namespace Asgard.ExampleGui
 
         #region Methods
 
+        internal void AddControls(params Control[] controls)
+        {
+            foreach(var control in controls)
+            {
+                var namedControl = GetNamedControl(this.panelMain.Controls, control.Name);
+                if (namedControl != null)
+                    this.panelMain.Controls.Remove(namedControl);
+            }
+
+            // Clear any displayed graphics on the background.
+            this.panelMain.Refresh();
+
+            this.panelMain.Controls.AddRange(controls.ToArray());
+        }
+
+        internal void ClearControls() => this.panelMain.Controls.Clear();
+
+        internal void ClearText()
+        {
+            void refresh(object sender, PaintEventArgs e)
+            {
+                var graphics = e.Graphics;
+                graphics.Clear(this.panelMain.BackColor);
+
+                this.panelMain.Paint -= refresh;
+            }
+
+            this.panelMain.Paint += refresh;
+            this.panelMain.Refresh();
+        }
+
         internal void ConnectionStatus(string status) => this.tsslConnectionInfo.Text = status;
 
         internal void DisplayMessages(string[] values) => Display(this.panelMessages, 13f, 5f, 20f, values);
 
         internal void DisplayNodes(string[] values) => Display(this.panelNodes, 13f, 5f, 20f, values);
 
+        internal void DisplayText(params string[] text)
+        {
+            void refresh(object sender, PaintEventArgs e)
+            {
+                var graphics = e.Graphics;
+                graphics.Clear(this.panelMain.BackColor);
+                var brush = new Pen(Color.Black).Brush;
+                var y = 8f;
+                var v = 20f;
+                foreach(var item in text)
+                    graphics.DrawString(item, this.panelMain.Font, brush, 3f, y += v);
+
+                this.panelMain.Paint -= refresh;
+            }
+
+            this.panelMain.Paint += refresh;
+            this.panelMain.Refresh();
+        }
+
+        internal void RemoveControls(params Control?[] controls) =>
+            controls
+                .Where(c => c is not null)
+                .ToList()
+                .ForEach(c => this.panelMain.Controls.Remove(c));
+
         #endregion
 
         #region Support routines
 
-        private static void Display(Control control, float x, float y, float v, string[] values)
+        private void Display(Control control, float x, float y, float v, string[] values)
         {
             void Display(object sender, PaintEventArgs e) =>
                 MainForm.Display(e.Graphics, control, x, y, v, values);
 
-            control.Paint += Display;
-            control.Refresh();
-            control.Paint -= Display;
+            this.Invoke((MethodInvoker)delegate
+            {
+                control.Paint += Display;
+                control.Refresh();
+                control.Paint -= Display;
+            });
         }
 
         private static void Display(Graphics graphics, Control control, float x, float y, float vDelta, string[] values)
@@ -60,9 +119,19 @@ namespace Asgard.ExampleGui
                 graphics.DrawString(value, font, brush, x, y += vDelta);
         }
 
+        private static Control? GetNamedControl(Control.ControlCollection controlCollection, string name)
+        {
+            foreach (Control control in controlCollection)
+                if (control.Name == name)
+                    return control;
+            return null;
+        }
+
         #endregion
 
         #region Event handler routines
+
+        private void PictureBoxNodes_Click(object sender, EventArgs e) => this.Controller?.RefreshNodes();
 
         private void TsmiFileExit_Click(object sender, EventArgs e) => Close();
 
@@ -94,10 +163,7 @@ namespace Asgard.ExampleGui
 
         private void TsmiMessagesClear_Click(object sender, EventArgs e) => this.Controller?.ClearMessages();
 
-        private void TsmiMessagesCompose_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void TsmiMessagesCompose_Click(object sender, EventArgs e) => this.Controller?.DisplayComposeMenu();
 
         private void TsmiCommsStart_Click(object sender, EventArgs e) => this.Controller?.StartComms();
 

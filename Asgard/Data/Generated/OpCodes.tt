@@ -68,6 +68,10 @@ namespace Asgard.Data
             builder.ResponseBlocks
                 .Where(n => n.ResponseOpCode.Equals(opCodeBlock.Code))
                 .ToList();
+        var interfaceNames = 
+            opCodeBlock.Properties
+                .Select(p => $"IHas{p.Name}")
+                .ToList();
 #>
     #region <#= $"0x{opCodeBlock.Value:X2}" #> <#= opCodeBlock.Code #> <#= opCodeBlock.Name #>
 
@@ -102,6 +106,11 @@ namespace Asgard.Data
         IReplyTo<<#= requestOpCodeClassName #>>,
 <#      }
     }
+    foreach (var interfaceName in interfaceNames)
+    {
+#>
+        <#= interfaceName #>,
+<#  }
 #>
         <#= opCodeBlock.InterfaceName #>
     {

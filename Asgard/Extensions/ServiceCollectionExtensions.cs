@@ -23,6 +23,7 @@ namespace Asgard.Extensions
 
             services.Configure<ConnectionOptions>(configuration.GetSection("Connection"));
             services.Configure<CbusCanFrameOptions>(configuration.GetSection("CanFrame"));
+            services.Configure<CbusModuleOptions>(configuration.GetSection("Module"));
 
             return services;
         }

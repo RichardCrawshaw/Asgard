@@ -146,10 +146,12 @@ namespace Asgard.Communications
             }
 
             this.messenger.MessageReceived += AwaitResponse;
-            await this.messenger.SendMessage(msg.Message);
+            var sent = await this.messenger.SendMessage(msg.Message);
 
             try
             {
+                if (!sent) return responses;
+
                 var all = await tcs.Task;
                 if (!all)
                 {
