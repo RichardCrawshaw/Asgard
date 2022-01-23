@@ -5181,7 +5181,7 @@ namespace Asgard.Data
 
         #region Overrides
 
-        public override string ToString() => $"PARAN NodeNumber: {this.NodeNumber}, ParamIndex: {this.ParamIndex}, Value: {this.Value:X2}";
+        public override string ToString() => $"{this.Code} NodeNumber: {this.NodeNumber} ParamIndex: {this.ParamIndex} Value: {this.Value:X2}";
 
         #endregion
 	}
