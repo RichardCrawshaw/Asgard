@@ -27,7 +27,8 @@ namespace Asgard.Data
             return address == request.Address;
         }
         public bool IsReply(QueryEngine request) => throw new NotImplementedException();
-        public bool IsReply(RequestEngineSession request) => throw new NotImplementedException();
+        //TODO: proper reply filter
+        public bool IsReply(RequestEngineSession request) => true;
         public bool IsReply(QueryConsist request) => throw new NotImplementedException();
     }
     
@@ -137,7 +138,7 @@ namespace Asgard.Data
         public bool IsReply(GetEngineSession request) => this.Address == request.Address;
 
         public bool IsReply(QueryEngine request) => throw new NotImplementedException();
-        public bool IsReply(RequestEngineSession request) => throw new NotImplementedException();
+        public bool IsReply(RequestEngineSession request) => this.Address == request.Address;
         public bool IsReply(QueryConsist request) => throw new NotImplementedException();
     }
     

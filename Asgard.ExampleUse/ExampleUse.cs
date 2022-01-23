@@ -44,24 +44,46 @@ namespace Asgard.ExampleUse
                         $"Node info: Node number: {reply.NodeNumber}, ModuleID: {reply.ModuleId}");
                 }
 
-                
-                //Send and receive replies using built-in Asgard response filtering
-                var response = await mm.SendMessageWaitForReply(new GetEngineSession());
-                switch (response)
+                while (true)
                 {
-                    case ResponseToQueryNode report:
-                        //do stuff
+                    var key = Console.ReadKey().KeyChar.ToString();
+                    if (key == "x")
+                    {
                         break;
-                    case CommandStationErrorReport error:
-                        //do other stuff
-                        break;
-                }
-                if (response is IErrorReplyTo<GetEngineSession>)
-                {
-                    //Do stuff if it was a en error reply without knowing specific response type as above
-                }
+                    }
 
 
+                    //Send and receive replies using built-in Asgard response filtering
+                    var response = await mm.SendMessageWaitForReply(new GetEngineSession() { SessionFlags = SessionFlagsEnum.Steal, Address = 5 });
+                    switch (response)
+                    {
+                        case EngineReport report:
+                            byte speedDir = 0;
+                            switch (key)
+                            {
+                                case "f":
+                                    speedDir = 80 + 128;
+                                    break;
+                                case "b":
+                                    speedDir = 80;
+                                    break;
+                                case "s":
+                                    speedDir = 0;
+                                    break;
+                            }
+                            await cbusMessenger.SendMessage(new SetEngineSpeedAndDirection() { Session = report.Session, SpeedDir = speedDir });
+                            //do stuff
+                            break;
+                        case CommandStationErrorReport error:
+                            //do other stuff
+                            break;
+                    }
+                    if (response is IErrorReplyTo<GetEngineSession>)
+                    {
+                        //Do stuff if it was a en error reply without knowing specific response type as above
+                    }
+
+                }
 
 
             }
