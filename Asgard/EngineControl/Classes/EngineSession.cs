@@ -2,7 +2,7 @@
 using Asgard.Communications;
 using Asgard.Data;
 
-namespace Asgard.Control
+namespace Asgard.EngineControl
 {
     public class EngineSession
     {
