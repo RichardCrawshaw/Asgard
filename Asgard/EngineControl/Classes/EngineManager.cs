@@ -13,7 +13,7 @@ namespace Asgard.EngineControl
         private readonly MessageManager messageManager;
 
         private readonly ConcurrentDictionary<int, EngineSession> sessions;
-        private Timer sessionRefreshTimer;
+        private readonly Timer sessionRefreshTimer;
         private bool disposedValue;
 
         
@@ -21,23 +21,35 @@ namespace Asgard.EngineControl
         public EngineManager(ICbusMessenger cbusMessenger)
         {
             sessions = new ConcurrentDictionary<int, EngineSession>();
-            sessionRefreshTimer = new Timer(RefreshSessions, null, TimeSpan.FromSeconds(4), TimeSpan.FromSeconds(4));
+            sessionRefreshTimer = new Timer(OnTimer, null, TimeSpan.FromSeconds(4), TimeSpan.FromSeconds(4));
             this.cbusMessenger = cbusMessenger;
             this.messageManager = new MessageManager(cbusMessenger);
-
-            //TODO: hook into cbusmessenger to watch for DCC error events
+            this.cbusMessenger.MessageReceived += OnCbusMessage;
         }
 
-        private async void RefreshSessions(object state) {
-            //TODO: proper exception handling and logging to prevent exceptions leaving async void event handler
-            var c = sessions.Values;
-            foreach(var s in c)
+        private void OnCbusMessage(object sender, CbusMessageEventArgs e) {
+            if (e.Message.GetOpCode() is CommandStationErrorReport errorReport)
             {
-                await cbusMessenger.SendMessage(new SessionKeepAlive { Session = s.Session });
+                if (errorReport.DccErrorCode == DccErrorCodeEnum.SessionCancelled)
+                {
+                    //Data1 contains the command station session
+                    if (sessions.TryRemove(errorReport.Data1, out var session))
+                    {
+                        session.NotifyCancelled();
+                    }
+                }
             }
         }
 
-        public async Task<EngineSession> RequestEngineSession(ushort locoDccAddress)
+        private async void OnTimer(object state) {
+            //TODO: proper exception handling and logging to prevent exceptions leaving async void event handler
+            foreach(var session in sessions.Values)
+            {
+                await cbusMessenger.SendMessage(new SessionKeepAlive { Session = session.Session });
+            }
+        }
+
+        public async Task<IEngineSession> RequestEngineSession(ushort locoDccAddress)
         {
             if (sessions.TryGetValue(locoDccAddress, out var session))
             {
@@ -69,6 +81,7 @@ namespace Asgard.EngineControl
             {
                 if (disposing)
                 {
+                    cbusMessenger.MessageReceived -= OnCbusMessage;
                     sessionRefreshTimer.Dispose();
                 }
                 disposedValue = true;

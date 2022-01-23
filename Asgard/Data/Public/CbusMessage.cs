@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Asgard.Data
 {
@@ -17,6 +18,8 @@ namespace Asgard.Data
             set => this.Data[index] = value;
         }
 
+        private readonly Lazy<ICbusOpCode> lazyOpCode;
+
         #endregion
 
         #region Constructors
@@ -26,6 +29,8 @@ namespace Asgard.Data
             var length = (data[0] >> 5) + 1;
             this.Data = new byte[length];
             data.CopyTo(this.Data, 0);
+
+            lazyOpCode = new Lazy<ICbusOpCode>(() => OpCodeData.Create(this));
         }
 
         #endregion
@@ -34,7 +39,8 @@ namespace Asgard.Data
 
         public static ICbusMessage Create(byte[] data) => new CbusMessage(data);
 
-        public ICbusOpCode GetOpCode() => OpCodeData.Create(this);
+        
+        public ICbusOpCode GetOpCode() => lazyOpCode.Value;
 
         #endregion
 

@@ -8,9 +8,9 @@ namespace Asgard.Console
         private readonly TextField locoSpeed;
         private readonly TextField locoFunction;
         private readonly CheckBox reverse;
-        private readonly EngineSession engineSession;
+        private readonly IEngineSession engineSession;
 
-        public LocoSession(EngineSession engineSession)
+        public LocoSession(IEngineSession engineSession)
         {
             this.Width = 31;
             this.Height = 5;
@@ -70,10 +70,21 @@ namespace Asgard.Console
             off.Clicked += OnOffClicked;
             this.Add(off);
 
+            reverse.Checked = engineSession.SpeedDir < 127;
+            locoSpeed.Text = (engineSession.SpeedDir % 128).ToString();
+
             this.Title = "Address: " + engineSession.Address;
             this.engineSession = engineSession;
+            this.engineSession.SessionCancelled += OnSessionCancelled;
         }
 
+        private void OnSessionCancelled(object? sender, EventArgs e)
+        {
+            Application.MainLoop.Invoke(() =>
+            {
+                //TODO: update UI to reflect engine no longer being under control in this session
+            });
+        }
 
         private void OnOffClicked()
         {
@@ -105,6 +116,6 @@ namespace Asgard.Console
             }
         }
 
-        private void SendSpeedDir(byte speedDir) => this.engineSession.SpeedDir = speedDir;
+        private void SendSpeedDir(byte speedDir) => this.engineSession.SetSpeedAndDirection(speedDir);
     }
 }

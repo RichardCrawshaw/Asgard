@@ -1,50 +1,62 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Asgard.Communications;
 using Asgard.Data;
 
 namespace Asgard.EngineControl
 {
-    public class EngineSession
+    internal class EngineSession : IEngineSession
     {
         private readonly ICbusMessenger cbusMessenger;
-        private byte speedDir;
 
         public ushort Address { get; }
         public byte Session { get; }
-        public byte SpeedDir
-        {
-            get => speedDir; set
-            {
-                if (speedDir != value)
-                {
-                    speedDir = value;
-                    cbusMessenger?.SendMessage(new SetEngineSpeedAndDirection
-                    {
-                        Session = Session,
-                        SpeedDir = speedDir
-                    });
-                }
-                
-            }
-        }
+        public byte SpeedDir { get; private set; }
+
+        public bool IsAvailable { get; private set; }
+
+        public event EventHandler SessionCancelled;
 
         public EngineSession(EngineReport report, ICbusMessenger cbusMessenger)
         {
             this.Address = report.Address;
             this.Session = report.Session;
-            this.speedDir = report.SpeedDir;
+            this.SpeedDir = report.SpeedDir;
             this.cbusMessenger = cbusMessenger;
         }
 
-        public void SetFunction(byte functionNo, bool on) {
-            if (on)
+        public async Task SetFunction(byte functionNo, bool on)
+        {
+            if (IsAvailable)
             {
-                cbusMessenger?.SendMessage(new SetEngineFunctionOn { Session = Session, FunctionNumber = functionNo });
+                if (on)
+                {
+                    await cbusMessenger?.SendMessage(new SetEngineFunctionOn { Session = Session, FunctionNumber = functionNo });
+                }
+                else
+                {
+                    await cbusMessenger?.SendMessage(new SetEngineFunctionOff { Session = Session, FunctionNumber = functionNo });
+                }
             }
-            else
+        }
+
+        public async Task SetSpeedAndDirection(byte speedDir)
+        {
+            if (this.SpeedDir != speedDir)
             {
-                cbusMessenger?.SendMessage(new SetEngineFunctionOff { Session = Session, FunctionNumber = functionNo });
+                this.SpeedDir = speedDir;
+                await cbusMessenger?.SendMessage(new SetEngineSpeedAndDirection
+                {
+                    Session = Session,
+                    SpeedDir = this.SpeedDir
+                });
             }
+        }
+
+        internal void NotifyCancelled()
+        {
+            this.IsAvailable = false;
+            SessionCancelled?.Invoke(this, EventArgs.Empty);
         }
     }
 }
