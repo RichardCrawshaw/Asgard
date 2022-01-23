@@ -38,8 +38,8 @@ namespace Asgard.Console
                 });
             }
         }
-        private Window activeWindow = null;
-        private QueryNodes queryNodes = null;
+        private Window? activeWindow = null;
+        private QueryNodes? queryNodes = null;
         private void QueryNodes()
         {
             if (queryNodes == null)
@@ -49,7 +49,7 @@ namespace Asgard.Console
             SetActiveWindow(queryNodes);
         }
 
-        private DriveLoco driveLoco = null;
+        private DriveLoco? driveLoco = null;
         private void DriveLoco()
         {
             if (driveLoco == null)

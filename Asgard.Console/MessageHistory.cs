@@ -11,11 +11,9 @@ namespace Asgard.Console
 {
     internal class MessageHistory:Window
     {
-        private readonly ICbusMessenger cbusMessenger;
-        private List<string> history = new List<string>();
+        private readonly List<string> history = new();
         public MessageHistory(ICbusMessenger cbusMessenger)
         {
-            this.cbusMessenger = cbusMessenger;
             this.Border = new Border() { BorderThickness = new Thickness(0) };
 
             var line = new LineView()
@@ -51,13 +49,10 @@ namespace Asgard.Console
             cbusMessenger.MessageReceived += (sender, e) =>
             {
                 var opc = e.Message.GetOpCode();
-                var msg = opc.ToString();// $"{opc.Code} {opc}";
+                var msg = opc.ToString() ?? "Unknown message";
                 history.Add(msg);
                 while (history.Count > 20) { history.RemoveAt(0); }
-                Application.MainLoop.Invoke(() =>
-                {
-                    label.Text = msg;
-                });
+                Application.MainLoop.Invoke(() => label.Text = msg);
 
             };
         }

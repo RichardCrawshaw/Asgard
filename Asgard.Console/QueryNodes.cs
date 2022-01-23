@@ -9,9 +9,9 @@ namespace Asgard.Console
     {
         private readonly ICbusMessenger cbusMessenger;
 
-        private ListView nodeList;
-        private ListView paranList;
-        private List<ResponseToQueryNode> nodes;
+        private readonly ListView nodeList;
+        private readonly ListView paranList;
+        private List<ResponseToQueryNode>? nodes;
         public QueryNodes(ICbusMessenger cbusMessenger)
         {
             this.Title = "Nodes";
@@ -110,10 +110,7 @@ namespace Asgard.Console
             var mm = new MessageManager(cbusMessenger);
             nodes = (await mm.SendMessageWaitForReplies(new QueryNodeNumber())).Select(r => (ResponseToQueryNode)r).ToList();
                 
-            Application.MainLoop.Invoke(() =>
-            {
-                nodeList.SetSource(nodes.Select(r => $"Module ID: {r.ModuleId}").ToList());
-            });
+            Application.MainLoop.Invoke(() => nodeList.SetSource(nodes.Select(r => $"Module ID: {r.ModuleId}").ToList()));
         } 
     }
 }
