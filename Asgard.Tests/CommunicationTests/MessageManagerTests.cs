@@ -18,7 +18,7 @@ namespace Asgard.Tests.CommunicationTests
         public async Task ManagerReturnsCorrectMessages_WhenWaitingForMultipleReplies()
         {
             var messenger = new Mock<ICbusMessenger>();
-            messenger.Setup(m => m.SendMessage(It.IsAny<ICbusMessage>())).Callback(() => {
+            messenger.Setup(m => m.SendMessage(It.IsAny<ICbusMessage>())).ReturnsAsync(true).Callback(() => {
                 messenger.Raise(m => 
                     m.MessageReceived += null, 
                     new CbusMessageEventArgs(new ResponseToQueryNode().Message, true));
@@ -37,7 +37,7 @@ namespace Asgard.Tests.CommunicationTests
         public async Task ManagerReturnsCorrectMessages_WhenWaitingForASingleReply()
         {
             var messenger = new Mock<ICbusMessenger>();
-            messenger.Setup(m => m.SendMessage(It.IsAny<ICbusMessage>())).Callback(() => {
+            messenger.Setup(m => m.SendMessage(It.IsAny<ICbusMessage>())).ReturnsAsync(true).Callback(() => {
                 messenger.Raise(m => 
                     m.MessageReceived += null, 
                     new CbusMessageEventArgs(
@@ -60,7 +60,7 @@ namespace Asgard.Tests.CommunicationTests
         {
             var messenger = new Mock<ICbusMessenger>();
             messenger
-                .Setup(m => m.SendMessage(It.IsAny<CbusMessage>()))
+                .Setup(m => m.SendMessage(It.IsAny<CbusMessage>())).ReturnsAsync(true)
                 .Callback(() =>
                 {
                     messenger.Raise(m => 
@@ -84,7 +84,7 @@ namespace Asgard.Tests.CommunicationTests
         {
             var messenger = new Mock<ICbusMessenger>();
             messenger
-                .Setup(m => m.SendMessage(It.IsAny<CbusMessage>()))
+                .Setup(m => m.SendMessage(It.IsAny<CbusMessage>())).ReturnsAsync(true)
                 .Callback(() => 
                     messenger.Raise(m => 
                         m.MessageReceived += null, 
@@ -101,11 +101,12 @@ namespace Asgard.Tests.CommunicationTests
         public async Task Manager_ReturnsCorrectMessages_WhenMultipleRequestsAreInFlight()
         {
             var messenger = new Mock<ICbusMessenger>();
+            messenger.Setup(m => m.SendMessage(It.IsAny<CbusMessage>())).ReturnsAsync(true);
             var mm = new MessageManager(messenger.Object);
 
-            var responseTask1 = mm.SendMessageWaitForReply(new GetEngineSession() { Address = 10 });
-            var responseTask2 = mm.SendMessageWaitForReply(new GetEngineSession() { Address = 20 });
-            var responseTask3 = mm.SendMessageWaitForReply(new GetEngineSession() { Address = 30 });
+            var responseTask1 = mm.SendMessageWaitForReply(new RequestEngineSession() { Address = 10 });
+            var responseTask2 = mm.SendMessageWaitForReply(new RequestEngineSession() { Address = 20 });
+            var responseTask3 = mm.SendMessageWaitForReply(new RequestEngineSession() { Address = 30 });
 
 
             messenger.Raise(m => 

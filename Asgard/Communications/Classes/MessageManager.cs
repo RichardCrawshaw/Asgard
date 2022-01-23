@@ -150,7 +150,7 @@ namespace Asgard.Communications
 
             try
             {
-                if (!sent) return responses;
+                if (!sent) return new List<T>();
 
                 var all = await tcs.Task;
                 if (!all)
