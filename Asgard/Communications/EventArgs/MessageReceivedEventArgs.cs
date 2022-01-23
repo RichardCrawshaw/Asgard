@@ -2,7 +2,7 @@
 
 namespace Asgard.Communications
 {
-    public class MessageReceivedEventArgs:EventArgs
+    public class MessageReceivedEventArgs : EventArgs
     {
         public string Message { get; }
 

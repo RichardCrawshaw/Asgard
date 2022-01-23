@@ -66,6 +66,16 @@ namespace Asgard.Communications
             }
         }
         
+        /// <summary>
+        /// Sends the specified <paramref name="message"/> asynchronously.
+        /// </summary>
+        /// <param name="message">An <see cref="ICbusMessenger"/> instance.</param>
+        /// <returns>A <see cref="Task{TResult}"/> <see cref="bool"/> that resolves to true on success; false otherwise.</returns>
+        /// <remarks>
+        /// An overload of this method exists on <see cref="ICbusMessenger"/> that allows an 
+        /// <see cref="ICbusOpCode"/> to be passed instead of the underlying message. See
+        /// <seealso cref="ICbusMessenger.SendMessage(ICbusOpCode)"/>.
+        /// </remarks>
         public async Task<bool> SendMessage(ICbusMessage message)
         {
             //Note: An overload of this method exists on ICbusMessenger that allows an ICbusOpcode
@@ -74,8 +84,16 @@ namespace Asgard.Communications
             var cbusCanFrame = this.cbusCanFrameFactory.CreateFrame(message);
 
             this.logger?.LogTrace("Sending message: {0}", message);
-            await this.transport.SendMessage(
-                this.cbusCanFrameProcessor.ConstructTransportString(cbusCanFrame));
+            try
+            {
+                await this.transport.SendMessage(
+                        this.cbusCanFrameProcessor.ConstructTransportString(cbusCanFrame));
+            }
+            catch (Exception ex)
+            {
+                this.logger?.LogWarning(ex, "Failed to send message: {0}", message);
+                return false;
+            }
             MessageSent?.Invoke(this, new CbusMessageEventArgs(message, false));
             return true;
         }
