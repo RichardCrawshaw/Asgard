@@ -127,7 +127,7 @@
                 type == typeof(short) ||
                 type == typeof(byte))
             {
-                ConvertFromEnum(byteIndex, (value as int?).Value);
+                ConvertFromEnum(byteIndex, (int)(object)value);
             }
         }
 
@@ -139,7 +139,7 @@
                 type == typeof(short) ||
                 type == typeof(byte))
             {
-                ConvertFromEnum(byteIndex, bitIndex, (value as int?).Value);
+                ConvertFromEnum(byteIndex, bitIndex, (int)(object)value);
             }
         }
 
@@ -151,7 +151,7 @@
                 type == typeof(short) ||
                 type == typeof(byte))
             {
-                ConvertFromEnum(byteIndex, bitIndexes, (value as int?).Value);
+                ConvertFromEnum(byteIndex, bitIndexes, (int)(object)value);
             }
         }
 

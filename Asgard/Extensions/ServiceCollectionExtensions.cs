@@ -12,6 +12,7 @@ namespace Asgard.Extensions
             services.AddSingleton<ICbusMessenger, CbusMessenger>();
             services.AddSingleton<ICbusConnectionFactory, CbusConnectionFactory>();
             services.AddSingleton<ICbusCanFrameFactory, CbusCanFrameFactory>();
+            services.AddScoped<MessageManager>();
             services.AddScoped<ITransport, SerialPortTransport>();
             services.AddScoped<IGridConnectProcessor, GridConnectProcessor>();
 
