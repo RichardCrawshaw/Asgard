@@ -18,8 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard.Console", "Asgard.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asgard.ExampleGui", "Asgard.ExampleGui\Asgard.ExampleGui.csproj", "{5D696184-4675-4124-B22E-0E10E8C44A5A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cbus.Gladsheimr", "..\Gladsheimr\Cbus.Gladsheimr\Cbus.Gladsheimr.csproj", "{AA3973AC-3984-41B1-95B3-9987781142CC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,10 +44,6 @@ Global
 		{5D696184-4675-4124-B22E-0E10E8C44A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D696184-4675-4124-B22E-0E10E8C44A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D696184-4675-4124-B22E-0E10E8C44A5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA3973AC-3984-41B1-95B3-9987781142CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA3973AC-3984-41B1-95B3-9987781142CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA3973AC-3984-41B1-95B3-9987781142CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA3973AC-3984-41B1-95B3-9987781142CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

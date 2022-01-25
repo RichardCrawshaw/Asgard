@@ -9,13 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Cbus.Gledsheimr" Version="0.9.0-beta1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Gladsheimr\Cbus.Gladsheimr\Cbus.Gladsheimr.csproj" />
     <ProjectReference Include="..\Asgard\Asgard.csproj" />
   </ItemGroup>
 
