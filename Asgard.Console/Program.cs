@@ -1,4 +1,5 @@
-﻿using Asgard.Console;
+﻿using System.Threading.Tasks;
+using Asgard.Console;
 using Asgard.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

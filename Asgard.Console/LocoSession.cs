@@ -1,4 +1,5 @@
-﻿using Asgard.EngineControl;
+﻿using System;
+using Asgard.EngineControl;
 using Terminal.Gui;
 
 namespace Asgard.Console
