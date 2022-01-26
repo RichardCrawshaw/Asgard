@@ -5,19 +5,23 @@
     <ApplicationIcon />
     <OutputType>Library</OutputType>
     <StartupObject></StartupObject>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Classes\**" />
     <Compile Remove="Comms\**" />
+    <Compile Remove="Data\Generated\Test\**" />
     <Compile Remove="Interfaces\**" />
     <Compile Remove="Public\**" />
     <EmbeddedResource Remove="Classes\**" />
     <EmbeddedResource Remove="Comms\**" />
+    <EmbeddedResource Remove="Data\Generated\Test\**" />
     <EmbeddedResource Remove="Interfaces\**" />
     <EmbeddedResource Remove="Public\**" />
     <None Remove="Classes\**" />
     <None Remove="Comms\**" />
+    <None Remove="Data\Generated\Test\**" />
     <None Remove="Interfaces\**" />
     <None Remove="Public\**" />
   </ItemGroup>

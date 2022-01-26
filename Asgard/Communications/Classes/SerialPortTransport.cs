@@ -11,13 +11,13 @@ namespace Asgard.Communications
         IDisposable
     {
         private readonly SerialPortTransportSettings settings;
-        private readonly ILogger<SerialPortTransport> logger;
+        private readonly ILogger<SerialPortTransport>? logger;
 
-        private SerialPort port;
+        private SerialPort? port;
         private bool disposedValue;
 
         public SerialPortTransport(SerialPortTransportSettings settings,
-                                   ILogger<SerialPortTransport> logger = null) 
+                                   ILogger<SerialPortTransport>? logger = null) 
             : base(logger)
         {
             this.settings = settings;
@@ -77,7 +77,7 @@ namespace Asgard.Communications
             }
             catch(Exception ex)
             {
-                this.logger.LogError(ex, "Attempting to re-open {0}.", this.settings.PortName);
+                this.logger?.LogError(ex, "Attempting to re-open {0}.", this.settings.PortName);
                 throw;
             }
         }
@@ -107,7 +107,7 @@ namespace Asgard.Communications
             {
                 if (disposing)
                 {
-                    this.port.Dispose();
+                    this.port?.Dispose();
                     this.port = null;
                 }
                 this.disposedValue = true;

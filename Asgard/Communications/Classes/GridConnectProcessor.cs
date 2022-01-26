@@ -13,17 +13,17 @@ namespace Asgard.Communications
         IGridConnectProcessor, 
         IDisposable
     {
-        private readonly ILogger<GridConnectProcessor> logger;
+        private readonly ILogger<GridConnectProcessor>? logger;
 
-        public ITransport Transport { get; }
+        public ITransport? Transport { get; }
 
-        public event EventHandler<TransportErrorEventArgs> TransportError;
-        public event EventHandler<MessageReceivedEventArgs> GridConnectMessage;
+        public event EventHandler<TransportErrorEventArgs>? TransportError;
+        public event EventHandler<MessageReceivedEventArgs>? GridConnectMessage;
 
-        private CancellationTokenSource cts;
+        private CancellationTokenSource? cts;
         private bool disposedValue;
 
-        public GridConnectProcessor(ITransport transport, ILogger<GridConnectProcessor> logger = null)
+        public GridConnectProcessor(ITransport transport, ILogger<GridConnectProcessor>? logger = null)
         {
             this.Transport = transport;
             this.logger = logger;
@@ -31,6 +31,8 @@ namespace Asgard.Communications
 
         public async Task OpenAsync()
         {
+            if (this.Transport is null) return;
+
             this.logger?.LogTrace(nameof(OpenAsync));
             this.cts = new CancellationTokenSource();
 
@@ -49,7 +51,7 @@ namespace Asgard.Communications
             this.logger?.LogTrace(nameof(Close));
 
             // Force all the various async processes to stop, tidy up and quit.
-            this.cts.Cancel();
+            this.cts?.Cancel();
 
             return true;
         }
@@ -59,6 +61,9 @@ namespace Asgard.Communications
         private async void ListenAsync(PipeWriter writer)
         {
             const int minBufferSize = 64;
+
+            if (this.Transport is null) return;
+            if (this.cts is null) return;
 
             while (!this.cts.Token.IsCancellationRequested)
             {
@@ -103,6 +108,8 @@ namespace Asgard.Communications
 
         private async void ReadAsync(PipeReader reader)
         {
+            if (this.cts is null) return;
+
             while (!this.cts.Token.IsCancellationRequested)
             {
                 try
@@ -170,6 +177,9 @@ namespace Asgard.Communications
 
         public async Task SendMessage(string gridConnectMessage)
         {
+            if (this.Transport is null) return;
+            if (this.cts is null) return;
+
             try
             {
                 this.logger?.LogTrace("Sending message: {0}", gridConnectMessage);
@@ -196,7 +206,7 @@ namespace Asgard.Communications
             {
                 if (disposing)
                 {
-                    this.cts.Dispose();
+                    this.cts?.Dispose();
                     this.cts = null;
                 }
                 this.disposedValue = true;

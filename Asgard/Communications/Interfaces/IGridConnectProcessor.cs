@@ -8,7 +8,7 @@ namespace Asgard.Communications
         /// <summary>
         /// Fires when an error occurs at the transport layer. Incomplete messages are viewable here.
         /// </summary>
-        event EventHandler<TransportErrorEventArgs> TransportError;
+        event EventHandler<TransportErrorEventArgs>? TransportError;
 
         /// <summary>
         /// Fires when a message has been received.
@@ -17,7 +17,7 @@ namespace Asgard.Communications
         /// Only complete messages are raised via this event. 
         /// Incomplete messages are dealt with and removed internally.
         /// </remarks>
-        event EventHandler<MessageReceivedEventArgs> GridConnectMessage;
+        event EventHandler<MessageReceivedEventArgs>? GridConnectMessage;
 
         /// <summary>
         /// Used to send a new message on the transport layer.

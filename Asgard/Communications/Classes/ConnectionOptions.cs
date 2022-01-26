@@ -9,6 +9,6 @@
 
         public ConnectionTypes ConnectionType { get; set; }
 
-        public SerialPortTransportSettings SerialPort { get; set; }
+        public SerialPortTransportSettings? SerialPort { get; set; }
     }
 }

@@ -5,7 +5,8 @@ using Asgard.Data;
 
 namespace Asgard.EngineControl
 {
-    internal class EngineSession : IEngineSession
+    internal class EngineSession :
+        IEngineSession
     {
         private readonly ICbusMessenger cbusMessenger;
 
@@ -15,7 +16,7 @@ namespace Asgard.EngineControl
 
         public bool IsAvailable { get; private set; }
 
-        public event EventHandler SessionCancelled;
+        public event EventHandler? SessionCancelled;
 
         public EngineSession(EngineReport report, ICbusMessenger cbusMessenger)
         {
@@ -27,15 +28,25 @@ namespace Asgard.EngineControl
 
         public async Task SetFunction(byte functionNo, bool on)
         {
-            if (IsAvailable)
+            if (this.IsAvailable)
             {
                 if (on)
                 {
-                    await cbusMessenger?.SendMessage(new SetEngineFunctionOn { Session = Session, FunctionNumber = functionNo });
+                    await cbusMessenger.SendMessage(
+                        new SetEngineFunctionOn 
+                        { 
+                            Session = this.Session, 
+                            FunctionNumber = functionNo,
+                        });
                 }
                 else
                 {
-                    await cbusMessenger?.SendMessage(new SetEngineFunctionOff { Session = Session, FunctionNumber = functionNo });
+                    await cbusMessenger.SendMessage(
+                        new SetEngineFunctionOff 
+                        { 
+                            Session = this.Session, 
+                            FunctionNumber = functionNo,
+                        });
                 }
             }
         }
@@ -45,11 +56,12 @@ namespace Asgard.EngineControl
             if (this.SpeedDir != speedDir)
             {
                 this.SpeedDir = speedDir;
-                await cbusMessenger?.SendMessage(new SetEngineSpeedAndDirection
-                {
-                    Session = Session,
-                    SpeedDir = this.SpeedDir
-                });
+                await cbusMessenger.SendMessage(
+                    new SetEngineSpeedAndDirection
+                    {
+                        Session = this.Session,
+                        SpeedDir = this.SpeedDir,
+                    });
             }
         }
 

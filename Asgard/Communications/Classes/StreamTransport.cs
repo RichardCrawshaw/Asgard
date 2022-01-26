@@ -9,17 +9,19 @@ namespace Asgard.Communications
     public abstract class StreamTransport : 
         ITransport
     {
-        private readonly ILogger<StreamTransport> logger;
+        private readonly ILogger<StreamTransport>? logger;
 
-        protected Stream TransportStream { get; set; }
+        protected Stream? TransportStream { get; set; }
 
-        public StreamTransport(ILogger<StreamTransport> logger = null)
+        public StreamTransport(ILogger<StreamTransport>? logger = null)
         {
             this.logger = logger;
         }
 
         public async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken)
         {
+            if (this.TransportStream is null) return 0;
+
             this.logger?.LogTrace("Reading from stream");
             try
             {

@@ -55,6 +55,9 @@ namespace Asgard.ExampleGui
             this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
             this.cbusMessenger.MessageSent += CbusMessenger_MessageSentAsync;
 
+            var rm = new ResponseManager(this.cbusMessenger);
+            rm.Register<QueryNodeNumber>(SendPNNAsync);
+
             this.view.Controller = this;
         }
 
@@ -217,10 +220,12 @@ namespace Asgard.ExampleGui
         // Send button of the UserControl will cause the matching Send routine to be run.
 
         [OpCode(Code = "PNN")]
-        private async Task SendPNNAsync()
+        private async Task SendPNNAsync() => await SendPNNAsync(this.cbusMessenger, null);
+
+        private async Task SendPNNAsync(ICbusMessenger cbusMessenger, ICbusMessage? cbusMessage)
         {
             await
-                this.cbusMessenger.SendMessage(
+                cbusMessenger.SendMessage(
                     new ResponseToQueryNode
                     {
                         ManufId = this.options.CurrentValue.ManufacturerId,

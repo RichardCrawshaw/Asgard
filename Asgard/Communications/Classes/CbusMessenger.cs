@@ -8,19 +8,19 @@ namespace Asgard.Communications
     public class CbusMessenger : 
         ICbusMessenger
     {
-        private IGridConnectProcessor transport;
+        private IGridConnectProcessor? transport;
 
         private readonly ICbusCanFrameProcessor cbusCanFrameProcessor;
         private readonly ICbusConnectionFactory connectionFactory;
         private readonly ICbusCanFrameFactory cbusCanFrameFactory;
-        private readonly ILogger<CbusMessenger> logger;
+        private readonly ILogger<CbusMessenger>? logger;
 
-        public event EventHandler<CbusMessageEventArgs> MessageReceived;
-        public event EventHandler<CbusMessageEventArgs> MessageSent;
+        public event EventHandler<CbusMessageEventArgs>? MessageReceived;
+        public event EventHandler<CbusMessageEventArgs>? MessageSent;
         
         public bool IsOpen { get; private set; }
 
-        public CbusMessenger(ICbusCanFrameProcessor cbusCanFrameProcessor, ICbusConnectionFactory connectionFactory, ICbusCanFrameFactory cbusCanFrameFactory, ILogger<CbusMessenger> logger = null)
+        public CbusMessenger(ICbusCanFrameProcessor cbusCanFrameProcessor, ICbusConnectionFactory connectionFactory, ICbusCanFrameFactory cbusCanFrameFactory, ILogger<CbusMessenger>? logger = null)
         {
             this.cbusCanFrameProcessor = cbusCanFrameProcessor;
             this.connectionFactory = connectionFactory;
@@ -59,7 +59,7 @@ namespace Asgard.Communications
             this.IsOpen = false;
         }
 
-        private void HandleTransportMessage(object sender, MessageReceivedEventArgs e)
+        private void HandleTransportMessage(object? sender, MessageReceivedEventArgs e)
         {
             try
             {
@@ -95,8 +95,9 @@ namespace Asgard.Communications
             this.logger?.LogTrace("Sending message: {0}", message);
             try
             {
+                if (this.transport is null) return false;
                 await this.transport.SendMessage(
-                        this.cbusCanFrameProcessor.ConstructTransportString(cbusCanFrame));
+                    this.cbusCanFrameProcessor.ConstructTransportString(cbusCanFrame));
             }
             catch (Exception ex)
             {

@@ -2,6 +2,6 @@
 {
     public class CbusCanFrameOptions
     {
-        public CbusCanFrameSettings Frame { get; set; }
+        public CbusCanFrameSettings? Frame { get; set; }
     }
 }

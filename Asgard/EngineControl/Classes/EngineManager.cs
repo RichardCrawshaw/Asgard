@@ -27,7 +27,8 @@ namespace Asgard.EngineControl
             this.cbusMessenger.MessageReceived += OnCbusMessage;
         }
 
-        private void OnCbusMessage(object sender, CbusMessageEventArgs e) {
+        private void OnCbusMessage(object? sender, CbusMessageEventArgs e)
+        {
             if (e.Message.GetOpCode() is CommandStationErrorReport errorReport)
             {
                 if (errorReport.DccErrorCode == DccErrorCodeEnum.SessionCancelled)
@@ -41,7 +42,8 @@ namespace Asgard.EngineControl
             }
         }
 
-        private async void OnTimer(object state) {
+        private async void OnTimer(object? state)
+        {
             //TODO: proper exception handling and logging to prevent exceptions leaving async void event handler
             foreach(var session in sessions.Values)
             {
@@ -62,7 +64,8 @@ namespace Asgard.EngineControl
                     Address = locoDccAddress,
                 });
 
-                switch (msg) {
+                switch (msg)
+                {
                     case EngineReport report:
                         var es = new EngineSession(report, cbusMessenger);
                         sessions.TryAdd(locoDccAddress, es);

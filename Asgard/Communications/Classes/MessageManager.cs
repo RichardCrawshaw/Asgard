@@ -1,22 +1,21 @@
-﻿using Asgard.Data;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Asgard.Data;
+using Microsoft.Extensions.Logging;
 
 namespace Asgard.Communications
 {
     public class MessageManager
     {
         private readonly ICbusMessenger messenger;
-        private readonly ILogger<MessageManager> logger;
+        private readonly ILogger<MessageManager>? logger;
 
         private static TimeSpan DefaultTimeout { get; } = TimeSpan.FromSeconds(2);
 
-        public MessageManager(ICbusMessenger messenger, ILogger<MessageManager> logger = null)
+        public MessageManager(ICbusMessenger messenger, ILogger<MessageManager>? logger = null)
         {
             this.messenger = messenger;
             this.logger = logger;
@@ -29,7 +28,7 @@ namespace Asgard.Communications
         /// <param name="msg">The message to send.</param>
         /// <param name="filterResponse">An optional filter callback to further process the replies to ensure you get the right one.</param>
         /// <returns>The first message of the given type that passes the filterResponse.</returns>
-        public Task<T> SendMessageWaitForReply<T>(ICbusOpCode msg, Func<T, bool> filterResponse = null)
+        public Task<T> SendMessageWaitForReply<T>(ICbusOpCode msg, Func<T, bool>? filterResponse = null)
             where T : ICbusOpCode => 
             SendMessageWaitForReply(msg, DefaultTimeout, filterResponse);
 
@@ -41,7 +40,7 @@ namespace Asgard.Communications
         /// <param name="timeout">The amount of time to wait for a response.</param>
         /// <param name="filterResponse">An optional filter callback to further process the replies to ensure you get the right one.</param>
         /// <returns>The first message of the given type that passes the filterResponse.</returns>
-        public async Task<T> SendMessageWaitForReply<T>(ICbusOpCode msg, TimeSpan timeout, Func<T, bool> filterResponse = null)
+        public async Task<T> SendMessageWaitForReply<T>(ICbusOpCode msg, TimeSpan timeout, Func<T, bool>? filterResponse = null)
             where T : ICbusOpCode => 
             (await SendMessageWaitForReplies(msg, timeout, 1, filterResponse)).First();
 
@@ -53,7 +52,7 @@ namespace Asgard.Communications
         /// <param name="expected">The number of expected responses. Times out if this number is not received. Specify 0 for an unknown number of responses. Returns immediately when this number of responses have been received.</param>
         /// <param name="filterResponses">An optional filter callback to further process the replies to ensure you get the right ones.</param>
         /// <returns>The received responses.</returns>
-        public Task<IEnumerable<T>> SendMessageWaitForReplies<T>(ICbusOpCode msg, int expected = 0, Func<T, bool> filterResponses = null)
+        public Task<IEnumerable<T>> SendMessageWaitForReplies<T>(ICbusOpCode msg, int expected = 0, Func<T, bool>? filterResponses = null)
             where T : ICbusOpCode => 
             SendMessageWaitForReplies(msg, DefaultTimeout, expected, filterResponses);
 
@@ -111,7 +110,7 @@ namespace Asgard.Communications
         public async Task<IEnumerable<T>> SendMessageWaitForReplies<T>(ICbusOpCode msg,
                                                                        TimeSpan timeout,
                                                                        int expected = 0,
-                                                                       Func<T, bool> filterResponses = null)
+                                                                       Func<T, bool>? filterResponses = null)
             where T : ICbusOpCode
         {
             this.logger?.LogTrace(
@@ -123,7 +122,7 @@ namespace Asgard.Communications
 
             var responses = new List<T>();
 
-            void AwaitResponse(object sender, CbusMessageEventArgs e) =>
+            void AwaitResponse(object? sender, CbusMessageEventArgs e) =>
                 AwaitResponse<T>(e.Message, filterResponses, responses, expected, tcs);
 
             try
@@ -148,7 +147,7 @@ namespace Asgard.Communications
             return responses;
         }
 
-        private bool AwaitResponse<T>(ICbusMessage message, Func<T, bool> filterResponses, List<T> responses, int expected, TaskCompletionSource<bool> tcs)
+        private bool AwaitResponse<T>(ICbusMessage message, Func<T, bool>? filterResponses, List<T> responses, int expected, TaskCompletionSource<bool> tcs)
             where T : ICbusOpCode
         {
             if (message.GetOpCode() is not T response)

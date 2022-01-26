@@ -61,7 +61,7 @@ namespace Asgard.Data
 	public abstract partial class OpCodeData :
 		ICbusOpCode
 	{
-		public static OpCodeData Create(ICbusMessage message)
+		public static OpCodeData? Create(ICbusMessage message)
 		{
 			return message[0] switch
 			{
@@ -75,7 +75,7 @@ namespace Asgard.Data
 			};
 		}
 
-		public static OpCodeData Create(string opcodeName)
+		public static OpCodeData? Create(string opcodeName)
 		{
 			return opcodeName.ToUpper() switch
 			{

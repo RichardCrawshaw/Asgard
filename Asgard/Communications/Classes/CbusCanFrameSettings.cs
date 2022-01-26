@@ -7,12 +7,12 @@ namespace Asgard.Communications
     {
         public byte? CanId { get; set; }
 
-        public string MajorPriority { get; set; }
-        public string MinorPriority { get; set; }
+        public string? MajorPriority { get; set; }
+        public string? MinorPriority { get; set; }
 
-        public MajorPriority? GetMajorPriority() => this.MajorPriority.Get<MajorPriority>();
+        public MajorPriority? GetMajorPriority() => this.MajorPriority?.Get<MajorPriority>();
 
-        public MinorPriority? GetMinorPriority() => this.MinorPriority.Get<MinorPriority>();
+        public MinorPriority? GetMinorPriority() => this.MinorPriority?.Get<MinorPriority>();
 
         public void SetMajorPriority(MajorPriority value) => this.MajorPriority = Enum.GetName(value);
 

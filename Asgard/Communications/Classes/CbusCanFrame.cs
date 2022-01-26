@@ -3,10 +3,11 @@ using Microsoft.Extensions.Logging;
 
 namespace Asgard.Communications
 {
-    public class CbusCanFrame : ICbusCanFrame
+    public class CbusCanFrame : 
+        ICbusCanFrame
     {
-        private readonly CbusCanFrameSettings settings;
-        private readonly ILogger<CbusCanFrame> logger;
+        private readonly CbusCanFrameSettings? settings;
+        private readonly ILogger<CbusCanFrame>? logger;
 
         public byte SidH { get; set; }
         public byte SidL { get; set; }
@@ -34,9 +35,9 @@ namespace Asgard.Communications
             }
         }
 
-        public ICbusMessage Message { get; set; }
+        public ICbusMessage? Message { get; set; }
 
-        public CbusCanFrame(CbusCanFrameSettings settings, ILogger<CbusCanFrame> logger)
+        public CbusCanFrame(CbusCanFrameSettings? settings, ILogger<CbusCanFrame>? logger)
         {
             this.settings = settings;
             this.logger = logger;

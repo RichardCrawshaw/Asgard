@@ -8,9 +8,9 @@ namespace Asgard.Communications
     internal class CbusCanFrameProcessor :
         ICbusCanFrameProcessor
     {
-        private readonly ILogger<CbusCanFrameProcessor> logger;
+        private readonly ILogger<CbusCanFrameProcessor>? logger;
 
-        public CbusCanFrameProcessor(ILogger<CbusCanFrameProcessor> logger = null)
+        public CbusCanFrameProcessor(ILogger<CbusCanFrameProcessor>? logger = null)
         {
             this.logger = logger;
         }
@@ -19,14 +19,17 @@ namespace Asgard.Communications
         {
             this.logger?.LogTrace("Creating transport string for {0}", frame);
 
-            var ts = new StringBuilder(8 + (frame.Message.Length * 2));
+            var message = frame.Message;
+            if (message is null) return string.Empty;
+
+            var ts = new StringBuilder(8 + message.Length * 2);
             ts.Append(":S");
             ts.Append(frame.SidH.ToString("X2"));
             ts.Append(frame.SidL.ToString("X2"));
             ts.Append('N');
-            for (var x = 0; x < frame.Message.Length; x++)
+            for (var x = 0; x < message.Length; x++)
             {
-                ts.Append(frame.Message[x].ToString("X2"));
+                ts.Append(message[x].ToString("X2"));
             }
             ts.Append(';');
             return ts.ToString();
