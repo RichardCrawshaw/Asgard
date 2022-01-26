@@ -18,17 +18,22 @@ namespace Asgard.Tests.CommunicationTests
         public async Task ManagerReturnsCorrectMessages_WhenWaitingForMultipleReplies()
         {
             var messenger = new Mock<ICbusMessenger>();
-            messenger.Setup(m => m.SendMessage(It.IsAny<ICbusMessage>())).ReturnsAsync(true).Callback(() => {
-                messenger.Raise(m => 
-                    m.MessageReceived += null, 
-                    new CbusMessageEventArgs(new ResponseToQueryNode().Message, true));
-                messenger.Raise(m => 
-                    m.MessageReceived += null, 
-                    new CbusMessageEventArgs(new ResponseToQueryNode().Message, true));
-            });
+            messenger
+                .Setup(m => m.SendMessage(It.IsAny<ICbusMessage>()))
+                .ReturnsAsync(true)
+                .Callback(() =>
+                {
+                    messenger.Raise(m => 
+                        m.MessageReceived += null, 
+                        new CbusMessageEventArgs(new ResponseToQueryNode().Message, true));
+                    messenger.Raise(m => 
+                        m.MessageReceived += null, 
+                        new CbusMessageEventArgs(new ResponseToQueryNode().Message, true));
+                });
 
             var mm = new MessageManager(messenger.Object);
-            var response = await mm.SendMessageWaitForReplies<ResponseToQueryNode>(new QueryNodeNumber());
+            var response = await 
+                mm.SendMessageWaitForReplies<ResponseToQueryNode>(new QueryNodeNumber());
 
             response.Count().Should().Be(2);
         }
@@ -66,7 +71,8 @@ namespace Asgard.Tests.CommunicationTests
         {
             var messenger = new Mock<ICbusMessenger>();
             messenger
-                .Setup(m => m.SendMessage(It.IsAny<CbusMessage>())).ReturnsAsync(true)
+                .Setup(m => m.SendMessage(It.IsAny<CbusMessage>()))
+                .ReturnsAsync(true)
                 .Callback(() =>
                 {
                     messenger.Raise(m => 
@@ -80,7 +86,10 @@ namespace Asgard.Tests.CommunicationTests
                 });
 
             var mm = new MessageManager(messenger.Object);
-            var response = await mm.SendMessageWaitForReply<ResponseToQueryNode>(new QueryNodeNumber(), m => m.NodeNumber == 2);
+            var response = await
+                mm.SendMessageWaitForReply<ResponseToQueryNode>(
+                    new QueryNodeNumber(), 
+                    m => m.NodeNumber == 2);
 
             response.NodeNumber.Should().Be(2);
         }
@@ -90,10 +99,11 @@ namespace Asgard.Tests.CommunicationTests
         {
             var messenger = new Mock<ICbusMessenger>();
             messenger
-                .Setup(m => m.SendMessage(It.IsAny<CbusMessage>())).ReturnsAsync(true)
+                .Setup(m => m.SendMessage(It.IsAny<CbusMessage>()))
+                .ReturnsAsync(true)
                 .Callback(() => 
-                    messenger.Raise(m => 
-                        m.MessageReceived += null, 
+                    messenger.Raise(
+                        m => m.MessageReceived += null, 
                         new CbusMessageEventArgs(
                             new ResponseToQueryNode() { NodeNumber = 1 }.Message, true)));
 
