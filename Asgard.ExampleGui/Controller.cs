@@ -220,21 +220,24 @@ namespace Asgard.ExampleGui
         // Send button of the UserControl will cause the matching Send routine to be run.
 
         [OpCode(Code = "PNN")]
-        private async Task SendPNNAsync() => await SendPNNAsync(this.cbusMessenger, null);
-
-        private async Task SendPNNAsync(ICbusMessenger cbusMessenger, ICbusMessage? cbusMessage)
-        {
+        private async Task SendPNNAsync() {
             await
-                cbusMessenger.SendMessage(
-                    new ResponseToQueryNode
-                    {
-                        ManufId = this.options.CurrentValue.ManufacturerId,
-                        ModuleId = this.options.CurrentValue.ModuleId,
-                        NodeFlags = NodeFlagsEnum.Consumer |
-                                    NodeFlagsEnum.Producer |
-                                    NodeFlagsEnum.FLiMMode,
-                        NodeNumber = this.options.CurrentValue.NodeNumber,
-                    });
+                    this.cbusMessenger.SendMessage(
+                        new ResponseToQueryNode
+                        {
+                            ManufId = this.options.CurrentValue.ManufacturerId,
+                            ModuleId = this.options.CurrentValue.ModuleId,
+                            NodeFlags = NodeFlagsEnum.Consumer |
+                                        NodeFlagsEnum.Producer |
+                                        NodeFlagsEnum.FLiMMode,
+                            NodeNumber = this.options.CurrentValue.NodeNumber,
+                        });
+        }
+        
+
+        private async Task SendPNNAsync(ICbusMessenger cbusMessenger, ICbusMessage cbusMessage, QueryNodeNumber msg)
+        {
+            await SendPNNAsync();
         }
 
         [OpCode(Code = "QNN")]
