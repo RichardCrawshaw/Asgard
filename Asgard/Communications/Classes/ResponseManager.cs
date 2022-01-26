@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading.Tasks;
 using Asgard.Data;
 
@@ -12,13 +13,32 @@ namespace Asgard.Communications
     /// </summary>
     public class ResponseManager
     {
+        #region Fields
+
         private readonly ICbusMessenger cbusMessenger;
         private readonly ConcurrentDictionary<Type, ResponseCallback> listeners = new();
 
-        public ResponseManager(ICbusMessenger cbusMessenger)
-        {
+        #endregion
+
+        #region Constructors
+
+        public ResponseManager(ICbusMessenger cbusMessenger) =>
             this.cbusMessenger = cbusMessenger;
-            this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Remove the registration for the defined <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="ICbusOpCode"/> to deregister.</typeparam>
+        public void Deregister<T>()
+            where T : class, ICbusOpCode
+        {
+            this.listeners.TryRemove(typeof(T), out _);
+            if (!this.listeners.Any())
+                this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
         }
 
         /// <summary>
@@ -28,8 +48,20 @@ namespace Asgard.Communications
         /// <typeparam name="T">The type of <see cref="ICbusOpCode"/> that the <paramref name="callback"/> services.</typeparam>
         /// <param name="callback">The callback function to register.</param>
         public void Register<T>(Func<ICbusMessenger, ICbusMessage?, Task> callback)
-            where T : class, ICbusOpCode => 
+            where T : class, ICbusOpCode
+        {
+            // If there were no callbacks registered, but now there are, the event handler routine
+            // must be registered.
+
+            var flag = this.listeners.Any();
             this.listeners[typeof(T)] = new ResponseCallback<T>(callback);
+            if (!flag && this.listeners.Any())
+                this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
+        }
+
+        #endregion
+
+        #region Support routines
 
         private async void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs e)
         {
@@ -38,6 +70,8 @@ namespace Asgard.Communications
             if (this.listeners.ContainsKey(type))
                 await this.listeners[type].Invoke(this.cbusMessenger, e.Message);
         }
+
+        #endregion
 
         #region Nested classes
 
@@ -70,11 +104,11 @@ namespace Asgard.Communications
                 await this.callback(cbusMessenger, cbusMessage);
             }
 
-            /// <summary>
-            /// Nested derrived class for the specific <typeparamref name="T"/>.
-            /// </summary>
-            /// <typeparam name="T">The <see cref="ICbusOpCode"/> that this instance services.</typeparam>
-            private class ResponseCallback<T> : ResponseCallback
+        /// <summary>
+        /// Nested derrived class for the specific <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="ICbusOpCode"/> that this instance services.</typeparam>
+        private class ResponseCallback<T> : ResponseCallback
             where T : class, ICbusOpCode
         {
             public override Type OpCodeType => typeof(T);
