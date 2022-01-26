@@ -158,7 +158,7 @@ namespace Asgard.Tests.CommunicationTests
                 .ReturnsAsync(false);
             var mm = new MessageManager(messenger.Object);
             Assert
-                .ThrowsAsync<Exception>(async () => await
+                .ThrowsAsync<SendFailureException>(async () => await
                     mm.SendMessageWaitForReply<ResponseToQueryNode>(new QueryNodeNumber()));
         }
     }

@@ -163,7 +163,7 @@ namespace Asgard.Communications
                 if (!sent)
                 {
                     this.logger?.LogWarning("The requested message was not sent: {0}", msg);
-                    throw new Exception($"The requested message was not sent: {msg}");
+                    throw new SendFailureException($"The requested message was not sent: {msg}");
                 }
 
                 var all = await tcs.Task;
