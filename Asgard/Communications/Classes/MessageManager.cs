@@ -155,11 +155,17 @@ namespace Asgard.Communications
                 }
             }
 
-            this.messenger.MessageReceived += AwaitResponse;
-            await this.messenger.SendMessage(msg.Message);
-
             try
             {
+                this.messenger.MessageReceived += AwaitResponse;
+                var sent = await this.messenger.SendMessage(msg.Message);
+
+                if (!sent)
+                {
+                    this.logger?.LogWarning("The requested message was not sent: {0}", msg);
+                    throw new Exception($"The requested message was not sent: {msg}");
+                }
+
                 var all = await tcs.Task;
                 if (!all)
                 {
