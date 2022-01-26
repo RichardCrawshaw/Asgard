@@ -114,70 +114,29 @@ namespace Asgard.Communications
                                                                        Func<T, bool> filterResponses = null)
             where T : ICbusOpCode
         {
-            this.logger?.LogTrace($"Sending message of type {0}, awaiting {1} replies with a timeout of {2}",
+            this.logger?.LogTrace(
+                $"Sending message of type {0}, awaiting {1} replies with a timeout of {2}",
                 msg.GetType().Name, typeof(T).Name, expected);
 
-            var tcs = new TaskCompletionSource<bool>();
             using var cts = new CancellationTokenSource(timeout);
-            cts.Token.Register(() =>
-            {
-                if (expected == 0)
-                {
-                    tcs.TrySetCanceled();
-                }
-                else
-                {
-                    tcs.TrySetResult(false);
-                }
-            }, useSynchronizationContext: false);
+            var tcs = CreateSendWaitCompletionSource(cts, timeout, expected);
 
             var responses = new List<T>();
 
-            void AwaitResponse(object sender, CbusMessageEventArgs e)
-            {
-                if (e.Message.GetOpCode() is not T response)
-                    return;
-
-                if (filterResponses is not null && !filterResponses(response))
-                {
-                    this.logger?.LogTrace("Message of correct type received, but did not pass filter");
-                    return;
-                }
-
-                this.logger?.LogTrace("Message of correct type received, appended result");
-
-                responses.Add(response);
-
-                if (expected != 0 && responses.Count == expected)
-                {
-                    this.logger?.LogTrace($"All {expected} messages expected have been received");
-                    tcs.TrySetResult(true);
-                }
-            }
+            void AwaitResponse(object sender, CbusMessageEventArgs e) =>
+                AwaitResponse<T>(e.Message, filterResponses, responses, expected, tcs);
 
             try
             {
                 this.messenger.MessageReceived += AwaitResponse;
-                var sent = await this.messenger.SendMessage(msg.Message);
-
-                if (!sent)
-                {
-                    this.logger?.LogWarning("The requested message was not sent: {0}", msg);
-                    throw new SendFailureException($"The requested message was not sent: {msg}");
-                }
-
-                var all = await tcs.Task;
-                if (!all)
-                {
-                    this.logger?.LogWarning("Not all expected messages received within the timeout time");
-                    throw new TimeoutException();
-                }
+                await SendMessageWaitForReplies<T>(msg, tcs);
             }
             catch (TaskCanceledException)
             {
                 if (responses.Count == 0)
                 {
-                    this.logger?.LogWarning("Not all expected messages received within the timeout time");
+                    this.logger?.LogWarning(
+                        "Not all expected messages received within the timeout time");
                     throw new TimeoutException();
                 }
             }
@@ -187,6 +146,64 @@ namespace Asgard.Communications
             }
 
             return responses;
+        }
+
+        private bool AwaitResponse<T>(ICbusMessage message, Func<T, bool> filterResponses, List<T> responses, int expected, TaskCompletionSource<bool> tcs)
+            where T : ICbusOpCode
+        {
+            if (message.GetOpCode() is not T response)
+                return false;
+
+            if (filterResponses is not null && !filterResponses(response))
+            {
+                this.logger?.LogTrace("Message of expected type received, but did not pass filter.");
+                return false;
+            }
+
+            responses.Add(response);
+
+            if (responses.Count == expected)
+            {
+                if (expected != 0)
+                    this.logger?.LogTrace($"All {expected} messages expected have been received.");
+                tcs.TrySetResult(true);
+                return true;
+            }
+
+            return false;
+        }
+
+        private static TaskCompletionSource<bool> CreateSendWaitCompletionSource(CancellationTokenSource cts, TimeSpan timeout, int expected)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            cts.Token.Register(() =>
+            {
+                if (expected == 0)
+                    tcs.TrySetCanceled();
+                else
+                    tcs.TrySetResult(false);
+            }, useSynchronizationContext: false);
+
+            return tcs;
+        }
+
+        private async Task SendMessageWaitForReplies<T>(ICbusOpCode msg, TaskCompletionSource<bool> tcs)
+            where T : ICbusOpCode
+        {
+            var sent = await this.messenger.SendMessage(msg.Message);
+
+            if (!sent)
+            {
+                this.logger?.LogWarning("The requested message was not sent: {0}", msg);
+                throw new SendFailureException($"The requested message was not sent: {msg}");
+            }
+
+            var all = await tcs.Task;
+            if (!all)
+            {
+                this.logger?.LogWarning("Not all expected messages received within the timeout time");
+                throw new TimeoutException($"Timeout waiting for replies to {msg}");
+            }
         }
     }
 }
