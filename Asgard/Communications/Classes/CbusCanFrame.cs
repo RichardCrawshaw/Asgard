@@ -48,7 +48,7 @@ namespace Asgard.Communications
             this.logger = logger;
         }
 
-        private void Instantiate(ICbusOpCode? cbusOpCode)
+        private void Instantiate(ICbusOpCode cbusOpCode)
         {
             // TODO: Extract the major and minor priority from the op-code meta-data.
 
@@ -56,7 +56,7 @@ namespace Asgard.Communications
             this.MajorPriority = this.settings?.GetMajorPriority() ?? MajorPriority.Low;
             this.MinorPriority = this.settings?.GetMinorPriority() ?? MinorPriority.Normal;
 
-            this.logger?.LogInformation($"Created CAN frame for {cbusOpCode?.Code}");
+            this.logger?.LogInformation($"Created CAN frame for {cbusOpCode.Code}");
         }
 
         public override string ToString() => 
