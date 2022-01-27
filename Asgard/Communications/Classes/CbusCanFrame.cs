@@ -42,12 +42,13 @@ namespace Asgard.Communications
                             ILogger<CbusCanFrame>? logger = null)
         {
             this.Message = message;
+            Instantiate(this.Message.GetOpCode());
 
             this.settings = settings;
             this.logger = logger;
         }
 
-        public void Instantiate(ICbusOpCode? cbusOpCode)
+        private void Instantiate(ICbusOpCode? cbusOpCode)
         {
             // TODO: Extract the major and minor priority from the op-code meta-data.
 
