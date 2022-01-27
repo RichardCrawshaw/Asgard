@@ -19,7 +19,8 @@ namespace Asgard.Tests.CommunicationTests
 
             var frame = new Mock<ICbusCanFrame>();
             var frameFactory = new Mock<ICbusCanFrameFactory>();
-            frameFactory.Setup(ff => ff.CreateFrame(null)).Returns(frame.Object);
+            var opc = new GeneralAcknowledgement();
+            frameFactory.Setup(ff => ff.CreateFrame(opc.Message)).Returns(frame.Object);
 
             var cfp = new CbusCanFrameProcessor();
             var cm = new CbusMessenger(cfp, connectionFactory.Object, frameFactory.Object);
@@ -47,15 +48,16 @@ namespace Asgard.Tests.CommunicationTests
 
             var frame = new Mock<ICbusCanFrame>();
             var frameFactory = new Mock<ICbusCanFrameFactory>();
-            frameFactory.Setup(ff => ff.CreateFrame(null)).Returns(frame.Object);
+            var opc = new AccessoryOn() { NodeNumber = 1, EventNumber = 2 };
+            frameFactory
+                .Setup(ff => ff.CreateFrame(opc.Message))
+                .Returns(frame.Object);
 
             var cfp = new CbusCanFrameProcessor();
             var cm = new CbusMessenger(cfp, connectionFactory.Object, frameFactory.Object);
             await cm.OpenAsync();
 
             //TODO: need to consider how we want applications to be able to send messages to the bus
-            var opc = new AccessoryOn() { NodeNumber = 1, EventNumber = 2 };
-            if (opc.Message is null) return;
 
             await cm.SendMessage(opc.Message);
 

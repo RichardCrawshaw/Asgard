@@ -69,7 +69,11 @@ namespace Asgard.Communications
             try
             {
                 var frame = this.cbusCanFrameProcessor.ParseFrame(e.Message);
-                if (frame?.Message is null) return;
+                // Neither frame nor frame.Message will be null here; this if is simply to keep the
+                // compiler happy regarding nullable objects.
+                if (frame.Message is null)
+                    throw new Exception($"Failed to parse received message: {e.Message}.");
+
                 this.logger?.LogTrace("Parsed received Message: {0}", frame);
                 MessageReceived?.Invoke(this, new CbusMessageEventArgs(frame.Message, true));
             }

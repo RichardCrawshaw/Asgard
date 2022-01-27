@@ -10,6 +10,6 @@ namespace Asgard.Communications
         FrameTypes FrameType { get; set; }
         MajorPriority MajorPriority { get; set; }
         MinorPriority MinorPriority { get; set; }
-        ICbusMessage? Message { get; set; }
+        ICbusMessage Message { get; set; }
     }
 }

@@ -35,10 +35,14 @@ namespace Asgard.Communications
             }
         }
 
-        public ICbusMessage? Message { get; set; }
+        public ICbusMessage Message { get; set; }
 
-        public CbusCanFrame(CbusCanFrameSettings? settings, ILogger<CbusCanFrame>? logger)
+        public CbusCanFrame(ICbusMessage message,
+                            CbusCanFrameSettings? settings = null,
+                            ILogger<CbusCanFrame>? logger = null)
         {
+            this.Message = message;
+
             this.settings = settings;
             this.logger = logger;
         }

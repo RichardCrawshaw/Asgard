@@ -18,7 +18,7 @@ namespace Asgard.Communications
             this.options = options;
         }
 
-        public ICbusCanFrame CreateFrame(ICbusMessage? message)
+        public ICbusCanFrame CreateFrame(ICbusMessage message)
         {
             var options = this.options.CurrentValue;
 
@@ -34,7 +34,7 @@ namespace Asgard.Communications
             var result =
                 ActivatorUtilities.CreateInstance<CbusCanFrame>(
                     this.services, new[] { frame, });
-            result.Instantiate(message?.GetOpCode());
+            result.Instantiate(message.GetOpCode());
             result.Message = message;
             return result;
         }

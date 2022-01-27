@@ -59,14 +59,14 @@ namespace Asgard.Communications
                 dataBytes[x] = Convert.ToByte(transportString.Substring(p, 2), 16);
             }
 
-            var frame = new CbusCanFrame(null, null)
+            var frame = new CbusCanFrame(CbusMessage.Create(dataBytes))
             {
                 SidH = sidh,
                 SidL = sidl,
                 FrameType = frametype,
 
-                //TODO: consider making a CbusMessageFactory to decouple this dependency
-                Message = CbusMessage.Create(dataBytes)
+                //TODO: consider making a CbusMessageFactory to decouple this dependency on 
+                // CbusMessage.Create(dataBytes)
             };
 
             return frame;
