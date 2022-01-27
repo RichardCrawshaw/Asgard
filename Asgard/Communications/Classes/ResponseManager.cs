@@ -76,7 +76,7 @@ namespace Asgard.Communications
         /// </summary>
         /// <typeparam name="T">The type of <see cref="ICbusOpCode"/> that the <paramref name="callback"/> services.</typeparam>
         /// <param name="callback">The callback function to register.</param>
-        public void Register<T>(MessageCallback<T> callback, Func<T, bool>? filter = null)
+        public void Register<T>(MessageCallback<T> callback, Predicate<T>? filter = null)
             where T : class, ICbusOpCode
         {
             // If there were no callbacks registered, but now there are, the event handler routine
@@ -148,7 +148,7 @@ namespace Asgard.Communications
             /// Multicast delegate holding the registered callbacks.
             /// </summary>
             private MessageCallback<T>? callback;
-            private ConcurrentDictionary<MessageCallback<T>, Func<T, bool>> filters = new();
+            private ConcurrentDictionary<MessageCallback<T>, Predicate<T>> filters = new();
 
             private readonly object lockObj = new();
 
@@ -168,6 +168,9 @@ namespace Asgard.Communications
                 }
                 var callbacks = this.callback?.GetInvocationList().Cast<MessageCallback<T>>();
 
+                if (callbacks == null)
+                    return;
+
                 foreach(var callback in callbacks) {
                     if (filters.TryGetValue(callback, out var filter) && !filter(opc))
                     {
@@ -181,7 +184,7 @@ namespace Asgard.Communications
             /// Add a callback to be notified.
             /// </summary>
             /// <param name="callback">The callback to add.</param>
-            public void AddCallback(MessageCallback<T> callback, Func<T, bool>? filter = null)
+            public void AddCallback(MessageCallback<T> callback, Predicate<T>? filter = null)
             {
                 lock (lockObj)
                 {
