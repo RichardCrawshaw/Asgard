@@ -43,7 +43,7 @@ namespace Asgard.Communications
             this.logger = logger;
         }
 
-        public void Instantiate(ICbusOpCode cbusOpCode)
+        public void Instantiate(ICbusOpCode? cbusOpCode)
         {
             // TODO: Extract the major and minor priority from the op-code meta-data.
 

@@ -27,7 +27,7 @@ namespace Asgard.ExampleGui
             this.hostApplicationLifetime.ApplicationStopped.Register(OnStopped);
         }
 
-        private async void OnStarted()
+        private void OnStarted()
         {
             this.controller.Run();
         }

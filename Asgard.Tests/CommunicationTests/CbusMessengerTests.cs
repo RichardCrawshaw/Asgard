@@ -1,13 +1,9 @@
-﻿using Asgard.Communications;
+﻿using System.Threading.Tasks;
+using Asgard.Communications;
+using Asgard.Data;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Asgard.Data;
 
 namespace Asgard.Tests.CommunicationTests
 {
@@ -28,13 +24,13 @@ namespace Asgard.Tests.CommunicationTests
             var cfp = new CbusCanFrameProcessor();
             var cm = new CbusMessenger(cfp, connectionFactory.Object, frameFactory.Object);
             await cm.OpenAsync();
-            ICbusMessage m = null;
+            ICbusMessage? m = null;
             cm.MessageReceived += (sender, args) => m = args.Message;
 
             transport.Raise(t => 
                 t.GridConnectMessage += null, 
                 new MessageReceivedEventArgs(":SB020N9101000005;"));
-            var opCode = m.GetOpCode();
+            var opCode = m?.GetOpCode();
             opCode
                 .Should().NotBeNull()
                 .And.BeOfType<AccessoryOff>()
@@ -58,7 +54,8 @@ namespace Asgard.Tests.CommunicationTests
             await cm.OpenAsync();
 
             //TODO: need to consider how we want applications to be able to send messages to the bus
-            var opc = new AccessoryOn(null) { NodeNumber = 1, EventNumber = 2 };
+            var opc = new AccessoryOn() { NodeNumber = 1, EventNumber = 2 };
+            if (opc.Message is null) return;
 
             await cm.SendMessage(opc.Message);
 
