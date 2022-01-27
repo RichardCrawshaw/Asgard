@@ -33,9 +33,7 @@ namespace Asgard.Communications
 
             var result =
                 ActivatorUtilities.CreateInstance<CbusCanFrame>(
-                    this.services, new[] { frame, });
-            result.Instantiate(message.GetOpCode());
-            result.Message = message;
+                    this.services, new object[] { frame, message });
             return result;
         }
     }
