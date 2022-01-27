@@ -20,13 +20,17 @@ namespace Asgard.Communications
         
         public bool IsOpen { get; private set; }
 
-        public CbusMessenger(ICbusCanFrameProcessor cbusCanFrameProcessor, ICbusConnectionFactory connectionFactory, ICbusCanFrameFactory cbusCanFrameFactory, ILogger<CbusMessenger>? logger = null)
+        public CbusMessenger(ICbusCanFrameProcessor cbusCanFrameProcessor,
+                             ICbusConnectionFactory connectionFactory,
+                             ICbusCanFrameFactory cbusCanFrameFactory,
+                             ILogger<CbusMessenger>? logger = null)
         {
             this.cbusCanFrameProcessor = cbusCanFrameProcessor;
             this.connectionFactory = connectionFactory;
             this.cbusCanFrameFactory = cbusCanFrameFactory;
             this.logger = logger;
         }
+
         public async Task OpenAsync(ConnectionOptions connectionOptions)
         {
             if (this.IsOpen) return;
@@ -37,6 +41,7 @@ namespace Asgard.Communications
 
             this.IsOpen = true;
         }
+
         public async Task OpenAsync()
         {
             if (this.IsOpen) return;

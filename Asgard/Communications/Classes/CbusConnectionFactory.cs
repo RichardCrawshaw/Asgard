@@ -24,10 +24,13 @@ namespace Asgard.Communications
         {
             ITransport transport = connectionOptions.ConnectionType switch
             {
+                ConnectionOptions.ConnectionTypes.SerialPort
+                when connectionOptions.SerialPort is null =>
+                    throw new Exception("Serial port is selected but not defined."),
                 ConnectionOptions.ConnectionTypes.SerialPort => 
                     ActivatorUtilities.CreateInstance<SerialPortTransport>(
                         this.services, new[] { connectionOptions.SerialPort }),
-                _ => throw new Exception("Unknown connection type"),
+                _ => throw new Exception($"Unknown connection type: {connectionOptions.ConnectionType}."),
             };
 
             return 

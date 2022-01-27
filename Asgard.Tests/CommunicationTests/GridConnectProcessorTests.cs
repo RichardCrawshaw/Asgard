@@ -1,13 +1,11 @@
-﻿using Asgard.Communications;
-using FluentAssertions;
-using Moq;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Asgard.Communications;
+using FluentAssertions;
+using Moq;
+using NUnit.Framework;
 
 namespace Asgard.Tests.CommunicationTests
 {
@@ -20,7 +18,6 @@ namespace Asgard.Tests.CommunicationTests
         [TestCase(":s;", ":s;")]
         public async Task GridConnectProcessor_RaisesSingleEvent_ForEachSingleMessage(string input, string output)
         {
-
             var mre = new ManualResetEvent(false);
             var t = new Mock<ITransport>();
             t.Setup(r => r.ReadAsync(It.IsAny<Memory<byte>>(), It.IsAny<CancellationToken>()))
@@ -30,7 +27,7 @@ namespace Asgard.Tests.CommunicationTests
                 }).ReturnsAsync(input.Length);
             var s = new Asgard.Communications.GridConnectProcessor(t.Object);
 
-            string msg = null;
+            string? msg = null;
             s.GridConnectMessage += (o, e) => {
                 msg = e.Message;
                 mre.Set();
@@ -50,7 +47,6 @@ namespace Asgard.Tests.CommunicationTests
         [TestCase("a;bc:somemsg;123", ":somemsg;")]
         public async Task StreamTransport_RaisesSingleEvent_AndIgnoresPartialMessages(string input, string output)
         {
-
             var mre = new ManualResetEvent(false);
 
             var t = new Mock<ITransport>();
@@ -61,7 +57,7 @@ namespace Asgard.Tests.CommunicationTests
                 }).ReturnsAsync(input.Length);
             var s = new Communications.GridConnectProcessor(t.Object);
 
-            string msg = null;
+            string? msg = null;
             s.GridConnectMessage += (o, e) => {
                 msg = e.Message;
                 mre.Set();

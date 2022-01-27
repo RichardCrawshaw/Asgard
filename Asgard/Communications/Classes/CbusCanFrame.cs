@@ -35,15 +35,19 @@ namespace Asgard.Communications
             }
         }
 
-        public ICbusMessage? Message { get; set; }
+        public ICbusMessage Message { get; set; }
 
-        public CbusCanFrame(CbusCanFrameSettings? settings, ILogger<CbusCanFrame>? logger)
+        public CbusCanFrame(ICbusMessage message,
+                            CbusCanFrameSettings? settings = null,
+                            ILogger<CbusCanFrame>? logger = null)
         {
+            this.Message = message;
+
             this.settings = settings;
             this.logger = logger;
         }
 
-        public void Instantiate(ICbusOpCode cbusOpCode)
+        public void Instantiate(ICbusOpCode? cbusOpCode)
         {
             // TODO: Extract the major and minor priority from the op-code meta-data.
 

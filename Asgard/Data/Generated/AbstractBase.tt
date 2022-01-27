@@ -61,7 +61,7 @@ namespace Asgard.Data
 	public abstract partial class OpCodeData :
 		ICbusOpCode
 	{
-		public static OpCodeData? Create(ICbusMessage message)
+		public static OpCodeData Create(ICbusMessage message)
 		{
 			return message[0] switch
 			{
@@ -71,7 +71,7 @@ namespace Asgard.Data
                 <#= $"0x{opcode.Value:X2}" #> => new <#= opcode.ClassName #>(message),
 <#	}
 #>
-				_ => null,
+                _ => throw new Exception($"0x{message[0]:X2} is not a supported Op-Code."),
 			};
 		}
 

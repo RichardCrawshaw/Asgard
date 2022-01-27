@@ -182,7 +182,7 @@ namespace Asgard.ExampleGui
                 await SendPNNAsync();
         }
 
-        private void LogMessage(ICbusMessage message, bool isReceived)
+        private void LogMessage(ICbusMessage? message, bool isReceived)
         {
             if (this.MessagesLog)
                 this.messages.Insert(0, $"{(isReceived ? "<<<" : ">>>")} {message}");
@@ -202,7 +202,7 @@ namespace Asgard.ExampleGui
                             Method = m,
                             Attribute = m.GetCustomAttribute<OpCodeAttribute>(),
                         })
-                        .FirstOrDefault(n => n.Attribute?.Code.Equals(opCode) ?? false);
+                        .FirstOrDefault(n => opCode.Equals(n.Attribute?.Code));
                 if (routine is not null) 
                     routine.Method.Invoke(this, controls);
             });
@@ -222,18 +222,17 @@ namespace Asgard.ExampleGui
         [OpCode(Code = "PNN")]
         private async Task SendPNNAsync() {
             await
-                    this.cbusMessenger.SendMessage(
-                        new ResponseToQueryNode
-                        {
-                            ManufId = this.options.CurrentValue.ManufacturerId,
-                            ModuleId = this.options.CurrentValue.ModuleId,
-                            NodeFlags = NodeFlagsEnum.Consumer |
-                                        NodeFlagsEnum.Producer |
-                                        NodeFlagsEnum.FLiMMode,
-                            NodeNumber = this.options.CurrentValue.NodeNumber,
-                        });
+                this.cbusMessenger.SendMessage(
+                    new ResponseToQueryNode
+                    {
+                        ManufId = this.options.CurrentValue.ManufacturerId,
+                        ModuleId = this.options.CurrentValue.ModuleId,
+                        NodeFlags = NodeFlagsEnum.Consumer |
+                                    NodeFlagsEnum.Producer |
+                                    NodeFlagsEnum.FLiMMode,
+                        NodeNumber = this.options.CurrentValue.NodeNumber,
+                    });
         }
-        
 
         private async Task SendPNNAsync(ICbusMessenger cbusMessenger, ICbusMessage cbusMessage, QueryNodeNumber msg)
         {
@@ -244,6 +243,8 @@ namespace Asgard.ExampleGui
         private async Task SendQNNAsync()
         {
             var message = new QueryNodeNumber();
+            if (message is null) return;
+
             LogMessage(message.Message, false);
             var replies = await
                 this.messageManager.SendMessageWaitForReplies<ResponseToQueryNode>(message);
