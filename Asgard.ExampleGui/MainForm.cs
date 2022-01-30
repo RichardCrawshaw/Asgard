@@ -32,20 +32,44 @@ namespace Asgard.ExampleGui
 
         internal void AddControls(params Control[] controls)
         {
-            foreach(var control in controls)
-            {
-                var namedControl = GetNamedControl(this.panelMain.Controls, control.Name);
-                if (namedControl != null)
-                    this.panelMain.Controls.Remove(namedControl);
-            }
+            // Remove any existing controls that have a matching name with a new one.
+            // Empty or null names don't get removed.
+            controls
+                .Where(c => !string.IsNullOrEmpty(c.Name))
+                .Select(c => GetNamedControl(this.panelMain.Controls, c.Name))
+                .Where(n => n is not null)
+                .ToList()
+                .ForEach(n => this.panelMain.Controls.Remove(n));
 
             // Clear any displayed graphics on the background.
             this.panelMain.Refresh();
 
             this.panelMain.Controls.AddRange(controls.ToArray());
+
+            this.panelMain.SuspendLayout();
+            foreach (Control control in this.panelMain.Controls)
+            {
+                if (control is MenuStrip) continue;
+                control.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+                control.Size = new Size(control.Parent.Width - 3 * control.Left, control.Height);
+            }
+            this.panelMain.ResumeLayout();
         }
 
-        internal void ClearControls() => this.panelMain.Controls.Clear();
+        internal void ClearControls(bool includeMenu = true)
+        {
+            if (includeMenu)
+                this.panelMain.Controls.Clear();
+            else
+            {
+                var controls = new List<Control>();
+                foreach (Control control in this.panelMain.Controls)
+                    controls.Add(control);
+                foreach (var control in controls)
+                    if (control is not ToolStrip)
+                        this.panelMain.Controls.Remove(control);
+            }
+        }
 
         internal void ClearText()
         {
@@ -101,7 +125,7 @@ namespace Asgard.ExampleGui
             void Display(object sender, PaintEventArgs e) =>
                 MainForm.Display(e.Graphics, control, x, y, v, values);
 
-            this.Invoke((MethodInvoker)delegate
+            Invoke((MethodInvoker)delegate
             {
                 control.Paint += Display;
                 control.Refresh();
