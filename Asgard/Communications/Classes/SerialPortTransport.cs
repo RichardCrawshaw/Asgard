@@ -90,7 +90,7 @@ namespace Asgard.Communications
         private SerialPort GetSerialPort()
         {
             var serialPort =
-                new SerialPort(this.settings.PortName)
+                new SerialPort(this.settings.PortName ?? "COM1")
                 {
                     BaudRate = this.settings.BaudRate ?? 115200,
                     DataBits = this.settings.DataBits ?? 8,
