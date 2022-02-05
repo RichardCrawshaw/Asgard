@@ -27,7 +27,11 @@ namespace Asgard.ExampleGui
         private readonly ICbusMessenger cbusMessenger;
         private readonly IOptionsMonitor<CbusModuleOptions> options;
         private readonly ILogger<Controller> logger;
+
         private readonly MessageManager messageManager;
+        private readonly ResponseManager responseManager;
+        private readonly CbusEventManager cbusEventManager;
+
         private readonly List<string> messages = new();
         private readonly List<string> nodes = new();
 
@@ -53,13 +57,17 @@ namespace Asgard.ExampleGui
             this.options = options;
             this.logger = logger;
 
-            this.messageManager = new MessageManager(this.cbusMessenger);
-
             this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
             this.cbusMessenger.MessageSent += CbusMessenger_MessageSentAsync;
 
-            var rm = new ResponseManager(this.cbusMessenger);
-            rm.Register<QueryNodeNumber>(SendPNNAsync);
+            this.messageManager = new MessageManager(this.cbusMessenger);
+
+            this.responseManager = new ResponseManager(this.cbusMessenger);
+            this.responseManager.Register<QueryNodeNumber>(SendPNNAsync);
+
+            this.cbusEventManager = new CbusEventManager(this.cbusMessenger, logger);
+            // TODO: register events that this application should respond to.
+            this.cbusEventManager.RegisterCbusEvent<AccessoryOn>(257, 1, (msg, mgr) => { });
 
             this.view.Controller = this;
         }
