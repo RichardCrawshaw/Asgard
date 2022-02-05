@@ -15,13 +15,15 @@ namespace Asgard.Communications
     {
         #region Fields
 
+        private const int QUEUE_RETRY_TIME = 500;
+
         private readonly ICbusMessenger cbusMessenger;
 
         private readonly ILogger logger;
 
         private readonly ConcurrentDictionary<CbusEventKey, bool?> cbusEventStates = new();
         private readonly ConcurrentDictionary<CbusEventKey, CbusEventCallback> cbusEventCallbacks = new();
-        private readonly EmptyingConcurrentQueue<Exception> cbusEventExceptionQueue = new();
+        private readonly EmptyingConcurrentQueue<CbusEventError> cbusEventExceptionQueue = new();
 
         private readonly CancellationTokenSource cancellationTokenSource = new();
 
@@ -40,6 +42,8 @@ namespace Asgard.Communications
             this.cbusMessenger = cbusMessenger;
             this.logger = logger;
 
+            // Start the queue processing as soon as possible; if there is nothing to do then it
+            // will just sit there idle.
             Task.Run(() => ProcessQueue());
 
             this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
@@ -58,16 +62,18 @@ namespace Asgard.Communications
                 if (disposing)
                 {
                     this.cancellationTokenSource.Cancel();
-                    // TODO: dispose managed state (managed objects)
+
+                    // dispose managed state (managed objects)
+                    this.cancellationTokenSource.Dispose();
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
+                // free unmanaged resources (unmanaged objects) and override finalizer
+                // set large fields to null
                 this.IsDisposed = true;
             }
         }
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // // override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         // ~CbusEventManager()
         // {
         //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
@@ -85,11 +91,18 @@ namespace Asgard.Communications
 
         #region Methods
 
+        /// <summary>
+        /// Get the CBUS long event state for the specified <paramref name="nodeNumber"/> and
+        /// <paramref name="eventNumber"/>.
+        /// </summary>
+        /// <param name="nodeNumber">The Node Number.</param>
+        /// <param name="eventNumber">The Event Number.</param>
+        /// <returns>True if the CBUS event is in the ON state; false if it is in the OFF state; null if the state is unknown.</returns>
         public bool? GetState(ushort nodeNumber, ushort eventNumber)
         {
             var key =
                 this.cbusEventStates.Keys
-                    .Where(n => !n.IsShort)
+                    .Where(n => !n.IsShortEvent)
                     .Where(n => n.NodeNumber == nodeNumber)
                     .Where(n => n.EventNumber == eventNumber)
                     .FirstOrDefault();
@@ -97,21 +110,37 @@ namespace Asgard.Communications
             return this.cbusEventStates[key];
         }
 
+        /// <summary>
+        /// Gets the CBUS short event state for the specified <paramref name="eventNumber"/>.
+        /// </summary>
+        /// <param name="eventNumber">The Event Number.</param>
+        /// <returns>True if the CBUS event is in the ON state; false if it is in the OFF state; null if the state is unknown.</returns>
         public bool? GetState(ushort eventNumber)
         {
             var key =
                 this.cbusEventStates.Keys
-                    .Where(n => n.IsShort)
+                    .Where(n => n.IsShortEvent)
                     .Where(n => n.EventNumber == eventNumber)
                     .FirstOrDefault();
             if (key is null) return null;
             return this.cbusEventStates[key];
         }
 
+        /// <summary>
+        /// Register for the specified <typeparamref name="T"/> with the specified
+        /// <paramref name="nodeNumber"/> and <paramref name="eventNumber"/> the specified 
+        /// <paramref name="callback"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the CBUS event to register.</typeparam>
+        /// <param name="nodeNumber">The Node Number of the event (or zero for a short event).</param>
+        /// <param name="eventNumber">The Event Number of the event.</param>
+        /// <param name="callback">The <see cref="CbusEventCallback"/> to register.</param>
         public void RegisterCbusEvent<T>(ushort nodeNumber, ushort eventNumber, CbusEventCallback callback)
             where T : class, ICbusAccessoryEvent
         {
-            var key = CbusEventKey.Create<T>(nodeNumber, eventNumber);
+            var type = typeof(T);
+            var isOnEvent = type.GetInterface(nameof(ICbusAccessoryOnEvent)) is not null;
+            var key = CbusEventKey.Create<T>(nodeNumber, eventNumber, isOnEvent);
             this.cbusEventCallbacks[key] = callback;
         }
 
@@ -119,18 +148,30 @@ namespace Asgard.Communications
 
         #region Support routines
 
+        /// <summary>
+        /// Find the key to the <see cref="cbusEventCallbacks"/> that corresponds to the specified
+        /// <paramref name="cbusAccessoryEvent"/>.
+        /// </summary>
+        /// <param name="cbusAccessoryEvent">An <see cref="ICbusAccessoryEvent"/> object.</param>
+        /// <returns>The corresponding <see cref="CbusEventKey"/> or null if there is none that match.</returns>
         private CbusEventKey? FindKey(ICbusAccessoryEvent cbusAccessoryEvent)
         {
             var result =
                 this.cbusEventCallbacks.Keys
-                    .Where(n => cbusAccessoryEvent.IsShortEvent == n.IsShort)
-                    .Where(n => n.IsShort || n.NodeNumber == (cbusAccessoryEvent as IHasNodeNumber)?.NodeNumber)
+                    .Where(n => cbusAccessoryEvent.IsShortEvent == n.IsShortEvent)
+                    .Where(n => n.IsShortEvent || n.NodeNumber == (cbusAccessoryEvent as IHasNodeNumber)?.NodeNumber)
                     .Where(n => (cbusAccessoryEvent.IsLongEvent && n.EventNumber == (cbusAccessoryEvent as IHasEventNumber)?.EventNumber) ||
                                 (cbusAccessoryEvent.IsShortEvent && n.EventNumber == (cbusAccessoryEvent as IHasDeviceNumber)?.DeviceNumber))
                     .FirstOrDefault();
             return result;
         }
 
+        /// <summary>
+        /// Gets the registered <see cref="CbusEventCallback"/> that matches the specified 
+        /// <paramref name="cbusAccessoryEvent"/>.
+        /// </summary>
+        /// <param name="cbusAccessoryEvent">An <see cref="ICbusAccessoryEvent"/> object.</param>
+        /// <returns>The corresponding <see cref="CbusEventCallback"/> or null if there is none that match.</returns>
         private CbusEventCallback? GetRegisteredCallback(ICbusAccessoryEvent cbusAccessoryEvent)
         {
             var key = FindKey(cbusAccessoryEvent);
@@ -138,6 +179,9 @@ namespace Asgard.Communications
             return this.cbusEventCallbacks[key];
         }
 
+        /// <summary>
+        /// Processes the queue of errored callback messages.
+        /// </summary>
         private void ProcessQueue()
         {
             while (!this.CancellationToken.IsCancellationRequested)
@@ -145,29 +189,44 @@ namespace Asgard.Communications
                 while (!this.cbusEventExceptionQueue.IsEmpty)
                 {
                     this.cbusEventExceptionQueue.TryDequeue(out var result);
+                    if (result is null) continue;
+
+                    this.logger.LogWarning(result.Exception, 
+                        "{0:yyyy-MM-dd HH:mm:ss.fff} Failed to run callback for {1} {2} event from {3}{4}.",
+                            result.DateTime,
+                            result.Key.IsShortEvent ? "short" : "long",
+                            result.Key.IsOnEvent ? "on" : "off",
+                            result.Key.IsShortEvent ? "" : (result.Key.NodeNumber.ToString("X2") + " "),
+                            result.Key.EventNumber.ToString("X2"));
+
+                    // Add any further error handling here.
                 }
 
                 this.cbusEventExceptionQueue.Trigger.Reset();
-                this.cbusEventExceptionQueue.Trigger.Wait(500, this.CancellationToken);
+                this.cbusEventExceptionQueue.Trigger.Wait(QUEUE_RETRY_TIME, this.CancellationToken);
             }
         }
 
+        /// <summary>
+        /// Runs the specified <paramref name="callback"/> for the specified 
+        /// <paramref name="cbusAccessoryEvent"/>.
+        /// </summary>
+        /// <param name="callback">The <see cref="CbusEventCallback"/> object that is to be run.</param>
+        /// <param name="cbusAccessoryEvent">The <see cref="ICbusAccessoryEvent"/> object that has initiated the callback.</param>
         private void RunCallback(CbusEventCallback callback, ICbusAccessoryEvent cbusAccessoryEvent)
         {
+            // Run the callback, catch any exceptions and queue them for additional handling at a
+            // later point.
+
             try
             {
-                Task.Run(() => callback(cbusAccessoryEvent, this), this.CancellationToken);
+                callback(cbusAccessoryEvent, this);
             }
             catch (Exception ex)
             {
-                this.logger.LogWarning(ex, "Failed to run callback for {0} {1} event from {2}{3}.",
-                    cbusAccessoryEvent.IsShortEvent ? "short" : "long",
-                    cbusAccessoryEvent.IsOnEvent ? "on" : "off",
-                    cbusAccessoryEvent.IsShortEvent ? ""
-                                                    : ((cbusAccessoryEvent as IHasNodeNumber)?.NodeNumber.ToString("X2") + " "),
-                    cbusAccessoryEvent.IsShortEvent ? (cbusAccessoryEvent as IHasDeviceNumber)?.DeviceNumber.ToString("X2")
-                                                    : (cbusAccessoryEvent as IHasEventNumber)?.EventNumber.ToString("X2"));
-                this.cbusEventExceptionQueue.Enqueue(ex);
+                var key = FindKey(cbusAccessoryEvent);
+                if (key is null) return; // Should never be null.
+                this.cbusEventExceptionQueue.Enqueue(new CbusEventError(ex, key));
             }
         }
 
@@ -175,6 +234,9 @@ namespace Asgard.Communications
 
         #region Event handler routines
 
+        /// <summary>
+        /// Occurs when a CBUS event message is received.
+        /// </summary>
         private void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs ea)
         {
             if (ea.Message is not ICbusAccessoryEvent cbusAccessoryEvent) return;
@@ -190,30 +252,40 @@ namespace Asgard.Communications
 
         #region Nested classes
 
+        /// <summary>
+        /// A class to hold event information: Node Number, Event (or Device) Number, whether it is
+        /// long or short, and whether it is an ON or an OFF event.
+        /// </summary>
         private class CbusEventKey
         {
-            public bool IsShort { get; set; }
-            public ushort NodeNumber { get; set; }
             public ushort EventNumber { get; set; }
+            public bool IsOnEvent { get; set; }
+            public bool IsShortEvent { get; set; }
+            public ushort NodeNumber { get; set; }
 
-            public static CbusEventKey Create<T>(ushort nodeNumber, ushort eventNumber)
+            public static CbusEventKey Create<T>(ushort nodeNumber, ushort eventNumber, bool isOnEvent)
             {
                 return
                     typeof(T).GetInterface(nameof(ICbusAccessoryShortEvent)) is not null
                         ? new CbusEventKey
                         {
-                            IsShort = true,
+                            IsOnEvent = isOnEvent,
+                            IsShortEvent = true,
                             NodeNumber = nodeNumber,
                         }
                         : new CbusEventKey
                         {
-                            IsShort = false,
+                            IsOnEvent = isOnEvent,
+                            IsShortEvent = false,
                             NodeNumber = nodeNumber,
-                            EventNumber = eventNumber
+                            EventNumber = eventNumber,
                         };
             }
         }
 
+        /// <summary>
+        /// A class to hold error information for when a callback throws an exception.
+        /// </summary>
         private class CbusEventError
         {
             public Exception Exception { get; }
@@ -228,8 +300,15 @@ namespace Asgard.Communications
                 this.DateTime = dateTime;
                 this.Key = key;
             }
+
+            public CbusEventError(Exception exception, CbusEventKey key)
+                : this(exception, DateTime.Now, key) { }
         }
 
+        /// <summary>
+        /// A class that sub-classes the <see cref="ConcurrentQueue{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of object that the <see cref="ConcurrentQueue{T}"/> holds.</typeparam>
         private class EmptyingConcurrentQueue<T> : ConcurrentQueue<T>
         {
             public ManualResetEventSlim Trigger { get; } = new ManualResetEventSlim();
