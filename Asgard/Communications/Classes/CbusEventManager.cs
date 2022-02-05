@@ -240,6 +240,23 @@ namespace Asgard.Communications
         private void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs ea)
         {
             if (ea.Message is not ICbusAccessoryEvent cbusAccessoryEvent) return;
+            var nodeNumber =
+                cbusAccessoryEvent is IHasNodeNumber hasNodeNumber 
+                    ? hasNodeNumber.NodeNumber 
+                    : (ushort)0;
+            var eventNumber=
+                cbusAccessoryEvent is IHasEventNumber hasEventNumber ? hasEventNumber.EventNumber : 
+                cbusAccessoryEvent is IHasDeviceNumber hasDeviceNumber ? hasDeviceNumber.DeviceNumber : 
+                (ushort)0;
+
+            // This isn't quite right. We're including the event state in the dictionary key.
+            // So an ON event will exist separately to an OFF event. While we need that for 
+            // registering the callbacks it isn't what we need for tracking the event states.
+            var key = 
+                CbusEventKey.Create(nodeNumber, eventNumber, 
+                    cbusAccessoryEvent.IsOnEvent,
+                    cbusAccessoryEvent.IsShortEvent);
+            this.cbusEventStates[key] = cbusAccessoryEvent.IsOnEvent;
 
             var callback = GetRegisteredCallback(cbusAccessoryEvent);
             if (callback is null) return;
@@ -267,6 +284,25 @@ namespace Asgard.Communications
             {
                 return
                     typeof(T).GetInterface(nameof(ICbusAccessoryShortEvent)) is not null
+                        ? new CbusEventKey
+                        {
+                            IsOnEvent = isOnEvent,
+                            IsShortEvent = true,
+                            NodeNumber = nodeNumber,
+                        }
+                        : new CbusEventKey
+                        {
+                            IsOnEvent = isOnEvent,
+                            IsShortEvent = false,
+                            NodeNumber = nodeNumber,
+                            EventNumber = eventNumber,
+                        };
+            }
+
+            public static CbusEventKey Create(ushort nodeNumber, ushort eventNumber, bool isOnEvent, bool isShortEvent)
+            {
+                return
+                    isShortEvent
                         ? new CbusEventKey
                         {
                             IsOnEvent = isOnEvent,
