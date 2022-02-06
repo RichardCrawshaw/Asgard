@@ -22,7 +22,7 @@ namespace Asgard.Communications
         private readonly ILogger logger;
 
         private readonly ConcurrentDictionary<CbusEventKey, bool?> cbusEventStates = new();
-        private readonly ConcurrentDictionary<CbusEventKey, CbusEventCallback> cbusEventCallbacks = new();
+        private readonly ConcurrentDictionary<CbusEventStatefulKey, CbusEventCallback> cbusEventCallbacks = new();
         private readonly EmptyingConcurrentQueue<CbusEventError> cbusEventExceptionQueue = new();
 
         private readonly CancellationTokenSource cancellationTokenSource = new();
@@ -140,8 +140,44 @@ namespace Asgard.Communications
         {
             var type = typeof(T);
             var isOnEvent = type.GetInterface(nameof(ICbusAccessoryOnEvent)) is not null;
-            var key = CbusEventKey.Create<T>(nodeNumber, eventNumber, isOnEvent);
+            var key = CbusEventStatefulKey.Create<T>(nodeNumber, eventNumber, isOnEvent);
             this.cbusEventCallbacks[key] = callback;
+        }
+
+        /// <summary>
+        /// Trys to get the known CBUS long event state for the specified <paramref name="nodeNumber"/>
+        /// and <paramref name="eventNumber"/>. If successful <paramref name="state"/> contains the 
+        /// state.
+        /// </summary>
+        /// <param name="nodeNumber">The Node Number.</param>
+        /// <param name="eventNumber">The Event Number.</param>
+        /// <param name="state">True if the CBUS event is in the ON state; false if it is in the OFF state.</param>
+        /// <returns>True if the state is known; false otherwise.</returns>
+        public bool TryGetState(ushort nodeNumber, ushort eventNumber, out bool state)
+        {
+            state = default;
+            var innerState = GetState(nodeNumber, eventNumber);
+            if (innerState is null)
+                return false;
+            state = innerState.Value;
+            return true;
+        }
+
+        /// <summary>
+        /// Trys to get the known CBUS short event state for the specified <paramref name="eventNumber"/>.
+        /// If successful <paramref name="state"/> contains the state.
+        /// </summary>
+        /// <param name="eventNumber">The Event Number.</param>
+        /// <param name="state">True if the CBUS event is in the ON state; false if it is in the OFF state.</param>
+        /// <returns>True if the state is known; false otherwise.</returns>
+        public bool TryGetState(ushort eventNumber, out bool state)
+        {
+            state= default;
+            var innerState = GetState(eventNumber);
+            if (innerState is null)
+                return false;
+            state= innerState.Value;
+            return true;
         }
 
         #endregion
@@ -153,8 +189,8 @@ namespace Asgard.Communications
         /// <paramref name="cbusAccessoryEvent"/>.
         /// </summary>
         /// <param name="cbusAccessoryEvent">An <see cref="ICbusAccessoryEvent"/> object.</param>
-        /// <returns>The corresponding <see cref="CbusEventKey"/> or null if there is none that match.</returns>
-        private CbusEventKey? FindKey(ICbusAccessoryEvent cbusAccessoryEvent)
+        /// <returns>The corresponding <see cref="CbusEventStatefulKey"/> or null if there is none that match.</returns>
+        private CbusEventStatefulKey? FindKey(ICbusAccessoryEvent cbusAccessoryEvent)
         {
             var result =
                 this.cbusEventCallbacks.Keys
@@ -220,7 +256,7 @@ namespace Asgard.Communications
 
             try
             {
-                callback(cbusAccessoryEvent, this);
+                callback(cbusAccessoryEvent);
             }
             catch (Exception ex)
             {
@@ -228,6 +264,28 @@ namespace Asgard.Communications
                 if (key is null) return; // Should never be null.
                 this.cbusEventExceptionQueue.Enqueue(new CbusEventError(ex, key));
             }
+        }
+
+        /// <summary>
+        /// Update the state of the event that corresponds to the specified 
+        /// <paramref name="cbusAccessoryEvent"/>.
+        /// </summary>
+        /// <param name="cbusAccessoryEvent">An <see cref="ICbusAccessoryEvent"/> object.</param>
+        private void UpdateEventState(ICbusAccessoryEvent cbusAccessoryEvent)
+        {
+            var nodeNumber =
+                cbusAccessoryEvent is IHasNodeNumber hasNodeNumber
+                    ? hasNodeNumber.NodeNumber
+                    : (ushort)0;
+            var eventNumber =
+                cbusAccessoryEvent is IHasEventNumber hasEventNumber ? hasEventNumber.EventNumber :
+                cbusAccessoryEvent is IHasDeviceNumber hasDeviceNumber ? hasDeviceNumber.DeviceNumber :
+                (ushort?)null;
+            if (eventNumber is null) return;
+
+            var key =
+                CbusEventKey.Create(nodeNumber, eventNumber.Value, cbusAccessoryEvent.IsShortEvent);
+            this.cbusEventStates[key] = cbusAccessoryEvent.IsOnEvent;
         }
 
         #endregion
@@ -240,23 +298,8 @@ namespace Asgard.Communications
         private void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs ea)
         {
             if (ea.Message is not ICbusAccessoryEvent cbusAccessoryEvent) return;
-            var nodeNumber =
-                cbusAccessoryEvent is IHasNodeNumber hasNodeNumber 
-                    ? hasNodeNumber.NodeNumber 
-                    : (ushort)0;
-            var eventNumber=
-                cbusAccessoryEvent is IHasEventNumber hasEventNumber ? hasEventNumber.EventNumber : 
-                cbusAccessoryEvent is IHasDeviceNumber hasDeviceNumber ? hasDeviceNumber.DeviceNumber : 
-                (ushort)0;
 
-            // This isn't quite right. We're including the event state in the dictionary key.
-            // So an ON event will exist separately to an OFF event. While we need that for 
-            // registering the callbacks it isn't what we need for tracking the event states.
-            var key = 
-                CbusEventKey.Create(nodeNumber, eventNumber, 
-                    cbusAccessoryEvent.IsOnEvent,
-                    cbusAccessoryEvent.IsShortEvent);
-            this.cbusEventStates[key] = cbusAccessoryEvent.IsOnEvent;
+            UpdateEventState(cbusAccessoryEvent);
 
             var callback = GetRegisteredCallback(cbusAccessoryEvent);
             if (callback is null) return;
@@ -271,26 +314,68 @@ namespace Asgard.Communications
 
         /// <summary>
         /// A class to hold event information: Node Number, Event (or Device) Number, whether it is
-        /// long or short, and whether it is an ON or an OFF event.
+        /// long or short. It DOES NOT hold event state; for that use <see cref="CbusEventStatefulKey"/>.
         /// </summary>
         private class CbusEventKey
         {
             public ushort EventNumber { get; set; }
-            public bool IsOnEvent { get; set; }
             public bool IsShortEvent { get; set; }
             public ushort NodeNumber { get; set; }
 
-            public static CbusEventKey Create<T>(ushort nodeNumber, ushort eventNumber, bool isOnEvent)
+            public static CbusEventKey Create<T>(ushort nodeNumber, ushort eventNumber)
             {
                 return
                     typeof(T).GetInterface(nameof(ICbusAccessoryShortEvent)) is not null
                         ? new CbusEventKey
                         {
-                            IsOnEvent = isOnEvent,
                             IsShortEvent = true,
                             NodeNumber = nodeNumber,
                         }
                         : new CbusEventKey
+                        {
+                            IsShortEvent = false,
+                            NodeNumber = nodeNumber,
+                            EventNumber = eventNumber,
+                        };
+            }
+
+            public static CbusEventKey Create(ushort nodeNumber, ushort eventNumber, bool isShortEvent)
+            {
+                return
+                    isShortEvent
+                        ? new CbusEventKey
+                        {
+                            IsShortEvent = true,
+                            NodeNumber = nodeNumber,
+                        }
+                        : new CbusEventKey
+                        {
+                            IsShortEvent = false,
+                            NodeNumber = nodeNumber,
+                            EventNumber = eventNumber,
+                        };
+            }
+        }
+
+        /// <summary>
+        /// A class to hold event information: Node Number, Event (or Device) Number, whether it is
+        /// long or short, and whether it is an ON or an OFF event.
+        /// </summary>
+        private class CbusEventStatefulKey : CbusEventKey
+        {
+            public bool IsOnEvent { get; set; }
+
+            public static CbusEventStatefulKey Create<T>(ushort nodeNumber, ushort eventNumber, bool isOnEvent)
+            {
+                return
+                    typeof(T).GetInterface(nameof(ICbusAccessoryShortEvent)) is not null
+                        ? new CbusEventStatefulKey
+                        {
+                            IsOnEvent = isOnEvent,
+                            IsShortEvent = true,
+                            NodeNumber = nodeNumber,
+                        }
+                        : new CbusEventStatefulKey
                         {
                             IsOnEvent = isOnEvent,
                             IsShortEvent = false,
@@ -299,17 +384,17 @@ namespace Asgard.Communications
                         };
             }
 
-            public static CbusEventKey Create(ushort nodeNumber, ushort eventNumber, bool isOnEvent, bool isShortEvent)
+            public static CbusEventStatefulKey Create(ushort nodeNumber, ushort eventNumber, bool isOnEvent, bool isShortEvent)
             {
                 return
                     isShortEvent
-                        ? new CbusEventKey
+                        ? new CbusEventStatefulKey
                         {
                             IsOnEvent = isOnEvent,
                             IsShortEvent = true,
                             NodeNumber = nodeNumber,
                         }
-                        : new CbusEventKey
+                        : new CbusEventStatefulKey
                         {
                             IsOnEvent = isOnEvent,
                             IsShortEvent = false,
@@ -328,16 +413,16 @@ namespace Asgard.Communications
 
             public DateTime DateTime { get; }
 
-            public CbusEventKey Key { get; }
+            public CbusEventStatefulKey Key { get; }
 
-            public CbusEventError(Exception exception, DateTime dateTime, CbusEventKey key)
+            public CbusEventError(Exception exception, DateTime dateTime, CbusEventStatefulKey key)
             {
                 this.Exception = exception;
                 this.DateTime = dateTime;
                 this.Key = key;
             }
 
-            public CbusEventError(Exception exception, CbusEventKey key)
+            public CbusEventError(Exception exception, CbusEventStatefulKey key)
                 : this(exception, DateTime.Now, key) { }
         }
 

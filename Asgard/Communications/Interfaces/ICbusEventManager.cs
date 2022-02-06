@@ -3,7 +3,7 @@ using Asgard.Data.Interfaces;
 
 namespace Asgard.Communications
 {
-    public delegate void CbusEventCallback(ICbusAccessoryEvent cbusAccessoryEvent, ICbusEventManager cbusEventManager);
+    public delegate void CbusEventCallback(ICbusAccessoryEvent cbusAccessoryEvent);
 
     public interface ICbusEventManager
     {
@@ -13,5 +13,9 @@ namespace Asgard.Communications
 
         void RegisterCbusEvent<T>(ushort nodeNumber, ushort eventNumber, CbusEventCallback callback)
             where T : class, ICbusAccessoryEvent;
+
+        bool TryGetState(ushort nodeNumber, ushort eventNumber, out bool state);
+
+        bool TryGetState(ushort eventNumber, out bool state);
     }
 }

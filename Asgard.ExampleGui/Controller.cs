@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Asgard.Communications;
 using Asgard.Data;
+using Asgard.Data.Interfaces;
 using Cbus.Gladsheimr.Attributes;
 using Cbus.Gladsheimr.Interfaces;
 using Cbus.Gladsheimr.UserControls;
@@ -67,10 +68,15 @@ namespace Asgard.ExampleGui
 
             this.cbusEventManager = new CbusEventManager(this.cbusMessenger, logger);
             // TODO: register events that this application should respond to.
-            this.cbusEventManager.RegisterCbusEvent<AccessoryOn>(257, 1, (msg, mgr) => { });
+            this.cbusEventManager.RegisterCbusEvent<AccessoryOn>(257, 1, Callback1);
+            this.cbusEventManager.RegisterCbusEvent<AccessoryOff>(257, 1, m => Callback2(m, null));
 
             this.view.Controller = this;
         }
+
+        private void Callback1(ICbusAccessoryEvent cbusAccessoryEvent) { }
+
+        private void Callback2(ICbusAccessoryEvent cbusAccessoryEvent, object? data) { }
 
         #endregion
 
