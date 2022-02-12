@@ -31,7 +31,8 @@ namespace Asgard.ExampleGui
 
         private readonly MessageManager messageManager;
         private readonly ResponseManager responseManager;
-        private readonly CbusEventManager cbusEventManager;
+        private readonly EventActionManager eventActionManager;
+        private readonly EventStateManager eventStateManager;
 
         private readonly List<string> messages = new();
         private readonly List<string> nodes = new();
@@ -66,10 +67,12 @@ namespace Asgard.ExampleGui
             this.responseManager = new ResponseManager(this.cbusMessenger);
             this.responseManager.Register<QueryNodeNumber>(SendPNNAsync);
 
-            this.cbusEventManager = new CbusEventManager(this.cbusMessenger, logger);
+            this.eventStateManager = new EventStateManager(this.cbusMessenger, this.logger);
+
+            this.eventActionManager = new EventActionManager(this.cbusMessenger, logger);
             // TODO: register events that this application should respond to.
-            this.cbusEventManager.RegisterCbusEvent<AccessoryOn>(257, 1, Callback1);
-            this.cbusEventManager.RegisterCbusEvent<AccessoryOff>(257, 1, m => Callback2(m, null));
+            this.eventActionManager.RegisterCbusEvent<AccessoryOn>(257, 1, Callback1);
+            this.eventActionManager.RegisterCbusEvent<AccessoryOff>(257, 1, m => Callback2(m, null));
 
             this.view.Controller = this;
         }
@@ -416,8 +419,11 @@ namespace Asgard.ExampleGui
             this.view.ClearText();
         }
 
-        private void View_FormClosed(object? sender, FormClosedEventArgs e) =>
+        private void View_FormClosed(object? sender, FormClosedEventArgs e)
+        {
             this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
+            this.eventActionManager.Dispose();
+        }
 
         private void View_FormClosing(object? sender, FormClosingEventArgs e) =>
             this.cbusMessenger.Close();
