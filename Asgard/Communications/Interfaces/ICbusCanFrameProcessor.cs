@@ -2,7 +2,7 @@
 {
     public interface ICbusCanFrameProcessor
     {
-        CbusCanFrame ParseFrame(string transportString);
+        CbusCanFrame? ParseFrame(string transportString);
         string ConstructTransportString(ICbusCanFrame frame);
     }
 }

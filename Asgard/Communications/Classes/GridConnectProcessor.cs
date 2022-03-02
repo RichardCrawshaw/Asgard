@@ -145,7 +145,7 @@ namespace Asgard.Communications
             {
                 var msg = GetMessageString(readOnlySequence.Slice(startPosition.Value, readOnlySequence.End));
                 this.logger?.LogTrace("Message received {0}", msg);
-                GridConnectMessage?.Invoke(this, new MessageReceivedEventArgs(msg));
+                this.GridConnectMessage?.Invoke(this, new MessageReceivedEventArgs(msg));
             }
             else
             {

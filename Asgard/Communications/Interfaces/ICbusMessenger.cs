@@ -17,5 +17,7 @@ namespace Asgard.Communications
         Task OpenAsync();
         Task OpenAsync(ConnectionOptions connectionOptions);
         void Close();
+
+        string[] GetAvailableConnections();
     }
 }

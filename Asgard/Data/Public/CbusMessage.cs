@@ -24,20 +24,27 @@ namespace Asgard.Data
 
         #region Constructors
 
-        protected CbusMessage(byte[] data)
+        protected CbusMessage(byte[] data, bool isExtended = false)
         {
-            var length = (data[0] >> 5) + 1;
+            var length = data.Length;
+            //if (data.Length > 0)
+            //    length = (data[0] >> 5) + 1;
             this.Data = new byte[length];
             data.CopyTo(this.Data, 0);
 
-            lazyOpCode = new Lazy<ICbusOpCode>(() => OpCodeData.Create(this));
+            this.lazyOpCode = 
+                new Lazy<ICbusOpCode>(() => 
+                    isExtended
+                        ? new ExtendedFrameMessage(this)
+                        : OpCodeData.Create(this));
         }
 
         #endregion
 
         #region Methods
 
-        public static ICbusMessage Create(byte[] data) => new CbusMessage(data);
+        public static ICbusMessage Create(byte[] data, bool isExtended = false) => 
+            new CbusMessage(data, isExtended);
 
         
         public ICbusOpCode GetOpCode() => lazyOpCode.Value;
