@@ -64,19 +64,24 @@ namespace Asgard.Communications
             this.IsOpen = false;
         }
 
+        public string[] GetAvailableConnections() => this.connectionFactory.GetAvailableConnections();
+
         private void HandleTransportMessage(object? sender, MessageReceivedEventArgs e)
         {
             try
             {
                 var frame = this.cbusCanFrameProcessor.ParseFrame(e.Message);
+                if (frame is null)
+                    // Unrecognised CAN Frame Type received: ignore.
+                    return;
                 this.logger?.LogTrace("Parsed received Message: {0}", frame);
-                MessageReceived?.Invoke(this, new CbusMessageEventArgs(frame.Message, true));
+                this.MessageReceived?.Invoke(this, new CbusMessageEventArgs(frame.Message, e.Message, true));
             }
             catch (Exception ex)
             {
                 this.logger?.LogError(ex, @"Error parsing message ""{0}""", e.Message);
                 //TODO: wrap exception?
-                throw;
+                //throw;
             }
         }
         
@@ -109,7 +114,7 @@ namespace Asgard.Communications
                 this.logger?.LogWarning(ex, "Failed to send message: {0}", message);
                 return false;
             }
-            MessageSent?.Invoke(this, new CbusMessageEventArgs(message, false));
+            MessageSent?.Invoke(this, new CbusMessageEventArgs(message, null, false));
             return true;
         }
 

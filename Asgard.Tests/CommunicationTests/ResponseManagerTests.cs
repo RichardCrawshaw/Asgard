@@ -34,7 +34,7 @@ namespace Asgard.Tests.CommunicationTests
             messenger
                 .Raise(
                     m => m.MessageReceived += null,
-                    new CbusMessageEventArgs(new QueryNodeNumber().Message, received: true));
+                    new CbusMessageEventArgs(new QueryNodeNumber().Message, gridConnectMessage: null, received: true));
 
             // and that it is the right type with the expected values.
             Assert.That(response, Is.Not.Null);
@@ -71,7 +71,7 @@ namespace Asgard.Tests.CommunicationTests
                 messenger
                     .Raise(
                         m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(message, received: true));
+                        new CbusMessageEventArgs(message, gridConnectMessage: null, received: true));
 
             // Make sure that it only responded to the expected message.
             Assert.That(responses.Count, Is.EqualTo(1));
@@ -122,7 +122,7 @@ namespace Asgard.Tests.CommunicationTests
                 messenger
                     .Raise(
                         m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(message, received: true));
+                        new CbusMessageEventArgs(message, gridConnectMessage: null, received: true));
 
             // Make sure that it only responded to the expected message.
             Assert.That(responses1.Count, Is.EqualTo(messages.Count(m=> m.GetOpCode() is QueryNodeNumber)));
@@ -158,11 +158,11 @@ namespace Asgard.Tests.CommunicationTests
             messenger
                     .Raise(
                         m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(new QueryEngine().Message, received: true));
+                        new CbusMessageEventArgs(new QueryEngine().Message, gridConnectMessage: null, received: true));
             messenger
                     .Raise(
                         m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(new QueryEngine().Message, received: true));
+                        new CbusMessageEventArgs(new QueryEngine().Message, gridConnectMessage: null, received: true));
 
             count1.Should().Be(2);
             count2.Should().Be(2);
@@ -268,18 +268,18 @@ namespace Asgard.Tests.CommunicationTests
                 .Raise(
                     m => m.MessageReceived += null,
                     new CbusMessageEventArgs(
-                        new EngineReport() { Address = 20 }.Message, received: true));
+                        new EngineReport() { Address = 20 }.Message, gridConnectMessage: null, received: true));
             messenger
                 .Raise(
                     m => m.MessageReceived += null,
                     new CbusMessageEventArgs(
-                        new EngineReport() { Address = 10 }.Message, received: true));
+                        new EngineReport() { Address = 10 }.Message, gridConnectMessage: null, received: true));
 
             messenger
                 .Raise(
                     m => m.MessageReceived += null,
                     new CbusMessageEventArgs(
-                        new EngineReport() { Address = 20 }.Message, received: true));
+                        new EngineReport() { Address = 20 }.Message, gridConnectMessage: null, received: true));
 
             count1.Should().Be(1);
             count2.Should().Be(2);

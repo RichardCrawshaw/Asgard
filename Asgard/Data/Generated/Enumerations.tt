@@ -61,6 +61,7 @@ namespace Asgard.Data
 		Config,
 		DCC,
 		General,
+        Extended,
 	}
 
 	#endregion

@@ -42,7 +42,9 @@ namespace Asgard.Communications
                             ILogger<CbusCanFrame>? logger = null)
         {
             this.Message = message;
-            Instantiate(this.Message.GetOpCode());
+            var opcode = this.Message.GetOpCode();
+            if (opcode is not null)
+                Instantiate(opcode);
 
             this.settings = settings;
             this.logger = logger;

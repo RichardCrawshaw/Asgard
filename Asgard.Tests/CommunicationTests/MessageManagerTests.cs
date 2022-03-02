@@ -25,10 +25,10 @@ namespace Asgard.Tests.CommunicationTests
                 {
                     messenger.Raise(m => 
                         m.MessageReceived += null, 
-                        new CbusMessageEventArgs(new ResponseToQueryNode().Message, true));
+                        new CbusMessageEventArgs(new ResponseToQueryNode().Message, null, true));
                     messenger.Raise(m => 
                         m.MessageReceived += null, 
-                        new CbusMessageEventArgs(new ResponseToQueryNode().Message, true));
+                        new CbusMessageEventArgs(new ResponseToQueryNode().Message, null, true));
                 });
 
             var mm = new MessageManager(messenger.Object);
@@ -51,12 +51,12 @@ namespace Asgard.Tests.CommunicationTests
                         .Raise(
                             m => m.MessageReceived += null, 
                             new CbusMessageEventArgs(
-                                new ResponseToQueryNode() { NodeNumber = 1 }.Message, true));
+                                new ResponseToQueryNode() { NodeNumber = 1 }.Message, null, true));
                     messenger
                         .Raise(
                             m => m.MessageReceived += null, 
                             new CbusMessageEventArgs(
-                                new ResponseToQueryNode() { NodeNumber = 2 }.Message, true));
+                                new ResponseToQueryNode() { NodeNumber = 2 }.Message, null, true));
                 });
 
             var mm = new MessageManager(messenger.Object);
@@ -78,11 +78,11 @@ namespace Asgard.Tests.CommunicationTests
                     messenger.Raise(m => 
                         m.MessageReceived += null, 
                         new CbusMessageEventArgs(
-                            new ResponseToQueryNode() { NodeNumber = 1 }.Message, true));
+                            new ResponseToQueryNode() { NodeNumber = 1 }.Message, null, true));
                     messenger.Raise(m => 
                         m.MessageReceived += null, 
                         new CbusMessageEventArgs(
-                            new ResponseToQueryNode() { NodeNumber = 2 }.Message, true));
+                            new ResponseToQueryNode() { NodeNumber = 2 }.Message, null, true));
                 });
 
             var mm = new MessageManager(messenger.Object);
@@ -105,7 +105,7 @@ namespace Asgard.Tests.CommunicationTests
                     messenger.Raise(
                         m => m.MessageReceived += null, 
                         new CbusMessageEventArgs(
-                            new ResponseToQueryNode() { NodeNumber = 1 }.Message, true)));
+                            new ResponseToQueryNode() { NodeNumber = 1 }.Message, null, true)));
 
             var mm = new MessageManager(messenger.Object);
             Assert.ThrowsAsync<TimeoutException>(async () => await 
@@ -130,17 +130,17 @@ namespace Asgard.Tests.CommunicationTests
                 .Raise(
                     m => m.MessageReceived += null, 
                     new CbusMessageEventArgs(
-                        new EngineReport() { Address = 20 }.Message, received: true));
+                        new EngineReport() { Address = 20 }.Message, null, received: true));
             messenger
                 .Raise(
                     m => m.MessageReceived += null, 
                     new CbusMessageEventArgs(
-                        new EngineReport() { Address = 10 }.Message, received: true));
+                        new EngineReport() { Address = 10 }.Message, null, received: true));
             messenger
                 .Raise(
                     m => m.MessageReceived += null, 
                     new CbusMessageEventArgs(
-                        new CommandStationErrorReport() { Data1 = 0, Data2 = 30 }.Message, received: true));
+                        new CommandStationErrorReport() { Data1 = 0, Data2 = 30 }.Message, null, received: true));
 
             var response1 = await responseTask1;
             var response2 = await responseTask2;

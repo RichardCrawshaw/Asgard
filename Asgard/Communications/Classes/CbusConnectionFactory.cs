@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -16,10 +17,14 @@ namespace Asgard.Communications
             this.services = services;
             this.options = options;
         }
+
+        public string[] GetAvailableConnections() => SerialPortTransport.GetPorts();
+
         public IGridConnectProcessor GetConnection()
         {
             return GetConnection(this.options.CurrentValue);
         }
+
         public IGridConnectProcessor GetConnection(ConnectionOptions connectionOptions)
         {
             ITransport transport = connectionOptions.ConnectionType switch
