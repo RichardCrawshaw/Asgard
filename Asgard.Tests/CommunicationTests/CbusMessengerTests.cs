@@ -31,7 +31,7 @@ namespace Asgard.Tests.CommunicationTests
             transport.Raise(t => 
                 t.GridConnectMessage += null, 
                 new MessageReceivedEventArgs(":SB020N9101000005;"));
-            if (m?.TryGetOpCode(out var opCode) ?? false)
+            if (m is not null && m.TryGetOpCode(out var opCode))
                 opCode
                     .Should().NotBeNull()
                     .And.BeOfType<AccessoryOff>()

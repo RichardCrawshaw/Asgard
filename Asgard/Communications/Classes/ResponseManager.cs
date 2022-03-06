@@ -101,7 +101,9 @@ namespace Asgard.Communications
         {
             //TODO: error handling to prevent exceptions leaving async void
 
-            if (e.Message?.TryGetOpCode(out var opCode) ?? false)
+            if (e.Message is null) return;
+
+            if (e.Message.TryGetOpCode(out var opCode))
             {
                 var type = opCode.GetType();
                 if (this.listeners.ContainsKey(type))

@@ -38,7 +38,7 @@ namespace Asgard.Tests.CommunicationTests
 
             // and that it is the right type with the expected values.
             Assert.That(response, Is.Not.Null);
-            if (response?.TryGetOpCode(out var opCode) ?? false)
+            if (response is not null && response.TryGetOpCode(out var opCode))
                 Assert.That(opCode, Is.TypeOf<QueryNodeNumber>());
             else
                 Assert.Fail();
@@ -78,7 +78,8 @@ namespace Asgard.Tests.CommunicationTests
 
             // Make sure that it only responded to the expected message.
             Assert.That(responses.Count, Is.EqualTo(1));
-            if (responses.FirstOrDefault()?.TryGetOpCode(out var opCode) ?? false)
+            var response = responses.FirstOrDefault();
+            if (response is not null && response.TryGetOpCode(out var opCode))
                 Assert.That(opCode, Is.TypeOf<QueryNodeNumber>());
             else
                 Assert.Fail();
@@ -132,19 +133,22 @@ namespace Asgard.Tests.CommunicationTests
 
             // Make sure that it only responded to the expected message.
             Assert.That(responses1.Count, Is.EqualTo(messages.Count(m => m.TryGetOpCode(out var opCode) && opCode is QueryNodeNumber)));
-            if (responses1.FirstOrDefault()?.TryGetOpCode(out var opCode1) ?? false)
+            var response1 = responses1.FirstOrDefault();
+            if (response1 is not null && response1.TryGetOpCode(out var opCode1))
                 Assert.That(opCode1, Is.TypeOf<QueryNodeNumber>());
             else
                 Assert.Fail();
 
             Assert.That(responses2.Count, Is.EqualTo(messages.Count(m => m.TryGetOpCode(out var opCode) && opCode is QueryEngine)));
-            if (responses2.FirstOrDefault()?.TryGetOpCode(out var opCode2) ?? false)
+            var response2 = responses2.FirstOrDefault();
+            if (response2 is not null && response2.TryGetOpCode(out var opCode2))
                 Assert.That(opCode2, Is.TypeOf<QueryEngine>());
             else
                 Assert.Fail();
 
             Assert.That(responses3.Count, Is.EqualTo(messages.Count(m => m.TryGetOpCode(out var opCode) && opCode is RequestCommandStationStatus)));
-            if (responses3.FirstOrDefault()?.TryGetOpCode(out var opCode3) ?? false)
+            var response3 = responses3.FirstOrDefault();
+            if (response3 is not null && response3.TryGetOpCode(out var opCode3))
                 Assert.That(opCode3, Is.TypeOf<RequestCommandStationStatus>());
             else
                 Assert.Fail();
