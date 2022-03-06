@@ -48,12 +48,13 @@ namespace Asgard.Console
 
             cbusMessenger.MessageReceived += (sender, e) =>
             {
-                var opc = e.Message.GetOpCode();
-                var msg = opc.ToString() ?? "Unknown message";
+                var msg =
+                    e.Message?.TryGetOpCode(out var opCode) ?? false
+                        ? opCode.ToString() ?? "Unknown message"
+                        : "Unknown message";
                 history.Add(msg);
-                while (history.Count > 20) { history.RemoveAt(0); }
+                while (history.Count > 20) history.RemoveAt(0);
                 Application.MainLoop.Invoke(() => label.Text = msg);
-
             };
         }
 

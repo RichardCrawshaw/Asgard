@@ -5,6 +5,9 @@ namespace Asgard.Communications
     public interface ICbusCanFrame
     {
         byte CanId { get; set; }
+
+        bool IsExtended { get; }
+
         byte SidH { get; set; }
         byte SidL { get; set; }
         FrameTypes FrameType { get; set; }

@@ -12,7 +12,7 @@ namespace Asgard.Communications
         public CbusExtendedCanFrame(ICbusMessage message,
                                     CbusCanFrameSettings? settings = null,
                                     ILogger<CbusCanFrame>? logger = null)
-            : base(message, settings, logger) { }
+            : base(message, settings, logger) => this.IsExtended = true;
 
         public override string ToString() =>
             $"0x{this.SidL:X2} 0x{this.SidH:X2} 0x{this.EidH:X2} 0x{this.EidL:X2} (0x{this.CanId:X2}) {this.FrameType} {this.Message}";

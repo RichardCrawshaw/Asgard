@@ -101,10 +101,12 @@ namespace Asgard.Communications
         {
             //TODO: error handling to prevent exceptions leaving async void
 
-            var opCode = e.Message.GetOpCode();
-            var type = opCode.GetType();
-            if (this.listeners.ContainsKey(type))
-                await this.listeners[type].Invoke(this.cbusMessenger, e.Message);
+            if (e.Message?.TryGetOpCode(out var opCode) ?? false)
+            {
+                var type = opCode.GetType();
+                if (this.listeners.ContainsKey(type))
+                    await this.listeners[type].Invoke(this.cbusMessenger, e.Message);
+            }
         }
 
         #endregion
@@ -161,11 +163,12 @@ namespace Asgard.Communications
             /// <inheritdoc/>
             public override async Task Invoke(ICbusMessenger cbusMessenger, ICbusMessage cbusMessage)
             {
-                if (cbusMessage.GetOpCode() is not T opc)
+                if (!cbusMessage.TryGetOpCode(out var opCode) || opCode is not T opc)
                 {
                     //TODO: throw? really shouldn't have happened
                     return;
                 }
+
                 var callbacks = this.callback?.GetInvocationList().Cast<MessageCallback<T>>();
 
                 if (callbacks == null)

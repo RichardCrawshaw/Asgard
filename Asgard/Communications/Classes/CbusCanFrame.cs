@@ -9,6 +9,8 @@ namespace Asgard.Communications
         private readonly CbusCanFrameSettings? settings;
         private readonly ILogger<CbusCanFrame>? logger;
 
+        public bool IsExtended { get; protected set; } = false;
+
         public byte SidH { get; set; }
         public byte SidL { get; set; }
         public FrameTypes FrameType { get; set; }
@@ -42,8 +44,7 @@ namespace Asgard.Communications
                             ILogger<CbusCanFrame>? logger = null)
         {
             this.Message = message;
-            var opcode = this.Message.GetOpCode();
-            if (opcode is not null)
+            if (this.Message.TryGetOpCode(out var opcode))
                 Instantiate(opcode);
 
             this.settings = settings;
