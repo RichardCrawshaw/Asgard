@@ -62,10 +62,24 @@ namespace Asgard.Data
 	public abstract partial class OpCodeData :
 		ICbusOpCode
 	{
+        public static bool IsOpCode(byte data)
+        {
+            return data switch
+            {
+<#  foreach (var opcode in builder.OpCodeBlocks)
+    {
+#>
+                <#= $"0x{opcode.Value:X2}" #> => true,
+<#  }
+#>
+                _ => false
+            };
+        }
+
 		public static OpCodeData Create(ICbusMessage message)
 		{
-			if (message.Length == 0)
-				return new ExtendedFrameMessage(message);
+            if (message.Length == 0)
+                throw new Exception("Supplied message contains no data.");
 
 			return message[0] switch
 			{
@@ -75,8 +89,7 @@ namespace Asgard.Data
                 <#= $"0x{opcode.Value:X2}" #> => new <#= opcode.ClassName #>(message),
 <#	}
 #>
-                _ => new ExtendedFrameMessage(message),
-					//throw new Exception($"0x{message[0]:X2} is not a supported Op-Code."),
+                _ => throw new Exception($"0x{message[0]:X2} is not a supported Op-Code."),
 			};
 		}
 
@@ -119,39 +132,4 @@ namespace Asgard.Data
 
 <#	}
 #>
-    #region Extended frame message
-
-    public partial class ExtendedFrameMessage : OpCodeData
-    {
-        public override string Code { get; }
-        public override int DataLength { get; }
-        public override string Description { get; }
-        public override OpCodeGroup Group { get; }
-        public override string Name { get; }
-        public override byte Number { get; }
-        public override int Priority { get; }
-
-        public ExtendedFrameMessage(ICbusMessage message)
-            : base(message)
-        {
-            this.Code = string.Empty;
-            this.Description = string.Empty;
-            this.Group = OpCodeGroup.Extended;
-            this.Name = string.Empty;
-
-            this.DataLength = message.Length;
-        }
-
-        public override string ToString()
-        {
-            var data = new byte[this.Message.Length];
-            for (var i = 0; i < data.Length; i++)    
-                data[i] = this.Message[i];
-            var result = $"Extended Frame: {string.Join(" ", data.Select(n => $"0x{n:X2}"))}";
-            return result;
-        }
-
-    }
-
-	#endregion
 }

@@ -108,7 +108,8 @@ namespace Asgard.ExampleUse
 
         private void CbusMessenger_MessageReceived(object sender, CbusMessageEventArgs e)
         {
-            this.logger.LogInformation($"Message received: {e.Message.GetOpCode()}");
+            if (e.Message?.TryGetOpCode(out var opCode)??false)
+                this.logger.LogInformation($"Message received: {opCode}");
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

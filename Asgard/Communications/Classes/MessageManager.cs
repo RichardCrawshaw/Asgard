@@ -150,7 +150,7 @@ namespace Asgard.Communications
         private bool AwaitResponse<T>(ICbusMessage message, Func<T, bool>? filterResponses, List<T> responses, int expected, TaskCompletionSource<bool> tcs)
             where T : ICbusOpCode
         {
-            if (message.GetOpCode() is not T response)
+            if (!message.TryGetOpCode(out var opCode) || opCode is not T response)
                 return false;
 
             if (filterResponses is not null && !filterResponses(response))

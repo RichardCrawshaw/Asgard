@@ -31,11 +31,13 @@ namespace Asgard.Tests.CommunicationTests
             transport.Raise(t => 
                 t.GridConnectMessage += null, 
                 new MessageReceivedEventArgs(":SB020N9101000005;"));
-            var opCode = m?.GetOpCode();
-            opCode
-                .Should().NotBeNull()
-                .And.BeOfType<AccessoryOff>()
-                .Which.Should().BeEquivalentTo(new { NodeNumber = 256, EventNumber = 5 });
+            if (m?.TryGetOpCode(out var opCode) ?? false)
+                opCode
+                    .Should().NotBeNull()
+                    .And.BeOfType<AccessoryOff>()
+                    .Which.Should().BeEquivalentTo(new { NodeNumber = 256, EventNumber = 5 });
+            else
+                Assert.Fail();
         }
 
         [Test]

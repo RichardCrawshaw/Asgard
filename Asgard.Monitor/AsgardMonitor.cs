@@ -50,11 +50,13 @@ namespace Asgard.Monitor
         {
             if (e.Message is not null)
             {
-                var opcode = e.Message.GetOpCode();
-                this.logger?.LogInformation($"Message received: {opcode}");
+                if (e.Message.TryGetOpCode(out var opCode))
+                    Console.WriteLine($"Message received: {opCode}");
             }
             else if (e.GridConnectMessage is not null)
-                this.logger?.LogInformation($"GridConnect message: {e.GridConnectMessage}");
+            {
+                Console.WriteLine($"GridConnect message: {e.GridConnectMessage}");
+            }
         }
 
         public Task StartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
@@ -63,63 +65,22 @@ namespace Asgard.Monitor
 
         public async Task MainProcess()
         {
-            Console.WriteLine("AsgardMonitor :: CBUS traffic logger");
-
-            var quit = true;
+            var version = GetType().Assembly.GetName().Version;
+            Console.WriteLine($"AsgardMonitor :: CBUS traffic logger :: Version {version}");
 
             try
             {
-                var connections =
-                    this.cbusMessenger.GetAvailableConnections()
-                        .OrderBy(n => n)
-                        .ToArray();
-                if (connections.Length == 0)
-                {
-                    Console.WriteLine("No connections available.");
-                    Console.WriteLine("Establish a physical connections and try again.");
-                    Console.WriteLine("Press <enter> to close.");
-                    Console.ReadLine();
-                    return;
-                }
+                var connections = GetConnectionNames();
+                if (connections is null) return;
 
-                Console.WriteLine("The following connections are available; select one.");
-                for (var i = 0; i < connections.Length; i++)
-                    Console.WriteLine($"{i}: {connections[i]}");
+                DisplayConnections(connections);
 
-                ConnectionOptions? connectionOptions = null;
-                do
-                {
-                    Console.WriteLine("Enter the number and press <enter> or 'Q' to quit.");
-                    var selectionString = Console.ReadLine();
-                    if (selectionString?.Equals("Q", StringComparison.OrdinalIgnoreCase) ?? true) return;
-
-                    if (int.TryParse(selectionString, out var selectionNumber) &&
-                        selectionNumber >= 0 &&
-                        selectionNumber < connections.Length)
-                    {
-                        connectionOptions = new ConnectionOptions
-                        {
-                            ConnectionType = ConnectionOptions.ConnectionTypes.SerialPort,
-                            SerialPort = new SerialPortTransportSettings
-                            {
-                                PortName = connections[selectionNumber],
-                            },
-                        };
-                    }
-                    else
-                    {
-                        Console.WriteLine("Unrecognised selection.");
-                    }
-                } while (connectionOptions is null);
-
+                var connectionOptions = SelectConnection(connections);
                 if (connectionOptions is null) return;
 
-                this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
+                await StartAsync(connectionOptions);
 
-                await this.cbusMessenger.OpenAsync(connectionOptions);
-
-                Console.WriteLine("Press <enter> to exit.");
-                Console.ReadLine();
+                DoMenu();
             }
             catch (TransportException e)
             {
@@ -127,8 +88,88 @@ namespace Asgard.Monitor
             }
             finally
             {
-                if (quit)
-                    this.hostApplicationLifetime.StopApplication();
+                this.hostApplicationLifetime.StopApplication();
+            }
+        }
+
+        private string[]? GetConnectionNames()
+        {
+            var connections =
+                this.cbusMessenger.GetAvailableConnections()
+                    .OrderBy(n => n)
+                    .ToArray();
+            if (connections.Length == 0)
+            {
+                Console.WriteLine("No connections available.");
+                Console.WriteLine("Establish a physical connections and try again.");
+                Console.WriteLine("Press <enter> to close.");
+                Console.ReadLine();
+                return null;
+            }
+
+            return connections;
+        }
+
+        private static void DisplayConnections(string[] connections)
+        {
+            Console.WriteLine("The following connections are available; select one.");
+            for (var i = 0; i < connections.Length; i++)
+                Console.WriteLine($"{i}: {connections[i]}");
+        }
+
+        private ConnectionOptions? SelectConnection(string[] connections)
+        {
+            ConnectionOptions? connectionOptions = null;
+            while (true)
+            {
+                Console.WriteLine("Enter the number and press <enter> or 'Q' to quit.");
+                var selectionString = Console.ReadLine();
+                if (selectionString?.Equals("Q", StringComparison.OrdinalIgnoreCase) ?? true)
+                    return null;
+
+                if (int.TryParse(selectionString, out var selectionNumber) &&
+                    selectionNumber >= 0 &&
+                    selectionNumber < connections.Length)
+                {
+                    connectionOptions = new ConnectionOptions
+                    {
+                        ConnectionType = ConnectionOptions.ConnectionTypes.SerialPort,
+                        SerialPort = new SerialPortTransportSettings
+                        {
+                            PortName = connections[selectionNumber],
+                        },
+                    };
+                    return connectionOptions;
+                }
+
+                Console.WriteLine("Unrecognised selection.");
+            }
+        }
+
+        private async Task StartAsync(ConnectionOptions connectionOptions)
+        {
+            this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
+
+            await this.cbusMessenger.OpenAsync(connectionOptions);
+        }
+
+        private void DoMenu()
+        {
+            while (true)
+            {
+                Console.WriteLine("C : Clear Screen | Q : Quit");
+
+                var key = Console.ReadKey();
+                switch (key.KeyChar)
+                {
+                    case 'c':
+                    case 'C':
+                        Console.Clear();
+                        break;
+                    case 'q':
+                    case 'Q':
+                        return;
+                }
             }
         }
     }

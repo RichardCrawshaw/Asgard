@@ -6,10 +6,12 @@
     /// </summary>
     public interface ICbusMessage
     {
+        bool IsExtended { get; }
+
         int Length { get; }
 
         byte this[int index] { get; set; }
 
-        ICbusOpCode GetOpCode();
+        bool TryGetOpCode(out ICbusOpCode opCode);
     }
 }

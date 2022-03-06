@@ -322,7 +322,12 @@ namespace Asgard.ExampleGui
         private async void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs e)
         {
             LogMessage(e.Message, e.Received);
-            var opCode = e.Message.GetOpCode();
+            if (!(e.Message?.TryGetOpCode(out var opCode) ?? false))
+            {
+                this.logger?.LogInformation($"Unknown message received: {e.GridConnectMessage}");
+                return;
+            }
+
             this.logger?.LogInformation($"Message received: {opCode}");
             await DisplayMessages();
             await HandleMessage(opCode);

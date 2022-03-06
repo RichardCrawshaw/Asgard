@@ -60,7 +60,7 @@ namespace Asgard.Communications
             return null;
         }
 
-        private CbusCanFrame? ParseFrameStandard(int p, string transportString)
+        private static CbusCanFrame? ParseFrameStandard(int p, string transportString)
         {
             p++;
             var sidh = Convert.ToByte(transportString.Substring(p, 2), 16);
@@ -88,7 +88,7 @@ namespace Asgard.Communications
             return frame;
         }
 
-        private CbusExtendedCanFrame? ParseFrameExtended(int p, string transportString)
+        private static CbusExtendedCanFrame? ParseFrameExtended(int p, string transportString)
         {
             p++;
             var sidh = Convert.ToByte(transportString.Substring(p, 2), 16);
