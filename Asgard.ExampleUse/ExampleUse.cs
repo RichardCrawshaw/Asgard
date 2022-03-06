@@ -108,7 +108,7 @@ namespace Asgard.ExampleUse
 
         private void CbusMessenger_MessageReceived(object sender, CbusMessageEventArgs e)
         {
-            if (e.Message?.TryGetOpCode(out var opCode)??false)
+            if (e.Message is not null && e.Message.TryGetOpCode(out var opCode))
                 this.logger.LogInformation($"Message received: {opCode}");
         }
 

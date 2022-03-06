@@ -65,7 +65,7 @@ namespace Asgard.Tests.CommunicationTests
         {
             var cfp = new CbusCanFrameProcessor();
             var frame = cfp.ParseFrame(":SB020N9101000005;");
-            if (frame?.Message?.TryGetOpCode(out var opCode) ?? false)
+            if (frame?.Message is not null && frame.Message.TryGetOpCode(out var opCode))
             {
                 opCode.Should().BeOfType<AccessoryOff>();
                 var msg = (AccessoryOff?)opCode;
