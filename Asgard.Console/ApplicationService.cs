@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Runtime.Versioning;
+using System.Threading;
 using System.Threading.Tasks;
 using Asgard.Communications;
 using Microsoft.Extensions.Hosting;
@@ -6,6 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Asgard.Console
 {
+    [SupportedOSPlatform("Linux")]
+    [SupportedOSPlatform("macOS")]
+    [SupportedOSPlatform("windows")]
     internal class ApplicationService : IHostedService
     {
         private readonly IHostApplicationLifetime hostApplicationLifetime;

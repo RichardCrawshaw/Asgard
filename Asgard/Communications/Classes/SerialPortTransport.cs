@@ -1,12 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.IO.Ports;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace Asgard.Communications
 {
+    [SupportedOSPlatform("Linux")]
+    [SupportedOSPlatform("macOS")]
+    [SupportedOSPlatform("windows")]
     public class SerialPortTransport : StreamTransport, 
         IDisposable
     {
