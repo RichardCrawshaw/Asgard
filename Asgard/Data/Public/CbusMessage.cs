@@ -3,17 +3,9 @@ using System.Linq;
 
 namespace Asgard.Data
 {
-    public class CbusMessage :
+    public abstract class CbusMessage :
         ICbusMessage
     {
-        #region Fields
-
-        private readonly Lazy<ICbusOpCode> lazyOpCode;
-
-        private bool hasOpcode;
-
-        #endregion
-
         #region Properties and indexers
 
         public byte[] Data { get; }
@@ -42,8 +34,6 @@ namespace Asgard.Data
                     : data.Length;
             this.Data = new byte[length];
             data.CopyTo(this.Data, 0);
-
-            this.lazyOpCode = new Lazy<ICbusOpCode>(() => GetCbusOpCode(data.Length));
         }
 
         #endregion
@@ -51,13 +41,9 @@ namespace Asgard.Data
         #region Methods
 
         public static ICbusMessage Create(byte[] data, bool isExtended = false) => 
-            new CbusMessage(data, isExtended);
-
-        public bool TryGetOpCode(out ICbusOpCode opCode)
-        {
-            opCode = this.lazyOpCode.Value;
-            return this.hasOpcode;
-        }
+            isExtended
+                ? new CbusExtendedMessage(data)
+                : new CbusStandardMessage(data);
 
         #endregion
 
@@ -65,6 +51,38 @@ namespace Asgard.Data
 
         public override string ToString() =>
             $"L:{this.Length} {string.Join(" ", this.Data.Select(d => $"0x{d:X2}"))}";
+
+        #endregion
+    }
+
+    public class CbusStandardMessage : CbusMessage,
+        ICbusStandardMessage
+    {
+        #region Fields
+
+        private readonly Lazy<ICbusOpCode> lazyOpCode;
+
+        private bool hasOpcode;
+
+        #endregion
+
+        #region Constructors
+
+        internal CbusStandardMessage(byte[] data)
+            : base(data, false)
+        {
+            this.lazyOpCode = new Lazy<ICbusOpCode>(() => GetCbusOpCode(data.Length));
+        }
+
+        #endregion
+
+        #region Methods
+
+        public bool TryGetOpCode(out ICbusOpCode opCode)
+        {
+            opCode = this.lazyOpCode.Value;
+            return this.hasOpcode;
+        } 
 
         #endregion
 
@@ -75,6 +93,17 @@ namespace Asgard.Data
             this.hasOpcode = length > 0 && OpCodeData.IsOpCode(this.Data[0]) & !this.IsExtended;
             return this.hasOpcode ? OpCodeData.Create(this) : new GeneralAcknowledgement();
         }
+
+        #endregion
+    }
+
+    public class CbusExtendedMessage : CbusMessage,
+        ICbusExtendedMessage
+    {
+        #region Constructors
+
+        internal CbusExtendedMessage(byte[] data)
+            : base(data, true) { }
 
         #endregion
     }

@@ -6,9 +6,10 @@ using Asgard.Data;
 
 namespace Asgard.Communications
 {
-    //TODO: Potentially remove the messenger and message parameters here? Someone registering for this
-    //is likely only interested in the actual opCode received?
-    public delegate Task MessageCallback<T>(ICbusMessenger messenger, ICbusMessage message, T opCode);
+    //TODO: Potentially remove the messenger and message parameters here?
+    //Someone registering for this is likely only interested in the actual opCode received?
+    public delegate Task MessageCallback<T>(ICbusMessenger messenger, ICbusMessage message, T opCode)
+        where T : ICbusOpCode;
 
     /// <summary>
     /// Class to manage the automated response to incoming messages. It allows the registering of
@@ -101,13 +102,19 @@ namespace Asgard.Communications
         {
             //TODO: error handling to prevent exceptions leaving async void
 
-            if (e.Message is null) return;
-
-            if (e.Message.TryGetOpCode(out var opCode))
+            if (e.Message is ICbusStandardMessage standardMessage &&
+                standardMessage.TryGetOpCode(out var opCode) &&
+                this.listeners.TryGetValue(opCode.GetType(), out var listener))
             {
-                var type = opCode.GetType();
-                if (this.listeners.ContainsKey(type))
-                    await this.listeners[type].Invoke(this.cbusMessenger, e.Message);
+                try
+                {
+                    // TODO: Wrap the handler in a try-catch block in an inner-routine.
+                    await listener.Invoke(this.cbusMessenger, standardMessage);
+                }
+                catch (Exception)
+                {
+                    // TODO: handle or log the exception in some way.
+                }
             }
         }
 
@@ -165,7 +172,9 @@ namespace Asgard.Communications
             /// <inheritdoc/>
             public override async Task Invoke(ICbusMessenger cbusMessenger, ICbusMessage cbusMessage)
             {
-                if (!cbusMessage.TryGetOpCode(out var opCode) || opCode is not T opc)
+                if (cbusMessage is not ICbusStandardMessage standardMessage ||
+                    !standardMessage.TryGetOpCode(out var opCode) || 
+                    opCode is not T opc)
                 {
                     //TODO: throw? really shouldn't have happened
                     return;
@@ -176,7 +185,8 @@ namespace Asgard.Communications
                 if (callbacks == null)
                     return;
 
-                foreach(var callback in callbacks) {
+                foreach (var callback in callbacks)
+                {
                     if (filters.TryGetValue(callback, out var filter) && !filter(opc))
                     {
                         continue;
@@ -207,6 +217,7 @@ namespace Asgard.Communications
                     }
                 }
             }
+
             /// <summary>
             /// Removes a callback from further notifications.
             /// </summary>

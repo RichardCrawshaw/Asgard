@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Asgard.Communications;
+using Asgard.Data;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -48,9 +49,11 @@ namespace Asgard.Monitor
 
         private void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs e)
         {
-            if (e.Message is not null)
+            if (e.Message is not ICbusStandardMessage standardMessage)
+                return;
+            if (standardMessage is not null)
             {
-                if (e.Message.TryGetOpCode(out var opCode))
+                if (standardMessage.TryGetOpCode(out var opCode))
                     Console.WriteLine($"Message received: {opCode}");
             }
             else if (e.GridConnectMessage is not null)
@@ -153,7 +156,7 @@ namespace Asgard.Monitor
             await this.cbusMessenger.OpenAsync(connectionOptions);
         }
 
-        private void DoMenu()
+        private static void DoMenu()
         {
             while (true)
             {

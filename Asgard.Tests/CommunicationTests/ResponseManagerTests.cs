@@ -38,8 +38,11 @@ namespace Asgard.Tests.CommunicationTests
 
             // and that it is the right type with the expected values.
             Assert.That(response, Is.Not.Null);
-            if (response is not null && response.TryGetOpCode(out var opCode))
+            if (response is ICbusStandardMessage standardMessage &&
+                standardMessage.TryGetOpCode(out var opCode))
+            {
                 Assert.That(opCode, Is.TypeOf<QueryNodeNumber>());
+            }
             else
                 Assert.Fail();
         }
@@ -79,8 +82,11 @@ namespace Asgard.Tests.CommunicationTests
             // Make sure that it only responded to the expected message.
             Assert.That(responses.Count, Is.EqualTo(1));
             var response = responses.FirstOrDefault();
-            if (response is not null && response.TryGetOpCode(out var opCode))
+            if (response is ICbusStandardMessage standardMessage &&
+                standardMessage.TryGetOpCode(out var opCode))
+            {
                 Assert.That(opCode, Is.TypeOf<QueryNodeNumber>());
+            }
             else
                 Assert.Fail();
         }
@@ -131,27 +137,31 @@ namespace Asgard.Tests.CommunicationTests
                         m => m.MessageReceived += null,
                         new CbusMessageEventArgs(message, gridConnectMessage: null, received: true));
 
+            static void checkResponse<T>(List<ICbusMessage?> responses, List<ICbusMessage> messages)
+                where T: ICbusOpCode
+            {
+                Assert.That(responses.Count,
+                    Is.EqualTo(
+                        messages
+                            .Count(m => m is ICbusStandardMessage sm && 
+                                        sm.TryGetOpCode(out var opCode) && 
+                                        opCode is T)));
+                var response = responses.FirstOrDefault();
+                if (response is ICbusStandardMessage standardMessage &&
+                    standardMessage.TryGetOpCode(out var opCode))
+                {
+                    Assert.That(opCode, Is.TypeOf<T>());
+                }
+                else
+                {
+                    Assert.Fail();
+                }
+            }
+
             // Make sure that it only responded to the expected message.
-            Assert.That(responses1.Count, Is.EqualTo(messages.Count(m => m.TryGetOpCode(out var opCode) && opCode is QueryNodeNumber)));
-            var response1 = responses1.FirstOrDefault();
-            if (response1 is not null && response1.TryGetOpCode(out var opCode1))
-                Assert.That(opCode1, Is.TypeOf<QueryNodeNumber>());
-            else
-                Assert.Fail();
-
-            Assert.That(responses2.Count, Is.EqualTo(messages.Count(m => m.TryGetOpCode(out var opCode) && opCode is QueryEngine)));
-            var response2 = responses2.FirstOrDefault();
-            if (response2 is not null && response2.TryGetOpCode(out var opCode2))
-                Assert.That(opCode2, Is.TypeOf<QueryEngine>());
-            else
-                Assert.Fail();
-
-            Assert.That(responses3.Count, Is.EqualTo(messages.Count(m => m.TryGetOpCode(out var opCode) && opCode is RequestCommandStationStatus)));
-            var response3 = responses3.FirstOrDefault();
-            if (response3 is not null && response3.TryGetOpCode(out var opCode3))
-                Assert.That(opCode3, Is.TypeOf<RequestCommandStationStatus>());
-            else
-                Assert.Fail();
+            checkResponse<QueryNodeNumber>(responses1, messages);
+            checkResponse<QueryEngine>(responses2,messages);
+            checkResponse<RequestCommandStationStatus>(responses3, messages);
         }
 
         [Test]

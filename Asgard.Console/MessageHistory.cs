@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Asgard.Communications;
+using Asgard.Data;
 using Terminal.Gui;
 using Terminal.Gui.Views;
 
@@ -48,9 +49,9 @@ namespace Asgard.Console
 
             cbusMessenger.MessageReceived += (sender, e) =>
             {
+                var standardMessage = e.Message as ICbusStandardMessage;
                 var msg = (
-                    e.Message is not null && 
-                    e.Message.TryGetOpCode(out var opCode)
+                    standardMessage?.TryGetOpCode(out var opCode) ?? false
                         ? opCode.ToString()
                         : null) ?? "Unknown message";
                 history.Add(msg);
