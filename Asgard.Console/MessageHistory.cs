@@ -51,9 +51,10 @@ namespace Asgard.Console
             {
                 var standardMessage = e.Message as ICbusStandardMessage;
                 var msg = (
-                    standardMessage?.TryGetOpCode(out var opCode) ?? false
-                        ? opCode.ToString()
-                        : null) ?? "Unknown message";
+                    standardMessage is null ||
+                    !standardMessage.TryGetOpCode(out var opCode)
+                        ? null
+                        : opCode.ToString()) ?? "Unknown message";
                 history.Add(msg);
                 while (history.Count > 20) history.RemoveAt(0);
                 Application.MainLoop.Invoke(() => label.Text = msg);
