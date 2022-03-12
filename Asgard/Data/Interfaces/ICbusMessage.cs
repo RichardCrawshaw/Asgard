@@ -11,7 +11,17 @@
         int Length { get; }
 
         byte this[int index] { get; set; }
+    }
 
+    public interface ICbusStandardMessage :
+        ICbusMessage
+    {
         bool TryGetOpCode(out ICbusOpCode opCode);
+    }
+
+    public interface ICbusExtendedMessage :
+        ICbusMessage
+    {
+
     }
 }

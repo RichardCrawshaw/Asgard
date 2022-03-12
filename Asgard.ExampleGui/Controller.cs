@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Asgard.Communications;
 using Asgard.Data;
 using Cbus.Gladsheimr.Attributes;
 using Cbus.Gladsheimr.Interfaces;
-using Cbus.Gladsheimr.UserControls;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -322,17 +319,23 @@ namespace Asgard.ExampleGui
         private async void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs e)
         {
             LogMessage(e.Message, e.Received);
-            if (e.Message is null) return;
 
-            if (!e.Message.TryGetOpCode(out var opCode))
+            switch (e.Message)
             {
-                this.logger?.LogInformation($"Unknown message received: {e.GridConnectMessage}");
-                return;
+                case ICbusStandardMessage standardMessage:
+                    if (!standardMessage.TryGetOpCode(out var opCode))
+                        goto default;
+                    this.logger?.LogInformation("Message received: {opCode}", opCode);
+                    await DisplayMessages();
+                    await HandleMessage(opCode);
+                    break;
+                case ICbusExtendedMessage extendedMessage:
+                    this.logger?.LogInformation("Extended message: {em}", extendedMessage);
+                    break;
+                default:
+                    this.logger?.LogInformation("Unknown message received: {m}", e.GridConnectMessage);
+                    break;
             }
-
-            this.logger?.LogInformation($"Message received: {opCode}");
-            await DisplayMessages();
-            await HandleMessage(opCode);
         }
 
         private async void CbusMessenger_MessageSentAsync(object? sender, CbusMessageEventArgs e)

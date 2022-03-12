@@ -15,7 +15,9 @@ namespace Asgard.ExampleUse
         private readonly ICbusMessenger cbusMessenger;
         private readonly ILogger<ExampleUse> logger;
 
-        public ExampleUse(IHostApplicationLifetime hostApplicationLifetime, ICbusMessenger cbusMessenger, ILogger<ExampleUse> logger)
+        public ExampleUse(IHostApplicationLifetime hostApplicationLifetime,
+                          ICbusMessenger cbusMessenger,
+                          ILogger<ExampleUse> logger)
         {
             this.hostApplicationLifetime = hostApplicationLifetime;
             this.cbusMessenger = cbusMessenger;
@@ -108,7 +110,9 @@ namespace Asgard.ExampleUse
 
         private void CbusMessenger_MessageReceived(object sender, CbusMessageEventArgs e)
         {
-            if (e.Message is not null && e.Message.TryGetOpCode(out var opCode))
+            if (e.Message is not ICbusStandardMessage standardMessage)
+                return;
+            if (standardMessage is not null && standardMessage.TryGetOpCode(out var opCode))
                 this.logger.LogInformation($"Message received: {opCode}");
         }
 

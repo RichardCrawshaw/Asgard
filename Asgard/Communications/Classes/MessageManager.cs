@@ -15,7 +15,8 @@ namespace Asgard.Communications
 
         private static TimeSpan DefaultTimeout { get; } = TimeSpan.FromSeconds(2);
 
-        public MessageManager(ICbusMessenger messenger, ILogger<MessageManager>? logger = null)
+        public MessageManager(ICbusMessenger messenger,
+                              ILogger<MessageManager>? logger = null)
         {
             this.messenger = messenger;
             this.logger = logger;
@@ -122,8 +123,11 @@ namespace Asgard.Communications
 
             var responses = new List<T>();
 
-            void AwaitResponse(object? sender, CbusMessageEventArgs e) =>
-                AwaitResponse<T>(e.Message, filterResponses, responses, expected, tcs);
+            void AwaitResponse(object? sender, CbusMessageEventArgs e)
+            {
+                if (e.Message is ICbusStandardMessage standardMessage)
+                    AwaitResponse<T>(standardMessage, filterResponses, responses, expected, tcs);
+            }
 
             try
             {
@@ -147,7 +151,11 @@ namespace Asgard.Communications
             return responses;
         }
 
-        private bool AwaitResponse<T>(ICbusMessage message, Func<T, bool>? filterResponses, List<T> responses, int expected, TaskCompletionSource<bool> tcs)
+        private bool AwaitResponse<T>(ICbusStandardMessage message,
+                                      Func<T, bool>? filterResponses,
+                                      List<T> responses,
+                                      int expected,
+                                      TaskCompletionSource<bool> tcs)
             where T : ICbusOpCode
         {
             if (!message.TryGetOpCode(out var opCode) || opCode is not T response)
