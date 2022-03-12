@@ -1,8 +1,12 @@
-﻿using Asgard.Communications;
+﻿using System.Runtime.Versioning;
+using Asgard.Communications;
 using Terminal.Gui;
 
 namespace Asgard.Console
 {
+    [SupportedOSPlatform("Linux")]
+    [SupportedOSPlatform("macOS")]
+    [SupportedOSPlatform("windows")]
     internal class ApplicationRoot
     {
         private readonly ICbusMessenger cbusMessenger;
