@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <SupportedPlatform Include="Linux" />
+    <SupportedPlatform Include="macOS" />
+    <SupportedPlatform Include="Windows" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Classes\**" />
     <Compile Remove="Comms\**" />
     <Compile Remove="Data\Generated\Test\**" />
