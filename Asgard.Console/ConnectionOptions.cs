@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Versioning;
 using Terminal.Gui;
 
 namespace Asgard.Console
 {
-    internal class ConnectionOptions:Dialog
+    [SupportedOSPlatform("Linux")]
+    [SupportedOSPlatform("macOS")]
+    [SupportedOSPlatform("windows")]
+    internal class ConnectionOptions : Dialog
     {
         public string SelectedPort { get; private set; } = "";
         private string[] _availablePorts = Array.Empty<string>();
