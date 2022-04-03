@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Asgard.Data;
 using NUnit.Framework;
 
@@ -16,12 +12,14 @@ namespace Asgard.Tests
         {
             var data = Array.Empty<byte>();
 
-            var cbusMessage = CbusMessage.Create(data);
+            var cbusMessage = CbusStandardMessage.Create(data);
 
             Assert.Multiple(() =>
             {
                 Assert.That(cbusMessage, Is.Not.Null);
-                Assert.That(Assert.Catch(() => OpCodeData.Create(cbusMessage), "Empty message"), Is.TypeOf<Exception>());
+                Assert.That(
+                    Assert.Catch(() => OpCodeData.Create(cbusMessage), "Empty message"),
+                    Is.TypeOf<Exception>());
             });
         }
     }

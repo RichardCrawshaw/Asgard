@@ -8,7 +8,7 @@ namespace Asgard.Communications
 {
     //TODO: Potentially remove the messenger and message parameters here?
     //Someone registering for this is likely only interested in the actual opCode received?
-    public delegate Task MessageCallback<T>(ICbusMessenger messenger, ICbusMessage message, T opCode)
+    public delegate Task MessageCallback<T>(ICbusMessenger messenger, ICbusStandardMessage message, T opCode)
         where T : ICbusOpCode;
 
     /// <summary>
@@ -54,9 +54,8 @@ namespace Asgard.Communications
                     this.listeners.TryRemove(typeof(T), out _);
                 }
             }
-            
-            if (!this.listeners.Any())
-                this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
+
+            Deregister();
         }
 
         /// <summary>
@@ -67,8 +66,7 @@ namespace Asgard.Communications
             where T : class, ICbusOpCode
         {
             this.listeners.TryRemove(typeof(T), out _);
-            if (!this.listeners.Any())
-                this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
+            Deregister();
         }
 
         /// <summary>
@@ -90,32 +88,36 @@ namespace Asgard.Communications
                 return;
             }
             listener.AddCallback(callback, filter);
+
             if (!flag && this.listeners.Any())
-                this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
+                this.cbusMessenger.StandardMessageReceived += CbusMessenger_StandardMessageReceived;
         }
 
         #endregion
 
         #region Support routines
 
-        private async void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs e)
+        private async void CbusMessenger_StandardMessageReceived(object? sender, CbusStandardMessageEventArgs e)
         {
-            //TODO: error handling to prevent exceptions leaving async void
-
-            if (e.Message is ICbusStandardMessage standardMessage &&
-                standardMessage.TryGetOpCode(out var opCode) &&
+            if (e.Message.TryGetOpCode(out var opCode) &&
                 this.listeners.TryGetValue(opCode.GetType(), out var listener))
             {
                 try
                 {
                     // TODO: Wrap the handler in a try-catch block in an inner-routine.
-                    await listener.Invoke(this.cbusMessenger, standardMessage);
+                    await listener.Invoke(this.cbusMessenger, e.Message);
                 }
                 catch (Exception)
                 {
                     // TODO: handle or log the exception in some way.
                 }
             }
+        }
+
+        private void Deregister()
+        {
+            if (!this.listeners.Any())
+                this.cbusMessenger.StandardMessageReceived -= CbusMessenger_StandardMessageReceived;
         }
 
         #endregion
@@ -144,7 +146,7 @@ namespace Asgard.Communications
             /// <param name="cbusMessenger">The <see cref="ICbusMessenger"/> to use.</param>
             /// <param name="cbusMessage">The <see cref="ICbusMessage"/> that is being responded to.</param>
             /// <returns>A <see cref="Task"/>.</returns>
-            public abstract Task Invoke(ICbusMessenger cbusMessenger, ICbusMessage cbusMessage);
+            public abstract Task Invoke(ICbusMessenger cbusMessenger, ICbusStandardMessage cbusMessage);
         }
 
         /// <summary>
@@ -170,7 +172,7 @@ namespace Asgard.Communications
             public override int CallbackCount => this.callback?.GetInvocationList().Length ?? 0;
 
             /// <inheritdoc/>
-            public override async Task Invoke(ICbusMessenger cbusMessenger, ICbusMessage cbusMessage)
+            public override async Task Invoke(ICbusMessenger cbusMessenger, ICbusStandardMessage cbusMessage)
             {
                 if (cbusMessage is not ICbusStandardMessage standardMessage ||
                     !standardMessage.TryGetOpCode(out var opCode) || 

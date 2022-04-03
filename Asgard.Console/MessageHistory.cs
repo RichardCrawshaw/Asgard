@@ -47,18 +47,19 @@ namespace Asgard.Console
             this.Add(button);
             button.Clicked += ShowHistory;
 
-            cbusMessenger.MessageReceived += (sender, e) =>
-            {
-                var standardMessage = e.Message as ICbusStandardMessage;
-                var msg = (
-                    standardMessage is null ||
-                    !standardMessage.TryGetOpCode(out var opCode)
-                        ? null
-                        : opCode.ToString()) ?? "Unknown message";
-                history.Add(msg);
-                while (history.Count > 20) history.RemoveAt(0);
-                Application.MainLoop.Invoke(() => label.Text = msg);
-            };
+            cbusMessenger.StandardMessageReceived += (sender, e) =>
+              {
+                  string? message = null;
+
+                  if (e.Message?.TryGetOpCode(out var opCode) ?? false)
+                      message = opCode.ToString();
+                  history.Add(message ?? "Unknown message");
+
+                  while (history.Count > 20)
+                      history.RemoveAt(0);
+
+                  Application.MainLoop.Invoke(() => label.Text = message);
+              };
         }
 
         private void ShowHistory()

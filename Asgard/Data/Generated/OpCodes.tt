@@ -170,8 +170,8 @@ namespace Asgard.Data
 
         #region Constructors
 
-        public <#= opCodeBlock.ClassName #>(ICbusMessage cbusMessage) : base(cbusMessage) { }
-        public <#= opCodeBlock.ClassName #>() : base(CbusMessage.Create(new byte[] {<#= opCodeBlock.Value #>})) {}
+        public <#= opCodeBlock.ClassName #>(ICbusStandardMessage cbusMessage) : base(cbusMessage) { }
+        public <#= opCodeBlock.ClassName #>() : base(CbusStandardMessage.Create(new byte[] {<#= opCodeBlock.Value #>})) {}
 
         #endregion
 

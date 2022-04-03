@@ -76,7 +76,7 @@ namespace Asgard.Communications
                 dataBytes[x] = Convert.ToByte(transportString.Substring(p, 2), 16);
             }
 
-            var message = CbusMessage.Create(dataBytes, isExtended: false);
+            var message = CbusStandardMessage.Create(dataBytes);
             if (message is null) return null;
             var frame = new CbusCanFrame(message)
             {
@@ -106,7 +106,7 @@ namespace Asgard.Communications
             for (var x = 0; p < transportString.Length - 2; p += 2, x++)
                 dataBytes[x] = Convert.ToByte(transportString.Substring(p, 2), 16);
 
-            var message = CbusMessage.Create(dataBytes, isExtended: true);
+            var message = CbusExtendedMessage.Create(dataBytes);
             if (message is null) return null;
             var frame = new CbusExtendedCanFrame(message)
             {

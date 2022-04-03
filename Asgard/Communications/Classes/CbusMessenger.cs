@@ -17,6 +17,8 @@ namespace Asgard.Communications
 
         public event EventHandler<CbusMessageEventArgs>? MessageReceived;
         public event EventHandler<CbusMessageEventArgs>? MessageSent;
+        public event EventHandler<CbusStandardMessageEventArgs>? StandardMessageReceived;
+        public event EventHandler<CbusExtendedMessageEventArgs>? ExtendedMessageReceived;
         
         public bool IsOpen { get; private set; }
 
@@ -75,6 +77,16 @@ namespace Asgard.Communications
                     // Unrecognised CAN Frame Type received: ignore.
                     return;
                 this.logger?.LogTrace("Parsed received Message: {0}", frame);
+                if (frame.Message is ICbusStandardMessage standardMessage)
+                    this.StandardMessageReceived?.Invoke(this,
+                        new CbusStandardMessageEventArgs(
+                            standardMessage,
+                            received: true));
+                if (frame.Message is ICbusExtendedMessage extendedMessage)
+                    this.ExtendedMessageReceived?.Invoke(this,
+                        new CbusExtendedMessageEventArgs(
+                            extendedMessage,
+                            received: true));
                 this.MessageReceived?.Invoke(this, 
                     new CbusMessageEventArgs(
                         frame.Message,

@@ -40,6 +40,19 @@ namespace Asgard.Data
 
         #region Methods
 
+        /// <summary>
+        /// Create and return an <see cref="ICbusMessage"/> object from the specified
+        /// <paramref name="data"/> and <paramref name="isExtended"/> flag.
+        /// </summary>
+        /// <param name="data">A <see cref="byte[]"/>.</param>
+        /// <param name="isExtended">A <see cref="bool"/> that indicates whether the message is from an extended frame or not.</param>
+        /// <returns>An <see cref="ICbusMessage"/> object.</returns>
+        /// <remarks>
+        /// This method should only be used when it does not matter whether the returned
+        /// type is an <see cref="ICbusStandardMessage"/> or <see cref="ICbusExtendedMessage"/>.
+        /// It is generally preferable to use either <seealso cref="CbusStandardMessage.Create(byte[])"/>
+        /// or <seealso cref="CbusExtendedMessage.Create(byte[])"/>.
+        /// </remarks>
         public static ICbusMessage Create(byte[] data, bool isExtended = false) => 
             isExtended
                 ? new CbusExtendedMessage(data)
@@ -78,6 +91,8 @@ namespace Asgard.Data
 
         #region Methods
 
+        public static ICbusStandardMessage Create(byte[] data) => new CbusStandardMessage(data);
+
         public bool TryGetOpCode(out ICbusOpCode opCode)
         {
             opCode = this.lazyOpCode.Value;
@@ -104,6 +119,12 @@ namespace Asgard.Data
 
         internal CbusExtendedMessage(byte[] data)
             : base(data, true) { }
+
+        #endregion
+
+        #region Methods
+
+        public static ICbusExtendedMessage Create(byte[] data) => new CbusExtendedMessage(data);
 
         #endregion
     }
