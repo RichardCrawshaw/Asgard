@@ -38,7 +38,7 @@ namespace Asgard.Tests.CommunicationTests
 
             // and that it is the right type with the expected values.
             Assert.That(response, Is.Not.Null);
-            if (response?.TryGetOpCode(out var opCode) ?? false)
+            if (response is not null && response.TryGetOpCode(out var opCode))
             {
                 Assert.That(opCode, Is.TypeOf<QueryNodeNumber>());
             }
@@ -83,7 +83,7 @@ namespace Asgard.Tests.CommunicationTests
             // Make sure that it only responded to the expected message.
             Assert.That(responses.Count, Is.EqualTo(1));
             var response = responses.FirstOrDefault();
-            if (response?.TryGetOpCode(out var opCode) ?? false)
+            if (response is not null && response.TryGetOpCode(out var opCode))
             {
                 Assert.That(opCode, Is.TypeOf<QueryNodeNumber>());
             }
@@ -149,7 +149,7 @@ namespace Asgard.Tests.CommunicationTests
                                         sm.TryGetOpCode(out var opCode) && 
                                         opCode is T)));
                 var response = responses.FirstOrDefault();
-                if (response?.TryGetOpCode(out var opCode) ?? false)
+                if (response is not null && response.TryGetOpCode(out var opCode))
                 {
                     Assert.That(opCode, Is.TypeOf<T>());
                 }

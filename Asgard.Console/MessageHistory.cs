@@ -51,7 +51,7 @@ namespace Asgard.Console
               {
                   string? message = null;
 
-                  if (e.Message?.TryGetOpCode(out var opCode) ?? false)
+                  if (e.Message is not null && e.Message.TryGetOpCode(out var opCode))
                       message = opCode.ToString();
                   history.Add(message ?? "Unknown message");
 
