@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Asgard.Communications;
 using Asgard.Data;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using static Asgard.Communications.ResponseManager;
 
 namespace Asgard.Tests.CommunicationTests
 {
@@ -34,7 +32,9 @@ namespace Asgard.Tests.CommunicationTests
             messenger
                 .Raise(
                     m => m.MessageReceived += null,
-                    new CbusMessageEventArgs(new QueryNodeNumber().Message, gridConnectMessage: null, received: true));
+                    new CbusMessageEventArgs(
+                        new QueryNodeNumber().Message, 
+                        received: true));
 
             // and that it is the right type with the expected values.
             Assert.That(response, Is.Not.Null);
@@ -77,7 +77,9 @@ namespace Asgard.Tests.CommunicationTests
                 messenger
                     .Raise(
                         m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(message, gridConnectMessage: null, received: true));
+                        new CbusMessageEventArgs(
+                            message, 
+                            received: true));
 
             // Make sure that it only responded to the expected message.
             Assert.That(responses.Count, Is.EqualTo(1));
@@ -135,7 +137,9 @@ namespace Asgard.Tests.CommunicationTests
                 messenger
                     .Raise(
                         m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(message, gridConnectMessage: null, received: true));
+                        new CbusMessageEventArgs(
+                            message, 
+                            received: true));
 
             static void checkResponse<T>(List<ICbusMessage?> responses, List<ICbusMessage> messages)
                 where T: ICbusOpCode
@@ -187,11 +191,15 @@ namespace Asgard.Tests.CommunicationTests
             messenger
                     .Raise(
                         m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(new QueryEngine().Message, gridConnectMessage: null, received: true));
+                        new CbusMessageEventArgs(
+                            new QueryEngine().Message, 
+                            received: true));
             messenger
                     .Raise(
                         m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(new QueryEngine().Message, gridConnectMessage: null, received: true));
+                        new CbusMessageEventArgs(
+                            new QueryEngine().Message, 
+                            received: true));
 
             count1.Should().Be(2);
             count2.Should().Be(2);
@@ -267,7 +275,6 @@ namespace Asgard.Tests.CommunicationTests
             messenger.VerifyRemove(m => m.MessageReceived -= It.IsAny<EventHandler<CbusMessageEventArgs>>(), Times.Exactly(1));
         }
 
-
         [Test]
         public void ResponseManager_FiltersMessages_WhenAFilterIsSpecified()
         {
@@ -297,18 +304,21 @@ namespace Asgard.Tests.CommunicationTests
                 .Raise(
                     m => m.MessageReceived += null,
                     new CbusMessageEventArgs(
-                        new EngineReport() { Address = 20 }.Message, gridConnectMessage: null, received: true));
+                        new EngineReport() { Address = 20 }.Message,
+                        received: true));
             messenger
                 .Raise(
                     m => m.MessageReceived += null,
                     new CbusMessageEventArgs(
-                        new EngineReport() { Address = 10 }.Message, gridConnectMessage: null, received: true));
+                        new EngineReport() { Address = 10 }.Message,
+                        received: true));
 
             messenger
                 .Raise(
                     m => m.MessageReceived += null,
                     new CbusMessageEventArgs(
-                        new EngineReport() { Address = 20 }.Message, gridConnectMessage: null, received: true));
+                        new EngineReport() { Address = 20 }.Message,
+                        received: true));
 
             count1.Should().Be(1);
             count2.Should().Be(2);
