@@ -56,9 +56,9 @@ namespace Asgard.Monitor
                 if (standardMessage.TryGetOpCode(out var opCode))
                     Console.WriteLine($"Message received: {opCode}");
             }
-            else if (e.GridConnectMessage is not null)
+            else
             {
-                Console.WriteLine($"GridConnect message: {e.GridConnectMessage}");
+                Console.WriteLine($"Unknown message: {e.Message?.ToString() ?? "null"}");
             }
         }
 

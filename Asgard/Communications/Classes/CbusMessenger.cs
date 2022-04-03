@@ -75,7 +75,10 @@ namespace Asgard.Communications
                     // Unrecognised CAN Frame Type received: ignore.
                     return;
                 this.logger?.LogTrace("Parsed received Message: {0}", frame);
-                this.MessageReceived?.Invoke(this, new CbusMessageEventArgs(frame.Message, e.Message, true));
+                this.MessageReceived?.Invoke(this, 
+                    new CbusMessageEventArgs(
+                        frame.Message,
+                        received: true));
             }
             catch (Exception ex)
             {
@@ -114,7 +117,10 @@ namespace Asgard.Communications
                 this.logger?.LogWarning(ex, "Failed to send message: {0}", message);
                 return false;
             }
-            MessageSent?.Invoke(this, new CbusMessageEventArgs(message, null, false));
+            MessageSent?.Invoke(this, 
+                new CbusMessageEventArgs(
+                    message,
+                    received: false));
             return true;
         }
 

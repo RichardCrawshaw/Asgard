@@ -333,7 +333,7 @@ namespace Asgard.ExampleGui
                     this.logger?.LogInformation("Extended message: {em}", extendedMessage);
                     break;
                 default:
-                    this.logger?.LogInformation("Unknown message received: {m}", e.GridConnectMessage);
+                    this.logger?.LogInformation("Unknown message received: {m}", e.Message?.ToString() ?? "null");
                     break;
             }
         }
