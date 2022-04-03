@@ -35,7 +35,7 @@ namespace Asgard.Communications
             return ts.ToString();
         }
 
-        public CbusCanFrame? ParseFrame(string transportString)
+        public CbusCanFrame ParseFrame(string transportString)
         {
             this.logger?.LogTrace("Parsing frame from transport string: {0}", transportString);
             var p = 1;
@@ -57,10 +57,10 @@ namespace Asgard.Communications
             }
 
             // Ignore all non-Standard and non-Extended frames.
-            return null;
+            throw new Exception("Failed to parse received CAN frame.");
         }
 
-        private static CbusCanFrame? ParseFrameStandard(int p, string transportString)
+        private static CbusCanFrame ParseFrameStandard(int p, string transportString)
         {
             p++;
             var sidh = Convert.ToByte(transportString.Substring(p, 2), 16);
@@ -77,7 +77,9 @@ namespace Asgard.Communications
             }
 
             var message = CbusStandardMessage.Create(dataBytes);
-            if (message is null) return null;
+            if (message is null)
+                throw new Exception("Failed to create Standard Message from CAN frame.");
+
             var frame = new CbusCanFrame(message)
             {
                 SidH = sidh,
@@ -88,7 +90,7 @@ namespace Asgard.Communications
             return frame;
         }
 
-        private static CbusExtendedCanFrame? ParseFrameExtended(int p, string transportString)
+        private static CbusExtendedCanFrame ParseFrameExtended(int p, string transportString)
         {
             p++;
             var sidh = Convert.ToByte(transportString.Substring(p, 2), 16);
@@ -107,7 +109,9 @@ namespace Asgard.Communications
                 dataBytes[x] = Convert.ToByte(transportString.Substring(p, 2), 16);
 
             var message = CbusExtendedMessage.Create(dataBytes);
-            if (message is null) return null;
+            if (message is null)
+                throw new Exception("Failed to create Extended Message from CAN frame.");
+
             var frame = new CbusExtendedCanFrame(message)
             {
                 SidH = sidh,

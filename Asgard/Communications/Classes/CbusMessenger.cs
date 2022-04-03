@@ -73,9 +73,6 @@ namespace Asgard.Communications
             try
             {
                 var frame = this.cbusCanFrameProcessor.ParseFrame(e.Message);
-                if (frame is null)
-                    // Unrecognised CAN Frame Type received: ignore.
-                    return;
                 this.logger?.LogTrace("Parsed received Message: {0}", frame);
                 if (frame.Message is ICbusStandardMessage standardMessage)
                     this.StandardMessageReceived?.Invoke(this,
@@ -94,7 +91,7 @@ namespace Asgard.Communications
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(ex, @"Error parsing message ""{0}""", e.Message);
+                this.logger?.LogError(ex, @"Error parsing message [{0}]", e.Message);
                 //TODO: wrap exception?
                 //throw;
             }
