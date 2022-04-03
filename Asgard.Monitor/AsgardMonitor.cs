@@ -39,27 +39,15 @@ namespace Asgard.Monitor
             this.logger?.LogInformation("Application stopping.");
             this.cbusMessenger?.Close();
             if (this.cbusMessenger is not null)
-                this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
+            {
+                this.cbusMessenger.StandardMessageReceived -= CbusMessenger_StandardMessageReceived;
+                this.cbusMessenger.ExtendedMessageReceived -= CbusMessenger_ExtendedMessageReceived;
+            }
         }
 
         private void OnStopped()
         {
             this.logger?.LogInformation("Application stopped.");
-        }
-
-        private void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs e)
-        {
-            if (e.Message is not ICbusStandardMessage standardMessage)
-                return;
-            if (standardMessage is not null)
-            {
-                if (standardMessage.TryGetOpCode(out var opCode))
-                    Console.WriteLine($"Message received: {opCode}");
-            }
-            else
-            {
-                Console.WriteLine($"Unknown message: {e.Message?.ToString() ?? "null"}");
-            }
         }
 
         public Task StartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
@@ -151,9 +139,23 @@ namespace Asgard.Monitor
 
         private async Task StartAsync(ConnectionOptions connectionOptions)
         {
-            this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
+            this.cbusMessenger.StandardMessageReceived += CbusMessenger_StandardMessageReceived;
+            this.cbusMessenger.ExtendedMessageReceived += CbusMessenger_ExtendedMessageReceived;
 
             await this.cbusMessenger.OpenAsync(connectionOptions);
+        }
+
+        private void CbusMessenger_StandardMessageReceived(object? sender, CbusStandardMessageEventArgs e)
+        {
+            if (e.Message.TryGetOpCode(out var opCode))
+                Console.WriteLine($"Message received: {opCode}");
+            else
+                Console.WriteLine($"Unknown message: {e.Message?.ToString() ?? "null"}");
+        }
+
+        private void CbusMessenger_ExtendedMessageReceived(object? sender, CbusExtendedMessageEventArgs e)
+        {
+            Console.WriteLine($"Message received: {e.Message}");
         }
 
         private static void DoMenu()

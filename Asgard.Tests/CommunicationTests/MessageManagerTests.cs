@@ -22,13 +22,13 @@ namespace Asgard.Tests.CommunicationTests
                 .Callback(() =>
                 {
                     messenger.Raise(m => 
-                        m.MessageReceived += null, 
-                        new CbusMessageEventArgs(
+                        m.StandardMessageReceived += null,
+                        new CbusStandardMessageEventArgs(
                             new ResponseToQueryNode().Message,
                             received: true));
                     messenger.Raise(m => 
-                        m.MessageReceived += null, 
-                        new CbusMessageEventArgs(
+                        m.StandardMessageReceived += null, 
+                        new CbusStandardMessageEventArgs(
                             new ResponseToQueryNode().Message,
                             received: true));
                 });
@@ -51,14 +51,14 @@ namespace Asgard.Tests.CommunicationTests
                 {
                     messenger
                         .Raise(
-                            m => m.MessageReceived += null, 
-                            new CbusMessageEventArgs(
+                            m => m.StandardMessageReceived += null, 
+                            new CbusStandardMessageEventArgs(
                                 new ResponseToQueryNode() { NodeNumber = 1 }.Message,
                                 received: true));
                     messenger
                         .Raise(
-                            m => m.MessageReceived += null, 
-                            new CbusMessageEventArgs(
+                            m => m.StandardMessageReceived += null, 
+                            new CbusStandardMessageEventArgs(
                                 new ResponseToQueryNode() { NodeNumber = 2 }.Message,
                                 received: true));
                 });
@@ -80,13 +80,13 @@ namespace Asgard.Tests.CommunicationTests
                 .Callback(() =>
                 {
                     messenger.Raise(m => 
-                        m.MessageReceived += null, 
-                        new CbusMessageEventArgs(
+                        m.StandardMessageReceived += null, 
+                        new CbusStandardMessageEventArgs(
                             new ResponseToQueryNode() { NodeNumber = 1 }.Message,
                             received: true));
                     messenger.Raise(m => 
-                        m.MessageReceived += null, 
-                        new CbusMessageEventArgs(
+                        m.StandardMessageReceived += null, 
+                        new CbusStandardMessageEventArgs(
                             new ResponseToQueryNode() { NodeNumber = 2 }.Message,
                             received: true));
                 });
@@ -135,20 +135,20 @@ namespace Asgard.Tests.CommunicationTests
 
             messenger
                 .Raise(
-                    m => m.MessageReceived += null, 
-                    new CbusMessageEventArgs(
+                    m => m.StandardMessageReceived += null, 
+                    new CbusStandardMessageEventArgs(
                         new EngineReport() { Address = 20 }.Message,
                         received: true));
             messenger
                 .Raise(
-                    m => m.MessageReceived += null, 
-                    new CbusMessageEventArgs(
+                    m => m.StandardMessageReceived += null, 
+                    new CbusStandardMessageEventArgs(
                         new EngineReport() { Address = 10 }.Message, 
                         received: true));
             messenger
                 .Raise(
-                    m => m.MessageReceived += null, 
-                    new CbusMessageEventArgs(
+                    m => m.StandardMessageReceived += null, 
+                    new CbusStandardMessageEventArgs(
                         new CommandStationErrorReport() { Data1 = 0, Data2 = 30 }.Message,
                         received: true));
 

@@ -56,7 +56,9 @@ namespace Asgard.ExampleGui
             this.options = options;
             this.logger = logger;
 
-            this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
+            this.messageManager = new MessageManager(this.cbusMessenger);
+
+            this.cbusMessenger.StandardMessageReceived += CbusMessenger_StandardMessageReceived;
             this.cbusMessenger.MessageSent += CbusMessenger_MessageSentAsync;
 
             this.messageManager = new MessageManager(this.cbusMessenger);
@@ -333,26 +335,18 @@ namespace Asgard.ExampleGui
 
         #region Event handler routines
 
-        private async void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs e)
+        private async void CbusMessenger_StandardMessageReceived(object? sender, CbusStandardMessageEventArgs e)
         {
             LogMessage(e.Message, e.Received);
 
-            switch (e.Message)
+            if (e.Message.TryGetOpCode(out var opCode))
             {
-                case ICbusStandardMessage standardMessage:
-                    if (!standardMessage.TryGetOpCode(out var opCode))
-                        goto default;
-                    this.logger?.LogInformation("Message received: {opCode}", opCode);
-                    await DisplayMessages();
-                    await HandleMessage(opCode);
-                    break;
-                case ICbusExtendedMessage extendedMessage:
-                    this.logger?.LogInformation("Extended message: {em}", extendedMessage);
-                    break;
-                default:
-                    this.logger?.LogInformation("Unknown message received: {m}", e.Message?.ToString() ?? "null");
-                    break;
+                this.logger?.LogInformation("Message received: {opCode}", opCode);
+                await DisplayMessages();
+                await HandleMessage(opCode);
             }
+            else
+                this.logger?.LogInformation("Unknown message received: {m}", e.Message?.ToString() ?? "null");
         }
 
         private async void CbusMessenger_MessageSentAsync(object? sender, CbusMessageEventArgs e)
@@ -429,11 +423,8 @@ namespace Asgard.ExampleGui
             this.view.ClearText();
         }
 
-        private void View_FormClosed(object? sender, FormClosedEventArgs e)
-        {
-            this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
-            this.eventActionManager.Dispose();
-        }
+        private void View_FormClosed(object? sender, FormClosedEventArgs e) =>
+            this.cbusMessenger.StandardMessageReceived -= CbusMessenger_StandardMessageReceived;
 
         private void View_FormClosing(object? sender, FormClosingEventArgs e) =>
             this.cbusMessenger.Close();

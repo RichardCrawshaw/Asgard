@@ -30,7 +30,7 @@ namespace Asgard.ExampleUse
 
         private async void OnStarted()
         {
-            this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
+            this.cbusMessenger.StandardMessageReceived += CbusMessenger_StandardMessageReceived;
 
             try
             {
@@ -100,7 +100,7 @@ namespace Asgard.ExampleUse
             this.logger?.LogInformation("Application stopping.");
             this.cbusMessenger?.Close();
             if (this.cbusMessenger is not null)
-                this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
+                this.cbusMessenger.StandardMessageReceived -= CbusMessenger_StandardMessageReceived;
         }
 
         private void OnStopped()
@@ -108,11 +108,9 @@ namespace Asgard.ExampleUse
             this.logger?.LogInformation("Application stopped.");
         }
 
-        private void CbusMessenger_MessageReceived(object sender, CbusMessageEventArgs e)
+        private void CbusMessenger_StandardMessageReceived(object sender, CbusStandardMessageEventArgs e)
         {
-            if (e.Message is not ICbusStandardMessage standardMessage)
-                return;
-            if (standardMessage is not null && standardMessage.TryGetOpCode(out var opCode))
+            if (e.Message.TryGetOpCode(out var opCode))
                 this.logger.LogInformation($"Message received: {opCode}");
         }
 

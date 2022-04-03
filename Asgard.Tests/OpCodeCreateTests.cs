@@ -24,7 +24,7 @@ namespace Asgard.Tests
 			{
 				0x00,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -42,7 +42,7 @@ namespace Asgard.Tests
 			{
 				0x01,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -60,7 +60,7 @@ namespace Asgard.Tests
 			{
 				0x02,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -78,7 +78,7 @@ namespace Asgard.Tests
 			{
 				0x03,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -96,7 +96,7 @@ namespace Asgard.Tests
 			{
 				0x04,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -114,7 +114,7 @@ namespace Asgard.Tests
 			{
 				0x05,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -132,7 +132,7 @@ namespace Asgard.Tests
 			{
 				0x06,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -150,7 +150,7 @@ namespace Asgard.Tests
 			{
 				0x07,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -168,7 +168,7 @@ namespace Asgard.Tests
 			{
 				0x08,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -186,7 +186,7 @@ namespace Asgard.Tests
 			{
 				0x09,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -204,7 +204,7 @@ namespace Asgard.Tests
 			{
 				0x0a,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -222,7 +222,7 @@ namespace Asgard.Tests
 			{
 				0x0c,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -240,7 +240,7 @@ namespace Asgard.Tests
 			{
 				0x0d,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -258,7 +258,7 @@ namespace Asgard.Tests
 			{
 				0x10,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -276,7 +276,7 @@ namespace Asgard.Tests
 			{
 				0x11,
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -295,7 +295,7 @@ namespace Asgard.Tests
 				0x21,
 				0, // data-byte 0
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -314,7 +314,7 @@ namespace Asgard.Tests
 				0x22,
 				0, // data-byte 0
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -333,7 +333,7 @@ namespace Asgard.Tests
 				0x23,
 				0, // data-byte 0
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -352,7 +352,7 @@ namespace Asgard.Tests
 				0x30,
 				0, // data-byte 0
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -371,7 +371,7 @@ namespace Asgard.Tests
 				0x3F,
 				0, // data-byte 0
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -391,7 +391,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -411,7 +411,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -431,7 +431,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -451,7 +451,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -471,7 +471,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -491,7 +491,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -511,7 +511,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -531,7 +531,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -551,7 +551,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -571,7 +571,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -591,7 +591,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -612,7 +612,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -632,7 +632,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -652,7 +652,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -672,7 +672,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -692,7 +692,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -712,7 +712,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -732,7 +732,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -752,7 +752,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -772,7 +772,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -792,7 +792,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -812,7 +812,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -832,7 +832,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -852,7 +852,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -872,7 +872,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -892,7 +892,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -913,7 +913,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -933,7 +933,7 @@ namespace Asgard.Tests
 				0, // data-byte 0
 				0, // data-byte 1
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -954,7 +954,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -975,7 +975,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -996,7 +996,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1017,7 +1017,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1038,7 +1038,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1059,7 +1059,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1080,7 +1080,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1101,7 +1101,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1122,7 +1122,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1143,7 +1143,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1164,7 +1164,7 @@ namespace Asgard.Tests
 				0, // data-byte 1
 				0, // data-byte 2
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1186,7 +1186,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1208,7 +1208,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1230,7 +1230,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1252,7 +1252,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1274,7 +1274,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1296,7 +1296,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1318,7 +1318,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1340,7 +1340,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1362,7 +1362,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1384,7 +1384,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1406,7 +1406,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1428,7 +1428,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1450,7 +1450,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1472,7 +1472,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1494,7 +1494,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1516,7 +1516,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1538,7 +1538,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1560,7 +1560,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1582,7 +1582,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1604,7 +1604,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1626,7 +1626,7 @@ namespace Asgard.Tests
 				0, // data-byte 2
 				0, // data-byte 3
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1649,7 +1649,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1672,7 +1672,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1695,7 +1695,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1718,7 +1718,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1741,7 +1741,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1764,7 +1764,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1787,7 +1787,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1810,7 +1810,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1833,7 +1833,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1856,7 +1856,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1879,7 +1879,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1902,7 +1902,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1925,7 +1925,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1948,7 +1948,7 @@ namespace Asgard.Tests
 				0, // data-byte 3
 				0, // data-byte 4
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1972,7 +1972,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -1996,7 +1996,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2021,7 +2021,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2045,7 +2045,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2069,7 +2069,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2093,7 +2093,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2117,7 +2117,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2141,7 +2141,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2165,7 +2165,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2189,7 +2189,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2213,7 +2213,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2237,7 +2237,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2261,7 +2261,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2285,7 +2285,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2309,7 +2309,7 @@ namespace Asgard.Tests
 				0, // data-byte 4
 				0, // data-byte 5
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2334,7 +2334,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2359,7 +2359,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2384,7 +2384,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2409,7 +2409,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2435,7 +2435,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2460,7 +2460,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2485,7 +2485,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2510,7 +2510,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2535,7 +2535,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2560,7 +2560,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2585,7 +2585,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2610,7 +2610,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2635,7 +2635,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2660,7 +2660,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2685,7 +2685,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2710,7 +2710,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2735,7 +2735,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2760,7 +2760,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2786,7 +2786,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2811,7 +2811,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2836,7 +2836,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 
@@ -2861,7 +2861,7 @@ namespace Asgard.Tests
 				0, // data-byte 5
 				0, // data-byte 6
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 

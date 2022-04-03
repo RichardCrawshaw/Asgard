@@ -88,7 +88,7 @@ namespace Asgard.Tests
 <#		}
 #>
 			};
-			var cbusMessage = CbusMessage.Create(data);
+			var cbusMessage = CbusStandardMessage.Create(data);
 
 			var opcode = OpCodeData.Create(cbusMessage);
 

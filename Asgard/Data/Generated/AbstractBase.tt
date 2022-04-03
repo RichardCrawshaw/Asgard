@@ -81,12 +81,23 @@ namespace Asgard.Data
             if (message.Length == 0)
                 throw new Exception("Supplied message contains no data.");
 
+            if (message is not ICbusStandardMessage standardMessage)
+                throw new Exception("Supplied message is not a Standard Message.");
+
+			return Create(standardMessage);
+		}
+
+		public static OpCodeData Create(ICbusStandardMessage message)
+		{
+			if (message.Length == 0)
+				throw new Exception("Supplied message contains no data.");
+
 			return message[0] switch
 			{
 <#	foreach (var opcode in builder.OpCodeBlocks)
 	{
 #>
-                <#= $"0x{opcode.Value:X2}" #> => new <#= opcode.ClassName #>(message),
+				<#= $"0x{opcode.Value:X2}" #> => new <#= opcode.ClassName #>(message),
 <#	}
 #>
                 _ => throw new Exception($"0x{message[0]:X2} is not a supported Op-Code."),
@@ -125,7 +136,7 @@ namespace Asgard.Data
 
 		public override sealed int DataLength => DATA_LENGTH;
 
-		protected OpCodeData<#= suffix #>(ICbusMessage cbusMessage) : base(cbusMessage) { }
+		protected OpCodeData<#= suffix #>(ICbusStandardMessage cbusMessage) : base(cbusMessage) { }
 	}
 	
 	#endregion

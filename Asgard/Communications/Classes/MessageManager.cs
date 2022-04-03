@@ -123,15 +123,14 @@ namespace Asgard.Communications
 
             var responses = new List<T>();
 
-            void AwaitResponse(object? sender, CbusMessageEventArgs e)
+            void AwaitResponse(object? sender, CbusStandardMessageEventArgs e)
             {
-                if (e.Message is ICbusStandardMessage standardMessage)
-                    AwaitResponse<T>(standardMessage, filterResponses, responses, expected, tcs);
+                AwaitResponse<T>(e.Message, filterResponses, responses, expected, tcs);
             }
 
             try
             {
-                this.messenger.MessageReceived += AwaitResponse;
+                this.messenger.StandardMessageReceived += AwaitResponse;
                 await SendMessageWaitForReplies<T>(msg, tcs);
             }
             catch (TaskCanceledException)
@@ -145,7 +144,7 @@ namespace Asgard.Communications
             }
             finally
             {
-                this.messenger.MessageReceived -= AwaitResponse;
+                this.messenger.StandardMessageReceived -= AwaitResponse;
             }
 
             return responses;
