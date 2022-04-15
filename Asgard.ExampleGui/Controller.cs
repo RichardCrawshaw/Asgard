@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Asgard.Communications;
 using Asgard.Data;
+using Asgard.Data.Interfaces;
 using Cbus.Gladsheimr.Attributes;
 using Cbus.Gladsheimr.Interfaces;
 using Cbus.Gladsheimr.UserControls;
@@ -27,7 +28,12 @@ namespace Asgard.ExampleGui
         private readonly ICbusMessenger cbusMessenger;
         private readonly IOptionsMonitor<CbusModuleOptions> options;
         private readonly ILogger<Controller> logger;
+
         private readonly MessageManager messageManager;
+        private readonly ResponseManager responseManager;
+        private readonly EventActionManager eventActionManager;
+        private readonly EventStateManager eventStateManager;
+
         private readonly List<string> messages = new();
         private readonly List<string> nodes = new();
 
@@ -53,16 +59,27 @@ namespace Asgard.ExampleGui
             this.options = options;
             this.logger = logger;
 
-            this.messageManager = new MessageManager(this.cbusMessenger);
-
             this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
             this.cbusMessenger.MessageSent += CbusMessenger_MessageSentAsync;
 
-            var rm = new ResponseManager(this.cbusMessenger);
-            rm.Register<QueryNodeNumber>(SendPNNAsync);
+            this.messageManager = new MessageManager(this.cbusMessenger);
+
+            this.responseManager = new ResponseManager(this.cbusMessenger);
+            this.responseManager.Register<QueryNodeNumber>(SendPNNAsync);
+
+            this.eventStateManager = new EventStateManager(this.cbusMessenger, this.logger);
+
+            this.eventActionManager = new EventActionManager(this.cbusMessenger, logger);
+            // TODO: register events that this application should respond to.
+            this.eventActionManager.RegisterCbusEvent<AccessoryOn>(257, 1, Callback1);
+            this.eventActionManager.RegisterCbusEvent<AccessoryOff>(257, 1, m => Callback2(m, null));
 
             this.view.Controller = this;
         }
+
+        private void Callback1(ICbusAccessoryEvent cbusAccessoryEvent) { }
+
+        private void Callback2(ICbusAccessoryEvent cbusAccessoryEvent, object? data) { }
 
         #endregion
 
@@ -402,8 +419,11 @@ namespace Asgard.ExampleGui
             this.view.ClearText();
         }
 
-        private void View_FormClosed(object? sender, FormClosedEventArgs e) =>
+        private void View_FormClosed(object? sender, FormClosedEventArgs e)
+        {
             this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
+            this.eventActionManager.Dispose();
+        }
 
         private void View_FormClosing(object? sender, FormClosingEventArgs e) =>
             this.cbusMessenger.Close();
