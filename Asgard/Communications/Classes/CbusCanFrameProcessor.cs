@@ -39,12 +39,29 @@ namespace Asgard.Communications
         {
             this.logger?.LogTrace("Parsing frame from transport string: {0}", transportString);
             var p = 1;
-            if (transportString[p] != 'S')
+            var canFrameType = transportString[p] switch
             {
-                //non-standard, don't support yet
-                throw new NotImplementedException("Only standard frames are supported.");
+                'S' => CanFrameTypes.Standard,
+                'X' => CanFrameTypes.Extended,
+                _ => CanFrameTypes.Undefined,
+            };
+
+            if (canFrameType == CanFrameTypes.Standard)
+            {
+                return ParseFrameStandard(p, transportString);
             }
 
+            if (canFrameType == CanFrameTypes.Extended)
+            {
+                return ParseFrameExtended(p, transportString);
+            }
+
+            // Ignore all non-Standard and non-Extended frames.
+            throw new Exception("Failed to parse received CAN frame.");
+        }
+
+        private static CbusCanFrame ParseFrameStandard(int p, string transportString)
+        {
             p++;
             var sidh = Convert.ToByte(transportString.Substring(p, 2), 16);
             p += 2;
@@ -59,14 +76,49 @@ namespace Asgard.Communications
                 dataBytes[x] = Convert.ToByte(transportString.Substring(p, 2), 16);
             }
 
-            var frame = new CbusCanFrame(CbusMessage.Create(dataBytes))
+            var message = CbusStandardMessage.Create(dataBytes);
+            if (message is null)
+                throw new Exception("Failed to create Standard Message from CAN frame.");
+
+            var frame = new CbusCanFrame(message)
             {
                 SidH = sidh,
                 SidL = sidl,
                 FrameType = frametype,
+            };
 
-                //TODO: consider making a CbusMessageFactory to decouple this dependency on 
-                // CbusMessage.Create(dataBytes)
+            return frame;
+        }
+
+        private static CbusExtendedCanFrame ParseFrameExtended(int p, string transportString)
+        {
+            p++;
+            var sidh = Convert.ToByte(transportString.Substring(p, 2), 16);
+            p += 2;
+            var sidl = Convert.ToByte(transportString.Substring(p, 2), 16);
+            p += 2;
+            var eidh = Convert.ToByte(transportString.Substring(p, 2), 16);
+            p += 2;
+            var eidl = Convert.ToByte(transportString.Substring(p, 2), 16);
+            p += 2;
+            var frametype = transportString[p] == 'N' ? FrameTypes.Normal : FrameTypes.Rtr;
+            p++;
+
+            var dataBytes = new byte[8];
+            for (var x = 0; p < transportString.Length - 2; p += 2, x++)
+                dataBytes[x] = Convert.ToByte(transportString.Substring(p, 2), 16);
+
+            var message = CbusExtendedMessage.Create(dataBytes);
+            if (message is null)
+                throw new Exception("Failed to create Extended Message from CAN frame.");
+
+            var frame = new CbusExtendedCanFrame(message)
+            {
+                SidH = sidh,
+                SidL = sidl,
+                EidH = eidh,
+                EidL = eidl,
+                FrameType = frametype,
             };
 
             return frame;

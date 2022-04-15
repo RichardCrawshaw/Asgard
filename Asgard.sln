@@ -16,7 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard.Console", "Asgard.Console\Asgard.Console.csproj", "{F6B4819C-2765-48AC-A9FB-0C506CE796D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asgard.ExampleGui", "Asgard.ExampleGui\Asgard.ExampleGui.csproj", "{5D696184-4675-4124-B22E-0E10E8C44A5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard.ExampleGui", "Asgard.ExampleGui\Asgard.ExampleGui.csproj", "{5D696184-4675-4124-B22E-0E10E8C44A5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asgard.Monitor", "Asgard.Monitor\Asgard.Monitor.csproj", "{4274A0ED-4D51-4530-9F8F-68980E4352EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{5D696184-4675-4124-B22E-0E10E8C44A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D696184-4675-4124-B22E-0E10E8C44A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D696184-4675-4124-B22E-0E10E8C44A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4274A0ED-4D51-4530-9F8F-68980E4352EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4274A0ED-4D51-4530-9F8F-68980E4352EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4274A0ED-4D51-4530-9F8F-68980E4352EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4274A0ED-4D51-4530-9F8F-68980E4352EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

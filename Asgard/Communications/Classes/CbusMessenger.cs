@@ -17,6 +17,8 @@ namespace Asgard.Communications
 
         public event EventHandler<CbusMessageEventArgs>? MessageReceived;
         public event EventHandler<CbusMessageEventArgs>? MessageSent;
+        public event EventHandler<CbusStandardMessageEventArgs>? StandardMessageReceived;
+        public event EventHandler<CbusExtendedMessageEventArgs>? ExtendedMessageReceived;
         
         public bool IsOpen { get; private set; }
 
@@ -64,19 +66,34 @@ namespace Asgard.Communications
             this.IsOpen = false;
         }
 
+        public string[] GetAvailableConnections() => this.connectionFactory.GetAvailableConnections();
+
         private void HandleTransportMessage(object? sender, MessageReceivedEventArgs e)
         {
             try
             {
                 var frame = this.cbusCanFrameProcessor.ParseFrame(e.Message);
                 this.logger?.LogTrace("Parsed received Message: {0}", frame);
-                MessageReceived?.Invoke(this, new CbusMessageEventArgs(frame.Message, true));
+                if (frame.Message is ICbusStandardMessage standardMessage)
+                    this.StandardMessageReceived?.Invoke(this,
+                        new CbusStandardMessageEventArgs(
+                            standardMessage,
+                            received: true));
+                if (frame.Message is ICbusExtendedMessage extendedMessage)
+                    this.ExtendedMessageReceived?.Invoke(this,
+                        new CbusExtendedMessageEventArgs(
+                            extendedMessage,
+                            received: true));
+                this.MessageReceived?.Invoke(this, 
+                    new CbusMessageEventArgs(
+                        frame.Message,
+                        received: true));
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(ex, @"Error parsing message ""{0}""", e.Message);
+                this.logger?.LogError(ex, @"Error parsing message [{0}]", e.Message);
                 //TODO: wrap exception?
-                throw;
+                //throw;
             }
         }
         
@@ -109,7 +126,10 @@ namespace Asgard.Communications
                 this.logger?.LogWarning(ex, "Failed to send message: {0}", message);
                 return false;
             }
-            MessageSent?.Invoke(this, new CbusMessageEventArgs(message, false));
+            MessageSent?.Invoke(this, 
+                new CbusMessageEventArgs(
+                    message,
+                    received: false));
             return true;
         }
 

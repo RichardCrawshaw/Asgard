@@ -43,13 +43,13 @@
         /// <summary>
         /// Gets the underlying CBUS message.
         /// </summary>
-        public ICbusMessage Message { get; }
+        public ICbusStandardMessage Message { get; }
 
         #endregion
 
         #region Constructors
 
-        protected OpCodeData(ICbusMessage message) => this.Message = message;
+        protected OpCodeData(ICbusStandardMessage message) => this.Message = message;
 
         #endregion
 

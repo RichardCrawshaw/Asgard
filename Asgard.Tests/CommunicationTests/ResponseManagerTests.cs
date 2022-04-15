@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Asgard.Communications;
 using Asgard.Data;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using static Asgard.Communications.ResponseManager;
 
 namespace Asgard.Tests.CommunicationTests
 {
@@ -18,7 +16,7 @@ namespace Asgard.Tests.CommunicationTests
         [Test]
         public void RespondsToIncomingMessage()
         {
-            ICbusMessage? response = null;
+            ICbusStandardMessage? response = null;
 
             var messenger = new Mock<ICbusMessenger>();
 
@@ -33,18 +31,25 @@ namespace Asgard.Tests.CommunicationTests
             // Generate a received QNN message for the ResponseManager to handle.
             messenger
                 .Raise(
-                    m => m.MessageReceived += null,
-                    new CbusMessageEventArgs(new QueryNodeNumber().Message, received: true));
+                    m => m.StandardMessageReceived += null,
+                    new CbusStandardMessageEventArgs(
+                        new QueryNodeNumber().Message, 
+                        received: true));
 
             // and that it is the right type with the expected values.
             Assert.That(response, Is.Not.Null);
-            Assert.That(response?.GetOpCode(), Is.TypeOf<QueryNodeNumber>());
+            if (response is not null && response.TryGetOpCode(out var opCode))
+            {
+                Assert.That(opCode, Is.TypeOf<QueryNodeNumber>());
+            }
+            else
+                Assert.Fail();
         }
 
         [Test]
         public void RespondsToOnlyExpectedIncomingMessage()
         {
-            List<ICbusMessage?> responses = new();
+            List<ICbusStandardMessage?> responses = new();
 
             var messenger = new Mock<ICbusMessenger>();
 
@@ -58,7 +63,7 @@ namespace Asgard.Tests.CommunicationTests
 
             // Generate a received QNN message and some other messages for the ResponseManager to
             // handle.
-            var messages = new List<ICbusMessage>
+            var messages = new List<ICbusStandardMessage>
             {
                 new QueryNodeNumber().Message,
                 new GeneralAcknowledgement().Message,
@@ -70,20 +75,28 @@ namespace Asgard.Tests.CommunicationTests
             foreach (var message in messages)
                 messenger
                     .Raise(
-                        m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(message, received: true));
+                        m => m.StandardMessageReceived += null,
+                        new CbusStandardMessageEventArgs(
+                            message, 
+                            received: true));
 
             // Make sure that it only responded to the expected message.
             Assert.That(responses.Count, Is.EqualTo(1));
-            Assert.That(responses.FirstOrDefault()?.GetOpCode(), Is.TypeOf<QueryNodeNumber>());
+            var response = responses.FirstOrDefault();
+            if (response is not null && response.TryGetOpCode(out var opCode))
+            {
+                Assert.That(opCode, Is.TypeOf<QueryNodeNumber>());
+            }
+            else
+                Assert.Fail();
         }
 
         [Test]
         public void RespondsToMultipleExpectedIncomingMessage()
         {
-            var responses1 = new List<ICbusMessage?>();
-            var responses2 = new List<ICbusMessage?>();
-            var responses3 = new List<ICbusMessage?>();
+            var responses1 = new List<ICbusStandardMessage?>();
+            var responses2 = new List<ICbusStandardMessage?>();
+            var responses3 = new List<ICbusStandardMessage?>();
 
             var messenger = new Mock<ICbusMessenger>();
 
@@ -105,7 +118,7 @@ namespace Asgard.Tests.CommunicationTests
             });
 
             // Generate some messages for the ResponseManager to handle.
-            var messages = new List<ICbusMessage>
+            var messages = new List<ICbusStandardMessage>
             {
                 new QueryNodeNumber().Message,
                 new GeneralAcknowledgement().Message,
@@ -121,18 +134,35 @@ namespace Asgard.Tests.CommunicationTests
             foreach (var message in messages)
                 messenger
                     .Raise(
-                        m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(message, received: true));
+                        m => m.StandardMessageReceived += null,
+                        new CbusStandardMessageEventArgs(
+                            message, 
+                            received: true));
+
+            static void checkResponse<T>(List<ICbusStandardMessage?> responses, List<ICbusStandardMessage> messages)
+                where T: ICbusOpCode
+            {
+                Assert.That(responses.Count,
+                    Is.EqualTo(
+                        messages
+                            .Count(m => m is ICbusStandardMessage sm && 
+                                        sm.TryGetOpCode(out var opCode) && 
+                                        opCode is T)));
+                var response = responses.FirstOrDefault();
+                if (response is not null && response.TryGetOpCode(out var opCode))
+                {
+                    Assert.That(opCode, Is.TypeOf<T>());
+                }
+                else
+                {
+                    Assert.Fail();
+                }
+            }
 
             // Make sure that it only responded to the expected message.
-            Assert.That(responses1.Count, Is.EqualTo(messages.Count(m=> m.GetOpCode() is QueryNodeNumber)));
-            Assert.That(responses1.FirstOrDefault()?.GetOpCode(), Is.TypeOf<QueryNodeNumber>());
-
-            Assert.That(responses2.Count, Is.EqualTo(messages.Count(m => m.GetOpCode() is QueryEngine)));
-            Assert.That(responses2.FirstOrDefault()?.GetOpCode(), Is.TypeOf<QueryEngine>());
-
-            Assert.That(responses3.Count, Is.EqualTo(messages.Count(m=>m.GetOpCode() is RequestCommandStationStatus)));
-            Assert.That(responses3.FirstOrDefault()?.GetOpCode(), Is.TypeOf<RequestCommandStationStatus>());
+            checkResponse<QueryNodeNumber>(responses1, messages);
+            checkResponse<QueryEngine>(responses2,messages);
+            checkResponse<RequestCommandStationStatus>(responses3, messages);
         }
 
         [Test]
@@ -156,13 +186,17 @@ namespace Asgard.Tests.CommunicationTests
 
 
             messenger
-                    .Raise(
-                        m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(new QueryEngine().Message, received: true));
+                .Raise(
+                    m => m.StandardMessageReceived += null,
+                    new CbusStandardMessageEventArgs(
+                        new QueryEngine().Message, 
+                        received: true));
             messenger
-                    .Raise(
-                        m => m.MessageReceived += null,
-                        new CbusMessageEventArgs(new QueryEngine().Message, received: true));
+                .Raise(
+                    m => m.StandardMessageReceived += null,
+                    new CbusStandardMessageEventArgs(
+                        new QueryEngine().Message, 
+                        received: true));
 
             count1.Should().Be(2);
             count2.Should().Be(2);
@@ -180,7 +214,10 @@ namespace Asgard.Tests.CommunicationTests
             rm.Register<QueryEngine>(cb1);
             rm.Register<QueryNodeNumber>(cb2);
 
-            messenger.VerifyAdd(m => m.MessageReceived += It.IsAny<EventHandler<CbusMessageEventArgs>>(), Times.Exactly(1));
+            messenger.VerifyAdd(
+                m => m.StandardMessageReceived += 
+                    It.IsAny<EventHandler<CbusStandardMessageEventArgs>>(), 
+                Times.Exactly(1));
         }
 
         [Test]
@@ -199,7 +236,10 @@ namespace Asgard.Tests.CommunicationTests
             rm.Deregister<QueryNodeNumber>(cb2);
 
 
-            messenger.VerifyRemove(m => m.MessageReceived -= It.IsAny<EventHandler<CbusMessageEventArgs>>(), Times.Exactly(1));
+            messenger.VerifyRemove(
+                m => m.StandardMessageReceived -= 
+                    It.IsAny<EventHandler<CbusStandardMessageEventArgs>>(), 
+                Times.Exactly(1));
         }
 
         [Test]
@@ -235,9 +275,11 @@ namespace Asgard.Tests.CommunicationTests
             rm.Deregister<QueryEngine>(cb1);
             rm.Deregister<QueryEngine>(cb2);
 
-            messenger.VerifyRemove(m => m.MessageReceived -= It.IsAny<EventHandler<CbusMessageEventArgs>>(), Times.Exactly(1));
+            messenger.VerifyRemove(
+                m => m.StandardMessageReceived -= 
+                    It.IsAny<EventHandler<CbusStandardMessageEventArgs>>(), 
+                Times.Exactly(1));
         }
-
 
         [Test]
         public void ResponseManager_FiltersMessages_WhenAFilterIsSpecified()
@@ -266,20 +308,23 @@ namespace Asgard.Tests.CommunicationTests
 
             messenger
                 .Raise(
-                    m => m.MessageReceived += null,
-                    new CbusMessageEventArgs(
-                        new EngineReport() { Address = 20 }.Message, received: true));
+                    m => m.StandardMessageReceived += null,
+                    new CbusStandardMessageEventArgs(
+                        new EngineReport() { Address = 20 }.Message,
+                        received: true));
             messenger
                 .Raise(
-                    m => m.MessageReceived += null,
-                    new CbusMessageEventArgs(
-                        new EngineReport() { Address = 10 }.Message, received: true));
+                    m => m.StandardMessageReceived += null,
+                    new CbusStandardMessageEventArgs(
+                        new EngineReport() { Address = 10 }.Message,
+                        received: true));
 
             messenger
                 .Raise(
-                    m => m.MessageReceived += null,
-                    new CbusMessageEventArgs(
-                        new EngineReport() { Address = 20 }.Message, received: true));
+                    m => m.StandardMessageReceived += null,
+                    new CbusStandardMessageEventArgs(
+                        new EngineReport() { Address = 20 }.Message,
+                        received: true));
 
             count1.Should().Be(1);
             count2.Should().Be(2);

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Asgard.Communications;
@@ -11,7 +9,6 @@ using Asgard.Data;
 using Asgard.Data.Interfaces;
 using Cbus.Gladsheimr.Attributes;
 using Cbus.Gladsheimr.Interfaces;
-using Cbus.Gladsheimr.UserControls;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -59,7 +56,9 @@ namespace Asgard.ExampleGui
             this.options = options;
             this.logger = logger;
 
-            this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
+            this.messageManager = new MessageManager(this.cbusMessenger);
+
+            this.cbusMessenger.StandardMessageReceived += CbusMessenger_StandardMessageReceived;
             this.cbusMessenger.MessageSent += CbusMessenger_MessageSentAsync;
 
             this.messageManager = new MessageManager(this.cbusMessenger);
@@ -336,13 +335,18 @@ namespace Asgard.ExampleGui
 
         #region Event handler routines
 
-        private async void CbusMessenger_MessageReceived(object? sender, CbusMessageEventArgs e)
+        private async void CbusMessenger_StandardMessageReceived(object? sender, CbusStandardMessageEventArgs e)
         {
             LogMessage(e.Message, e.Received);
-            var opCode = e.Message.GetOpCode();
-            this.logger?.LogInformation($"Message received: {opCode}");
-            await DisplayMessages();
-            await HandleMessage(opCode);
+
+            if (e.Message.TryGetOpCode(out var opCode))
+            {
+                this.logger?.LogInformation("Message received: {opCode}", opCode);
+                await DisplayMessages();
+                await HandleMessage(opCode);
+            }
+            else
+                this.logger?.LogInformation("Unknown message received: {m}", e.Message?.ToString() ?? "null");
         }
 
         private async void CbusMessenger_MessageSentAsync(object? sender, CbusMessageEventArgs e)
@@ -419,11 +423,8 @@ namespace Asgard.ExampleGui
             this.view.ClearText();
         }
 
-        private void View_FormClosed(object? sender, FormClosedEventArgs e)
-        {
-            this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
-            this.eventActionManager.Dispose();
-        }
+        private void View_FormClosed(object? sender, FormClosedEventArgs e) =>
+            this.cbusMessenger.StandardMessageReceived -= CbusMessenger_StandardMessageReceived;
 
         private void View_FormClosing(object? sender, FormClosingEventArgs e) =>
             this.cbusMessenger.Close();

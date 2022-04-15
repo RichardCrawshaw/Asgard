@@ -28,6 +28,8 @@ namespace Asgard.Communications
             this.logger = logger;
         }
 
+        internal static string[] GetPorts() => SerialPort.GetPortNames();
+
         /// <summary>
         /// Attempts to open the underlying serial port.
         /// </summary>

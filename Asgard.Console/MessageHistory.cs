@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Asgard.Communications;
+using Asgard.Data;
 using Terminal.Gui;
 using Terminal.Gui.Views;
 
@@ -46,15 +47,19 @@ namespace Asgard.Console
             this.Add(button);
             button.Clicked += ShowHistory;
 
-            cbusMessenger.MessageReceived += (sender, e) =>
-            {
-                var opc = e.Message.GetOpCode();
-                var msg = opc.ToString() ?? "Unknown message";
-                history.Add(msg);
-                while (history.Count > 20) { history.RemoveAt(0); }
-                Application.MainLoop.Invoke(() => label.Text = msg);
+            cbusMessenger.StandardMessageReceived += (sender, e) =>
+              {
+                  string? message = null;
 
-            };
+                  if (e.Message is not null && e.Message.TryGetOpCode(out var opCode))
+                      message = opCode.ToString();
+                  history.Add(message ?? "Unknown message");
+
+                  while (history.Count > 20)
+                      history.RemoveAt(0);
+
+                  Application.MainLoop.Invoke(() => label.Text = message);
+              };
         }
 
         private void ShowHistory()

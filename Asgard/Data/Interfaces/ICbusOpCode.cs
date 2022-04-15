@@ -37,10 +37,10 @@
 		/// </summary>
 		int Priority { get; }
 
-		/// <summary>
-		/// Gets the underlying CBUS message.
-		/// </summary>
-		ICbusMessage Message { get; }
+        /// <summary>
+        /// Gets the underlying CBUS message.
+        /// </summary>
+        ICbusStandardMessage Message { get; }
 	}
 
     #region Parameter interfaces

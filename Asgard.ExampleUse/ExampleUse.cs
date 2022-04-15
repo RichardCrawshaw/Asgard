@@ -15,7 +15,9 @@ namespace Asgard.ExampleUse
         private readonly ICbusMessenger cbusMessenger;
         private readonly ILogger<ExampleUse> logger;
 
-        public ExampleUse(IHostApplicationLifetime hostApplicationLifetime, ICbusMessenger cbusMessenger, ILogger<ExampleUse> logger)
+        public ExampleUse(IHostApplicationLifetime hostApplicationLifetime,
+                          ICbusMessenger cbusMessenger,
+                          ILogger<ExampleUse> logger)
         {
             this.hostApplicationLifetime = hostApplicationLifetime;
             this.cbusMessenger = cbusMessenger;
@@ -28,7 +30,7 @@ namespace Asgard.ExampleUse
 
         private async void OnStarted()
         {
-            this.cbusMessenger.MessageReceived += CbusMessenger_MessageReceived;
+            this.cbusMessenger.StandardMessageReceived += CbusMessenger_StandardMessageReceived;
 
             try
             {
@@ -98,7 +100,7 @@ namespace Asgard.ExampleUse
             this.logger?.LogInformation("Application stopping.");
             this.cbusMessenger?.Close();
             if (this.cbusMessenger is not null)
-                this.cbusMessenger.MessageReceived -= CbusMessenger_MessageReceived;
+                this.cbusMessenger.StandardMessageReceived -= CbusMessenger_StandardMessageReceived;
         }
 
         private void OnStopped()
@@ -106,9 +108,10 @@ namespace Asgard.ExampleUse
             this.logger?.LogInformation("Application stopped.");
         }
 
-        private void CbusMessenger_MessageReceived(object sender, CbusMessageEventArgs e)
+        private void CbusMessenger_StandardMessageReceived(object sender, CbusStandardMessageEventArgs e)
         {
-            this.logger.LogInformation($"Message received: {e.Message.GetOpCode()}");
+            if (e.Message.TryGetOpCode(out var opCode))
+                this.logger.LogInformation($"Message received: {opCode}");
         }
 
         public Task StartAsync(CancellationToken cancellationToken)

@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace Asgard.Communications
 {
+    public enum CanFrameTypes
+    {
+        Undefined = 0,
+
+        Standard,
+        Extended,
+    }
+
     public enum FrameTypes
     {
         Normal,

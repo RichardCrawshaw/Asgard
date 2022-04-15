@@ -15,7 +15,8 @@ namespace Asgard.Communications
 
         private static TimeSpan DefaultTimeout { get; } = TimeSpan.FromSeconds(2);
 
-        public MessageManager(ICbusMessenger messenger, ILogger<MessageManager>? logger = null)
+        public MessageManager(ICbusMessenger messenger,
+                              ILogger<MessageManager>? logger = null)
         {
             this.messenger = messenger;
             this.logger = logger;
@@ -122,12 +123,14 @@ namespace Asgard.Communications
 
             var responses = new List<T>();
 
-            void AwaitResponse(object? sender, CbusMessageEventArgs e) =>
+            void AwaitResponse(object? sender, CbusStandardMessageEventArgs e)
+            {
                 AwaitResponse<T>(e.Message, filterResponses, responses, expected, tcs);
+            }
 
             try
             {
-                this.messenger.MessageReceived += AwaitResponse;
+                this.messenger.StandardMessageReceived += AwaitResponse;
                 await SendMessageWaitForReplies<T>(msg, tcs);
             }
             catch (TaskCanceledException)
@@ -141,16 +144,20 @@ namespace Asgard.Communications
             }
             finally
             {
-                this.messenger.MessageReceived -= AwaitResponse;
+                this.messenger.StandardMessageReceived -= AwaitResponse;
             }
 
             return responses;
         }
 
-        private bool AwaitResponse<T>(ICbusMessage message, Func<T, bool>? filterResponses, List<T> responses, int expected, TaskCompletionSource<bool> tcs)
+        private bool AwaitResponse<T>(ICbusStandardMessage message,
+                                      Func<T, bool>? filterResponses,
+                                      List<T> responses,
+                                      int expected,
+                                      TaskCompletionSource<bool> tcs)
             where T : ICbusOpCode
         {
-            if (message.GetOpCode() is not T response)
+            if (!message.TryGetOpCode(out var opCode) || opCode is not T response)
                 return false;
 
             if (filterResponses is not null && !filterResponses(response))
