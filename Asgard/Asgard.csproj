@@ -6,6 +6,7 @@
     <OutputType>Library</OutputType>
     <StartupObject></StartupObject>
     <Nullable>enable</Nullable>
+    <AssemblyName>CBUS.$(MSBuildProjectName)</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
