@@ -17,7 +17,7 @@ namespace Asgard.Communications
 
         public string ConstructTransportString(ICbusCanFrame frame)
         {
-            this.logger?.LogTrace("Creating transport string for {0}", frame);
+            this.logger?.LogTrace("Creating transport string for {frame}", frame);
 
             var message = frame.Message;
             if (message is null) return string.Empty;
@@ -37,7 +37,7 @@ namespace Asgard.Communications
 
         public CbusCanFrame ParseFrame(string transportString)
         {
-            this.logger?.LogTrace("Parsing frame from transport string: {0}", transportString);
+            this.logger?.LogTrace("Parsing frame from transport string: {string}", transportString);
             var p = 1;
             var canFrameType = transportString[p] switch
             {
