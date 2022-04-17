@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Asgard.Communications
 {
-    internal class CbusCanFrameProcessor :
+    public class CbusCanFrameProcessor :
         ICbusCanFrameProcessor
     {
         private readonly ILogger<CbusCanFrameProcessor>? logger;
