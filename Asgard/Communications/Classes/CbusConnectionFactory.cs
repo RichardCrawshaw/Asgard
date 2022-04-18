@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Runtime.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Asgard.Communications
 {
+    [SupportedOSPlatform("Linux")]
+    [SupportedOSPlatform("macOS")]
+    [SupportedOSPlatform("windows")]
     internal class CbusConnectionFactory : 
         ICbusConnectionFactory
     {
@@ -20,10 +23,7 @@ namespace Asgard.Communications
 
         public string[] GetAvailableConnections() => SerialPortTransport.GetPorts();
 
-        public IGridConnectProcessor GetConnection()
-        {
-            return GetConnection(this.options.CurrentValue);
-        }
+        public IGridConnectProcessor GetConnection() => GetConnection(this.options.CurrentValue);
 
         public IGridConnectProcessor GetConnection(ConnectionOptions connectionOptions)
         {

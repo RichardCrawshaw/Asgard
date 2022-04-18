@@ -29,12 +29,12 @@ namespace Asgard.Communications
             }
             catch (IOException ex)
             {
-                this.logger?.LogError("IO read error: {0}", ex.Message);
+                this.logger?.LogError("IO read error: {message}", ex.Message);
                 return 0;
             }
             catch (OperationCanceledException ex)
             {
-                this.logger?.LogError("Cancellation read : {0}", ex.Message);
+                this.logger?.LogError("Cancellation read : {message}", ex.Message);
                 if (cancellationToken.IsCancellationRequested)
                     // Let the handling of receiving nothing automatically deal with cancellation.
                     return 0;
@@ -56,7 +56,7 @@ namespace Asgard.Communications
                 throw new InvalidOperationException("Underlying transport stream is null.");
 
             this.logger?.LogTrace("Writing to stream");
-            this.logger?.LogDebug("Writing {0} bytes", buffer.Length);
+            this.logger?.LogDebug("Writing {count} bytes", buffer.Length);
             await this.TransportStream.WriteAsync(buffer, cancellationToken);
             await this.TransportStream.FlushAsync(cancellationToken);
         }

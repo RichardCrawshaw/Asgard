@@ -155,8 +155,8 @@ namespace Asgard.Communications
                     if (result is null) continue;
 
                     this.logger.LogWarning(result.Exception, 
-                        "{0:yyyy-MM-dd HH:mm:ss.fff} Failed to run callback for {1} {2} event from {3}{4}.",
-                            result.DateTime,
+                        "{datetime} Failed to run callback for {length} {onOff} event from {nn}{en}.",
+                            result.DateTime.ToString(@"yyyy\-MM\-dd HH\:mm\:ss.fff"),
                             result.Key.IsShortEvent ? "short" : "long",
                             result.Key.IsOnEvent ? "on" : "off",
                             result.Key.IsShortEvent ? "" : (result.Key.NodeNumber.ToString("X2") + " "),

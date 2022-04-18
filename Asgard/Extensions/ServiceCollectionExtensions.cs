@@ -1,9 +1,13 @@
-﻿using Asgard.Communications;
+﻿using System.Runtime.Versioning;
+using Asgard.Communications;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Asgard.Extensions
 {
+    [SupportedOSPlatform("Linux")]
+    [SupportedOSPlatform("macOS")]
+    [SupportedOSPlatform("windows")]
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddAsgard(this IServiceCollection services, IConfiguration configuration)

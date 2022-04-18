@@ -62,7 +62,7 @@ namespace Asgard.Communications
             this.MajorPriority = this.settings?.GetMajorPriority() ?? MajorPriority.Low;
             this.MinorPriority = this.settings?.GetMinorPriority() ?? MinorPriority.Normal;
 
-            this.logger?.LogInformation($"Created CAN frame for {cbusOpCode.Code}");
+            this.logger?.LogInformation("Created CAN frame for {opcode}", cbusOpCode.Code);
         }
 
         public override string ToString() => 

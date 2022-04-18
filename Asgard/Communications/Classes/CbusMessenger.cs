@@ -73,7 +73,7 @@ namespace Asgard.Communications
             try
             {
                 var frame = this.cbusCanFrameProcessor.ParseFrame(e.Message);
-                this.logger?.LogTrace("Parsed received Message: {0}", frame);
+                this.logger?.LogTrace("Parsed received Message: {frame}", frame);
                 if (frame.Message is ICbusStandardMessage standardMessage)
                     this.StandardMessageReceived?.Invoke(this,
                         new CbusStandardMessageEventArgs(
@@ -91,7 +91,7 @@ namespace Asgard.Communications
             }
             catch (Exception ex)
             {
-                this.logger?.LogError(ex, @"Error parsing message [{0}]", e.Message);
+                this.logger?.LogError(ex, "Error parsing message [{message}]", e.Message);
                 //TODO: wrap exception?
                 //throw;
             }
@@ -114,7 +114,7 @@ namespace Asgard.Communications
 
             var cbusCanFrame = this.cbusCanFrameFactory.CreateFrame(message);
 
-            this.logger?.LogTrace("Sending message: {0}", message);
+            this.logger?.LogTrace("Sending message: {message}", message);
             try
             {
                 if (this.transport is null) return false;
@@ -123,7 +123,7 @@ namespace Asgard.Communications
             }
             catch (Exception ex)
             {
-                this.logger?.LogWarning(ex, "Failed to send message: {0}", message);
+                this.logger?.LogWarning(ex, "Failed to send message: {message}", message);
                 return false;
             }
             MessageSent?.Invoke(this, 

@@ -36,7 +36,7 @@ namespace Asgard.Communications
         /// <exception cref="TransportException">If the selected serial port could not be found.</exception>
         public override async Task OpenAsync(CancellationToken cancellationToken)
         {
-            this.logger?.LogInformation("Opening serial port: {0}", this.settings.PortName);
+            this.logger?.LogInformation("Opening serial port: {port}", this.settings.PortName);
             this.port = GetSerialPort();
 
             try
@@ -44,15 +44,16 @@ namespace Asgard.Communications
                 this.port.Open();
                 this.TransportStream = this.port.BaseStream;
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException ex)
             {
-                this.logger?.LogError(@"Unable to open serial port - ""{0}"" not found", e.FileName);
+                this.logger?.LogError("Unable to open serial port - '{port}' not found", ex.FileName);
                 LogAvailablePorts();
 
                 // Wait for the port to become available.
                 var reconnected = await ReconnectAsync(cancellationToken);
                 if (!reconnected)
-                    throw new TransportException($"The selected SerialPort could not be found: {e.FileName}", e);
+                    throw new TransportException(
+                        $"The selected SerialPort could not be found: {ex.FileName}", ex);
             }
         }
 
@@ -83,7 +84,7 @@ namespace Asgard.Communications
             }
             catch(Exception ex)
             {
-                this.logger?.LogError(ex, "Attempting to re-open {0}.", this.settings.PortName);
+                this.logger?.LogError(ex, "Attempting to re-open {port}.", this.settings.PortName);
                 throw;
             }
         }
@@ -108,7 +109,7 @@ namespace Asgard.Communications
 
         protected virtual void Dispose(bool disposing)
         {
-            this.logger?.LogTrace("Disposing: {0}", disposing);
+            this.logger?.LogTrace("Disposing: {flag}", disposing);
             if (!this.disposedValue)
             {
                 if (disposing)
@@ -133,9 +134,9 @@ namespace Asgard.Communications
         private void LogAvailablePorts()
         {
             var portNames = SerialPort.GetPortNames();
-            this.logger?.LogInformation("Found {0} COM ports:", portNames.Length);
+            this.logger?.LogInformation("Found {count} COM ports:", portNames.Length);
             foreach (var name in portNames)
-                this.logger?.LogInformation(name);
+                this.logger?.LogInformation("{port}", name);
         }
     }
 }
