@@ -47,12 +47,25 @@ namespace Asgard.EngineControl
             }
         }
 
-        public async Task<IEngineSession> RequestEngineSession(ushort locoDccAddress)
+        public async Task<IEngineSession> RequestEngineSession(ushort locoDccAddress, bool share = false, bool steal = false)
         {
-            
-            var msg = await messageManager.SendMessageWaitForReply(new RequestEngineSession
+            if (share && steal)
+            {
+                throw new ArgumentException("steal and share cannot be set to true at the same time", nameof(steal));
+            }
+            var flags = SessionFlagsEnum.Request;
+            if (share)
+            {
+                flags = SessionFlagsEnum.Share;
+            }
+            else if (steal)
+            {
+                flags = SessionFlagsEnum.Steal;
+            }
+            var msg = await messageManager.SendMessageWaitForReply(new GetEngineSession
             {
                 Address = locoDccAddress,
+                SessionFlags = flags
             });
 
             switch (msg)
@@ -75,6 +88,35 @@ namespace Asgard.EngineControl
             {
                 (session as EngineSession)?.NotifyCancelled();
             }
+        }
+
+        public async Task<SessionStatusEnum> ServiceModeWrite(IEngineSession session, ushort Cv, ServiceModeEnum serviceMode, byte value)
+        {
+            var status = await this.messageManager.SendMessageWaitForReply<ServiceModeStatus>(new WriteCvInServiceMode { 
+                Session = session.Session,
+                CV = Cv,
+                ServiceMode = serviceMode,
+                Value = value
+            });
+            return status.SessionStatus;
+        }
+
+        public async Task<byte> ServiceModeRead(IEngineSession session, ushort Cv, ServiceModeEnum serviceMode)
+        {
+            var reply = await this.messageManager.SendMessageWaitForReply(new ReadCv
+            {
+                Session = session.Session,
+                ServiceMode = serviceMode,
+                CV = Cv
+            });
+
+            return reply switch
+            {
+                ReportCv report => report.Value,
+                ServiceModeStatus status => throw new ServiceModeReadException(status.SessionStatus),
+                _ => throw new Exception($"Unknown reply reading CV: {reply}")
+            };
+
         }
 
         protected virtual void Dispose(bool disposing)
