@@ -24,6 +24,7 @@ namespace Asgard.EngineControl
             this.Session = report.Session;
             this.SpeedDir = report.SpeedDir;
             this.cbusMessenger = cbusMessenger;
+            this.IsAvailable = true;
         }
 
         public async Task SetFunction(byte functionNo, bool on)
@@ -63,6 +64,12 @@ namespace Asgard.EngineControl
                         SpeedDir = this.SpeedDir,
                     });
             }
+        }
+
+        public async Task SetCv(ushort cv, byte value)
+        {
+            await cbusMessenger.SendMessage(
+                new WriteCvByteInOpsMode { Session = this.Session, CV = cv, Value = value });
         }
 
         internal void NotifyCancelled()

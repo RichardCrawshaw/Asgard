@@ -21,7 +21,8 @@ namespace Asgard.Console
                 new MenuBarItem("CBUS", new MenuItem[] {
                     new MenuItem("Connect", "", ShowConnectionOptions),
                     new MenuItem("Query Nodes","", QueryNodes),
-                    new MenuItem("Drive Loco", "", DriveLoco)
+                    new MenuItem("Drive Loco", "", DriveLoco),
+                    new MenuItem("Loco Service Mode", "", ServiceMode)
                 })
             });
             return menu;       
@@ -63,6 +64,15 @@ namespace Asgard.Console
             SetActiveWindow(driveLoco);
         }
 
+        private ServiceMode? serviceMode = null;
+        private void ServiceMode()
+        {
+            if (serviceMode == null)
+            {
+                serviceMode = new ServiceMode(cbusMessenger);
+            }
+            SetActiveWindow(serviceMode);
+        }
         private void SetActiveWindow(Window window)
         {
             if (activeWindow != null)

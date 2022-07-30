@@ -8,13 +8,15 @@ namespace Asgard.Console
     {
         private readonly TextField locoSpeed;
         private readonly TextField locoFunction;
+        private readonly TextField locoCvIndex;
+        private readonly TextField locoCvValue;
         private readonly CheckBox reverse;
         private readonly IEngineSession engineSession;
 
         public LocoSession(IEngineSession engineSession)
         {
             this.Width = 31;
-            this.Height = 5;
+            this.Height = 6;
 
             this.Add(new Label() { Text = "Speed: ", X = 0, Y = 0 });
             locoSpeed = new TextField
@@ -71,6 +73,18 @@ namespace Asgard.Console
             off.Clicked += OnOffClicked;
             this.Add(off);
 
+            this.Add(new Label { Text = "CV: ", X = 0, Y = 3 });
+
+            this.locoCvIndex = new TextField { X = 4, Y = 3, Width = 4 };
+            this.Add(this.locoCvIndex);
+            this.Add(new Label { Text = "Value: ", X = 9, Y = 3 });
+            this.locoCvValue = new TextField { X = 15, Y = 3, Width = 4 };
+            this.Add(this.locoCvValue);
+            var setcv = new Button { Text = "Set CV", X = 20, Y = 3 };
+            setcv.Clicked += OnSetCvClicked;
+            this.Add(setcv);
+
+
             reverse.Checked = engineSession.SpeedDir < 127;
             locoSpeed.Text = (engineSession.SpeedDir % 128).ToString();
 
@@ -79,12 +93,22 @@ namespace Asgard.Console
             this.engineSession.SessionCancelled += OnSessionCancelled;
         }
 
+        
+
         private void OnSessionCancelled(object? sender, EventArgs e)
         {
             Application.MainLoop.Invoke(() =>
             {
                 //TODO: update UI to reflect engine no longer being under control in this session
             });
+        }
+
+        private void OnSetCvClicked()
+        {
+            if (ushort.TryParse(this.locoCvIndex.Text.ToString(), out var cv) && byte.TryParse(this.locoCvValue.Text.ToString(), out var val))
+            {
+                engineSession.SetCv(cv, val);
+            }
         }
 
         private void OnOffClicked()

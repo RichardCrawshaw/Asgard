@@ -13,5 +13,7 @@ namespace Asgard.EngineControl
 
         Task SetFunction(byte functionNo, bool on);
         Task SetSpeedAndDirection(byte speedDir);
+        
+        Task SetCv(ushort cv, byte val);
     }
 }
