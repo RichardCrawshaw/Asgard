@@ -97,7 +97,7 @@ namespace Asgard.EngineControl
                 CV = Cv,
                 ServiceMode = serviceMode,
                 Value = value
-            });
+            }, TimeSpan.FromSeconds(10));
             return status.SessionStatus;
         }
 
@@ -108,7 +108,7 @@ namespace Asgard.EngineControl
                 Session = session.Session,
                 ServiceMode = serviceMode,
                 CV = Cv
-            });
+            },TimeSpan.FromSeconds(10));
 
             return reply switch
             {
