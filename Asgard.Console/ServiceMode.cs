@@ -66,8 +66,16 @@ namespace Asgard.Console
                 //TODO: make address configurable?
                 session = await engineManager.RequestEngineSession(9999, steal: true);
             }
-            var val = await engineManager.ServiceModeRead(session, cvIdx, Asgard.Data.ServiceModeEnum.DirectByte);
-            value.Text = val.ToString();
+            try
+            {
+                var val = await engineManager.ServiceModeRead(session, cvIdx, Asgard.Data.ServiceModeEnum.DirectByte);
+                value.Text = val.ToString();
+            }
+            catch (TimeoutException)
+            {
+                MessageBox.ErrorQuery("Error", "Timeout reading CV", "Ok");
+            }
+            
         }
 
         private async void OnWriteClicked()
@@ -87,15 +95,22 @@ namespace Asgard.Console
                 //TODO: make address configurable?
                 session = await engineManager.RequestEngineSession(9999, steal: true);
             }
-            var reply = await engineManager.ServiceModeWrite(session, cvIdx, Asgard.Data.ServiceModeEnum.DirectByte, cvValue);
-            if (reply == Asgard.Data.SessionStatusEnum.WriteAck)
+            try
             {
-                MessageBox.Query("CV Written", "The CV was successfully written", "Ok");
-                return;
-            } 
-            else
+                var reply = await engineManager.ServiceModeWrite(session, cvIdx, Asgard.Data.ServiceModeEnum.DirectByte, cvValue);
+                if (reply == Asgard.Data.SessionStatusEnum.WriteAck)
+                {
+                    MessageBox.Query("CV Written", "The CV was successfully written", "Ok");
+                    return;
+                }
+                else
+                {
+                    MessageBox.ErrorQuery("Error", $"The CV was not successfully written.  The response was: {reply}.", "Ok");
+                }
+            }
+            catch(TimeoutException)
             {
-                MessageBox.ErrorQuery("Error", $"The CV was not successfully written.  The response was: {reply}.", "Ok");
+                MessageBox.ErrorQuery("Error", "Timeout writing CV", "Ok");
             }
         }
     }
