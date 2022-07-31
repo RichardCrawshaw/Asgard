@@ -10,7 +10,7 @@ namespace Asgard.Console
         private readonly EngineManager engineManager;
         private readonly TextField cv;
         private readonly TextField value;
-        private IEngineSession session;
+        private IEngineSession? session;
         public ServiceMode(ICbusMessenger cbusMessenger)
         {
             this.engineManager = new EngineManager(cbusMessenger);
