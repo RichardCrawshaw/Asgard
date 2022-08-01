@@ -51,9 +51,14 @@ namespace Asgard.Data
     
     public partial class ReportCv
     {
-        public bool IsReply(ReadCv request) => throw new NotImplementedException();
+        public bool IsReply(ReadCv request) => this.Session == request.Session && this.CV == request.CV;
     }
     
+    public partial class ServiceModeStatus
+    {
+        public bool IsReply(ReadCv request) => this.Session == request.Session;
+    }
+
     public partial class AccessoryOnResponseEvent
     {
         public bool IsReply(AccessoryRequestEvent request) => throw new NotImplementedException();

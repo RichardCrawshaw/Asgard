@@ -97,7 +97,7 @@ namespace Asgard.Communications
         /// <returns>The received responses.</returns>
         public Task<IEnumerable<IReplyTo<T>>> SendMessageWaitForReplies<T>(T message, TimeSpan timeout, int expected = 0)
             where T : ICbusOpCode =>
-            SendMessageWaitForReplies<IReplyTo<T>>(message, expected, (r) => r.IsReply(message));
+            SendMessageWaitForReplies<IReplyTo<T>>(message, timeout, expected, (r) => r.IsReply(message));
 
         /// <summary>
         /// Sends a message and waits for replies, or times out.
