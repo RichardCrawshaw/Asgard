@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Asgard.Communications;
-using Asgard.Data;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -31,6 +30,7 @@ namespace Asgard.Monitor
 
         private async void OnStarted()
         {
+            this.logger?.LogTrace(nameof(OnStarted));
             await Task.Run(async () => await MainProcess());
         }
 
@@ -47,6 +47,7 @@ namespace Asgard.Monitor
 
         private void OnStopped()
         {
+            this.logger?.LogTrace(nameof(OnStopped));
             this.logger?.LogInformation("Application stopped.");
         }
 
@@ -75,7 +76,7 @@ namespace Asgard.Monitor
             }
             catch (TransportException e)
             {
-                this.logger.LogError("Error opening connection: {0}", e.Message);
+                this.logger.LogError("Error opening connection: {message}", e.Message);
             }
             finally
             {
@@ -108,9 +109,8 @@ namespace Asgard.Monitor
                 Console.WriteLine($"{i}: {connections[i]}");
         }
 
-        private ConnectionOptions? SelectConnection(string[] connections)
+        private static ConnectionOptions? SelectConnection(string[] connections)
         {
-            ConnectionOptions? connectionOptions = null;
             while (true)
             {
                 Console.WriteLine("Enter the number and press <enter> or 'Q' to quit.");
@@ -122,7 +122,7 @@ namespace Asgard.Monitor
                     selectionNumber >= 0 &&
                     selectionNumber < connections.Length)
                 {
-                    connectionOptions = new ConnectionOptions
+                    var connectionOptions = new ConnectionOptions
                     {
                         ConnectionType = ConnectionOptions.ConnectionTypes.SerialPort,
                         SerialPort = new SerialPortTransportSettings
@@ -155,6 +155,7 @@ namespace Asgard.Monitor
 
         private void CbusMessenger_ExtendedMessageReceived(object? sender, CbusExtendedMessageEventArgs e)
         {
+            this.logger?.LogTrace("ExtendedMessageReceived");
             Console.WriteLine($"Message received: {e.Message}");
         }
 

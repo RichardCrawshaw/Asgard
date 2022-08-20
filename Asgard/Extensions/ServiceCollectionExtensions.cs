@@ -8,7 +8,6 @@ namespace Asgard.Extensions
     [SupportedOSPlatform("Linux")]
     [SupportedOSPlatform("macOS")]
     [SupportedOSPlatform("windows")]
-
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddAsgard(this IServiceCollection services, IConfiguration configuration)

@@ -12,13 +12,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2C5260FD-671C-49D7-8A16-45FD4B514B28}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard.Console", "Asgard.Console\Asgard.Console.csproj", "{F6B4819C-2765-48AC-A9FB-0C506CE796D1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard.ExampleGui", "Asgard.ExampleGui\Asgard.ExampleGui.csproj", "{5D696184-4675-4124-B22E-0E10E8C44A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asgard.Monitor", "Asgard.Monitor\Asgard.Monitor.csproj", "{4274A0ED-4D51-4530-9F8F-68980E4352EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asgard.Monitor", "Asgard.Monitor\Asgard.Monitor.csproj", "{4274A0ED-4D51-4530-9F8F-68980E4352EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

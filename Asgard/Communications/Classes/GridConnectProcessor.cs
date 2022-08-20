@@ -81,7 +81,7 @@ namespace Asgard.Communications
                     // Nothing has been received so just try again.
                     if (read == 0) continue; ;
 
-                    this.logger?.LogTrace("Read {0} bytes", read);
+                    this.logger?.LogTrace("Read {count} bytes", read);
 
                     writer.Advance(read);
                     await writer.FlushAsync(this.cts.Token);
@@ -94,12 +94,12 @@ namespace Asgard.Communications
                 {
                     // Catch the cancelled exception and just let the loop terminate normally.
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    logger?.LogError(e, "Error reading from transport");
+                    logger?.LogError(ex, "Error reading from transport");
                     TransportError?.Invoke(this,
                         new TransportErrorEventArgs(
-                            new TransportException("Error receiving bytes", e)));
+                            new TransportException("Error receiving bytes", ex)));
                 }
             }
         }
@@ -144,21 +144,20 @@ namespace Asgard.Communications
             if (startPosition != null)
             {
                 var msg = GetMessageString(readOnlySequence.Slice(startPosition.Value, readOnlySequence.End));
-                this.logger?.LogTrace("Message received {0}", msg);
+                this.logger?.LogTrace("Message received {message}", msg);
                 this.GridConnectMessage?.Invoke(this, new MessageReceivedEventArgs(msg));
             }
-            else
+            else if (this.logger is not null || this.TransportError is not null)
             {
-                var msg = new Lazy<string>(() => 
-                    $"Partial message received: {GetMessageString(readOnlySequence)}", false);
-                this.logger?.LogWarning(msg.Value);
-                TransportError?.Invoke(this, 
+                var message = GetMessageString(readOnlySequence);
+                this.logger?.LogWarning("{message}", message);
+                this.TransportError?.Invoke(this,
                     new TransportErrorEventArgs(
-                        new TransportException(msg.Value)));
+                        new TransportException(message)));
             }
         }
 
-        private string GetMessageString(ReadOnlySequence<byte> buffer)
+        private static string GetMessageString(ReadOnlySequence<byte> buffer)
         {
             if (buffer.IsSingleSegment)
             {
@@ -182,7 +181,7 @@ namespace Asgard.Communications
 
             try
             {
-                this.logger?.LogTrace("Sending message: {0}", gridConnectMessage);
+                this.logger?.LogTrace("Sending message: {message}", gridConnectMessage);
                 await this.Transport.SendAsync(Encoding.ASCII.GetBytes(gridConnectMessage), this.cts.Token);
 
             }
@@ -190,18 +189,18 @@ namespace Asgard.Communications
             {
                 //ok
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                this.logger?.LogError("Error sending message", e);
+                this.logger?.LogError(ex, "Error sending message");
                 TransportError?.Invoke(this,
                     new TransportErrorEventArgs(
-                        new TransportException("Error sending message", e)));
+                        new TransportException("Error sending message", ex)));
             }
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            this.logger?.LogTrace("Disposing: {0}", disposing);
+            this.logger?.LogTrace("Disposing: {flag}", disposing);
             if (!this.disposedValue)
             {
                 if (disposing)
