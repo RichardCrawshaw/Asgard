@@ -4,11 +4,14 @@
     {
         public enum ConnectionTypes
         {
-            SerialPort
+            SerialPort,
+            Tcp
         }
 
         public ConnectionTypes ConnectionType { get; set; }
 
         public SerialPortTransportSettings? SerialPort { get; set; }
+
+        public TcpTransportSettings? Tcp { get; set; }
     }
 }

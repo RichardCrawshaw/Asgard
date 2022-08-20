@@ -32,9 +32,14 @@ namespace Asgard.Communications
                 ConnectionOptions.ConnectionTypes.SerialPort
                 when connectionOptions.SerialPort is null =>
                     throw new Exception("Serial port is selected but not defined."),
-                ConnectionOptions.ConnectionTypes.SerialPort => 
+                ConnectionOptions.ConnectionTypes.SerialPort =>
                     ActivatorUtilities.CreateInstance<SerialPortTransport>(
                         this.services, new[] { connectionOptions.SerialPort }),
+                ConnectionOptions.ConnectionTypes.Tcp
+                when connectionOptions.Tcp is null =>
+                    throw new Exception("TCP is selected but options are not defined."),
+                ConnectionOptions.ConnectionTypes.Tcp =>
+                ActivatorUtilities.CreateInstance<TcpTransport>(this.services, new[] { connectionOptions.Tcp }),
                 _ => throw new Exception($"Unknown connection type: {connectionOptions.ConnectionType}."),
             };
 
