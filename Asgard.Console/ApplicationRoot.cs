@@ -30,17 +30,21 @@ namespace Asgard.Console
 
         private void ShowConnectionOptions()
         {
+            /*
+            cbusMessenger.OpenAsync(new Communications.ConnectionOptions
+            {
+                ConnectionType = Communications.ConnectionOptions.ConnectionTypes.Tcp,
+                Tcp = new TcpTransportSettings { Host = "localhost", Port = 5550 }
+            });
+            return;
+            */
+
             var connectionOptions = new ConnectionOptions();
             connectionOptions.Initialise();
             Application.Run(connectionOptions);
-            var port = connectionOptions.SelectedPort;
-            if (!string.IsNullOrWhiteSpace(port))
+            if (connectionOptions.Connection != null)
             {
-                cbusMessenger.OpenAsync(new Communications.ConnectionOptions
-                {
-                    ConnectionType = Communications.ConnectionOptions.ConnectionTypes.SerialPort,
-                    SerialPort = new SerialPortTransportSettings { PortName = port }
-                });
+                cbusMessenger.OpenAsync(connectionOptions.Connection);
             }
         }
         private Window? activeWindow = null;
