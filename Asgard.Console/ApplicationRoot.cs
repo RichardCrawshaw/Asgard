@@ -30,15 +30,6 @@ namespace Asgard.Console
 
         private void ShowConnectionOptions()
         {
-            /*
-            cbusMessenger.OpenAsync(new Communications.ConnectionOptions
-            {
-                ConnectionType = Communications.ConnectionOptions.ConnectionTypes.Tcp,
-                Tcp = new TcpTransportSettings { Host = "localhost", Port = 5550 }
-            });
-            return;
-            */
-
             var connectionOptions = new ConnectionOptions();
             connectionOptions.Initialise();
             Application.Run(connectionOptions);
