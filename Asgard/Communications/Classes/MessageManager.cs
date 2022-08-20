@@ -115,7 +115,7 @@ namespace Asgard.Communications
             where T : ICbusOpCode
         {
             this.logger?.LogTrace(
-                $"Sending message of type {0}, awaiting {1} replies with a timeout of {2}",
+                "Sending message of type {message}, awaiting {response} replies with a timeout of {timeout}",
                 msg.GetType().Name, typeof(T).Name, expected);
 
             using var cts = new CancellationTokenSource(timeout);
@@ -123,10 +123,8 @@ namespace Asgard.Communications
 
             var responses = new List<T>();
 
-            void AwaitResponse(object? sender, CbusStandardMessageEventArgs e)
-            {
+            void AwaitResponse(object? sender, CbusStandardMessageEventArgs e) => 
                 AwaitResponse<T>(e.Message, filterResponses, responses, expected, tcs);
-            }
 
             try
             {
@@ -171,7 +169,9 @@ namespace Asgard.Communications
             if (responses.Count == expected)
             {
                 if (expected != 0)
-                    this.logger?.LogTrace($"All {expected} messages expected have been received.");
+                    this.logger?.LogTrace(
+                        "All {count} messages expected have been received.",
+                        expected);
                 tcs.TrySetResult(true);
                 return true;
             }
@@ -200,7 +200,7 @@ namespace Asgard.Communications
 
             if (!sent)
             {
-                this.logger?.LogWarning("The requested message was not sent: {0}", msg);
+                this.logger?.LogWarning("The requested message was not sent: {message}", msg);
                 throw new SendFailureException($"The requested message was not sent: {msg}");
             }
 

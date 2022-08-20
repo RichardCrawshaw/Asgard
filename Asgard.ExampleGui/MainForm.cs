@@ -73,7 +73,7 @@ namespace Asgard.ExampleGui
 
         internal void ClearText()
         {
-            void refresh(object sender, PaintEventArgs e)
+            void refresh(object? sender, PaintEventArgs e)
             {
                 var graphics = e.Graphics;
                 graphics.Clear(this.panelMain.BackColor);
@@ -93,7 +93,7 @@ namespace Asgard.ExampleGui
 
         internal void DisplayText(params string[] text)
         {
-            void refresh(object sender, PaintEventArgs e)
+            void refresh(object? sender, PaintEventArgs e)
             {
                 var graphics = e.Graphics;
                 graphics.Clear(this.panelMain.BackColor);
@@ -122,7 +122,7 @@ namespace Asgard.ExampleGui
 
         private void Display(Control control, float x, float y, float v, string[] values)
         {
-            void Display(object sender, PaintEventArgs e) =>
+            void Display(object? sender, PaintEventArgs e) =>
                 MainForm.Display(e.Graphics, control, x, y, v, values);
 
             Invoke((MethodInvoker)delegate

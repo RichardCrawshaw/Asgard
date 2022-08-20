@@ -43,7 +43,8 @@ namespace Asgard.ExampleUse
                 foreach(var reply in replies)
                 {
                     this.logger.LogInformation(
-                        $"Node info: Node number: {reply.NodeNumber}, ModuleID: {reply.ModuleId}");
+                        "Node info: Node number: {nodeNumber}, ModuleID: {moduleId}",
+                        reply.NodeNumber, reply.ModuleId);
                 }
 
                 while (true)
@@ -91,7 +92,7 @@ namespace Asgard.ExampleUse
             }
             catch (TransportException e)
             {
-                this.logger.LogError("Error opening connection: {0}", e.Message);
+                this.logger.LogError("Error opening connection: {message}", e.Message);
             }
         }
 
@@ -103,25 +104,16 @@ namespace Asgard.ExampleUse
                 this.cbusMessenger.StandardMessageReceived -= CbusMessenger_StandardMessageReceived;
         }
 
-        private void OnStopped()
-        {
-            this.logger?.LogInformation("Application stopped.");
-        }
+        private void OnStopped() => this.logger?.LogInformation("Application stopped.");
 
         private void CbusMessenger_StandardMessageReceived(object sender, CbusStandardMessageEventArgs e)
         {
             if (e.Message.TryGetOpCode(out var opCode))
-                this.logger.LogInformation($"Message received: {opCode}");
+                this.logger.LogInformation("Message received: {opCode}", opCode);
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
+        public Task StartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
+        public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
     }
 }

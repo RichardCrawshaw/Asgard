@@ -16,8 +16,6 @@ namespace Asgard.EngineControl
         private readonly Timer sessionRefreshTimer;
         private bool disposedValue;
 
-        
-
         public EngineManager(ICbusMessenger cbusMessenger)
         {
             sessions = new ConcurrentDictionary<int, EngineSession>();
@@ -75,7 +73,7 @@ namespace Asgard.EngineControl
                     sessions.TryAdd(locoDccAddress, es);
                     return es;
                 case CommandStationErrorReport error:
-                    throw new Exception("TODO: create better exception");
+                    throw new Exception($"TODO: create better exception {error}");
                 default:
                     throw new Exception("TODO: create unexpected message exception");
             }
