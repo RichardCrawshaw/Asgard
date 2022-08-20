@@ -17,6 +17,8 @@ namespace Asgard.Communications
         private TcpClient? tcpClient;
         private bool disposedValue;
 
+        public const int DefaultPort = 5550;
+
         public TcpTransport(TcpTransportSettings settings, ILogger<TcpTransport>? logger) : base(logger)
         {
             this.settings = settings;

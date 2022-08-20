@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO.Ports;
 using System.Runtime.Versioning;
+using Asgard.Communications;
 using Terminal.Gui;
 
 namespace Asgard.Console
@@ -74,7 +75,7 @@ namespace Asgard.Console
                 X = 15,
                 Y = 6,
                 Width = 5,
-                Text = "5550",
+                Text = TcpTransport.DefaultPort.ToString(),
                 Visible = false
             };
             this.Add(port);
@@ -121,9 +122,9 @@ namespace Asgard.Console
                         break;
                     case 1:
                         var h = host?.Text.ToString() ?? "localhost";
-                        if (!short.TryParse(port.Text.ToString(), out var p))
+                        if (!int.TryParse(port.Text.ToString(), out var p))
                         {
-                            p = 5550;
+                            p = TcpTransport.DefaultPort;
                         }
                         Connection.ConnectionType = Communications.ConnectionOptions.ConnectionTypes.Tcp;
                         Connection.Tcp = new Communications.TcpTransportSettings { Host = h, Port = p };
