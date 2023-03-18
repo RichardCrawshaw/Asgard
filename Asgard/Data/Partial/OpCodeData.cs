@@ -247,9 +247,7 @@
                 type == typeof(short) ||
                 type == typeof(byte))
             {
-                var result = ConvertToEnum(byteIndex) as TEnum?;
-                if (result is not null)
-                    return result.Value;
+                return (TEnum)(object)ConvertToEnum(byteIndex);
             }
             return default;
         }
@@ -262,9 +260,7 @@
                 type == typeof(short) ||
                 type == typeof(byte))
             {
-                var result = ConvertToEnum(byteIndex, bitIndex) as TEnum?;
-                if (result is not null)
-                    return result.Value;
+                return (TEnum)(object)ConvertToEnum(byteIndex, bitIndex);
             }
             return default;
         }
@@ -276,9 +272,7 @@
                 type == typeof(short) ||
                 type == typeof(byte))
             {
-                var result = ConvertToEnum(byteIndex, bitIndexes) as TEnum?;
-                if (result is not null)
-                    return result.Value;
+                var result = (TEnum)(object)ConvertToEnum(byteIndex, bitIndexes);
             }
             return default;
         }
