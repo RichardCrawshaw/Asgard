@@ -71,7 +71,8 @@ namespace Asgard.Data
     
     public partial class ResponseToARequestForANodeVariableValue
     {
-        public bool IsReply(RequestReadOfANodeVariable request) => throw new NotImplementedException();
+        public bool IsReply(RequestReadOfANodeVariable request) =>
+            request.NodeNumber == this.NodeNumber && request.NVIndex == this.NVIndex;
     }
     
     public partial class ResponseToRequestForIndividualNodeParameter
